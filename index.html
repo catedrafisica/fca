@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Alumnos</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Firebase JS SDK -->
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Registro de Alumnos</h2>
+    <form id="studentForm">
+      <div class="mb-3">
+        <label for="name" class="form-label">Nombre</label>
+        <input type="text" class="form-control text-uppercase" id="name" placeholder="Ingrese el nombre" required>
+      </div>
+      <div class="mb-3">
+        <label for="surname" class="form-label">Apellido</label>
+        <input type="text" class="form-control text-uppercase" id="surname" placeholder="Ingrese el apellido" required>
+      </div>
+      <div class="mb-3">
+        <label for="dni" class="form-label">DNI</label>
+        <input type="text" class="form-control" id="dni" placeholder="Ingrese el DNI" required>
+      </div>
+      <div class="mb-3">
+        <label for="school" class="form-label">Colegio</label>
+        <input type="text" class="form-control text-uppercase" id="school" placeholder="Ingrese el colegio" required>
+      </div>
+      <div class="mb-3">
+        <label for="course" class="form-label">Curso</label>
+        <input type="text" class="form-control text-uppercase" id="course" placeholder="Ingrese el curso" required>
+      </div>
+      <div class="mb-3">
+        <label for="division" class="form-label">División</label>
+        <input type="text" class="form-control text-uppercase" id="division" placeholder="Ingrese la división" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+    <hr>
+    <h3 class="text-center">Lista de Alumnos</h3>
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>DNI</th>
+          <th>Colegio</th>
+          <th>Curso</th>
+          <th>División</th>
+        </tr>
+      </thead>
+      <tbody id="studentTableBody">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Firebase Configuración e Integración -->
+  <script type="module" src="firebase.js"></script>
+</body>
+</html>
+
