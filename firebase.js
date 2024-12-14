@@ -1,4 +1,3 @@
-
 // Importar funciones necesarias
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
@@ -28,6 +27,7 @@ studentForm.addEventListener("submit", async (e) => {
   const dni = document.getElementById("dni").value;
   let school = document.getElementById("school").value.toUpperCase();
   let course = document.getElementById("course").value.toUpperCase();
+  const observations = document.getElementById("observations").value; // Capturar el valor de observaciones
 
   if (school === "NUEVO_COLEGIO") {
     school = document.getElementById("newSchool").value.toUpperCase();
@@ -43,6 +43,7 @@ studentForm.addEventListener("submit", async (e) => {
       dni,
       school,
       course,
+      observations, // Agregar observaciones a la base de datos
       status: { state: "Alta", date: new Date().toLocaleDateString("es-ES") },
     });
 
@@ -146,6 +147,7 @@ const loadStudents = async () => {
                   <td>${student.name}</td>
                   <td>${student.dni}</td>
                   <td>${student.status.state} (${student.status.date})</td>
+                  <td>${student.observations || "Sin observaciones"}</td> <!-- Mostrar observaciones -->
                 </tr>`
             )
             .join("");
@@ -167,6 +169,7 @@ const loadStudents = async () => {
                         <th>Nombre</th>
                         <th>DNI</th>
                         <th>Estado</th>
+                        <th>Observaciones</th> <!-- Nueva columna -->
                       </tr>
                     </thead>
                     <tbody>${studentsInCourse}</tbody>

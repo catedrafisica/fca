@@ -36,8 +36,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="registro.html">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="index.html">Registro de Alumnos</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html">Asistencia</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Calificaciones</a></li>
+          <li class="nav-item"><a class="nav-link active" href="registro.html">Registro</a></li>
         </ul>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" name="buscar" id="buscar">
@@ -49,7 +50,7 @@
 
   <!-- Formulario de Registro -->
   <div class="container mt-5">
-    <h2 class="text-center mb-4">Registro de Alumnos</h2>
+    <h2 class="text-center mb-4">👇🏻 Registro de Alumnos</h2>
     <form id="studentForm">
       <div class="mb-3">
         <label for="surname" class="form-label">Apellido</label>
@@ -145,16 +146,22 @@
           <input type="text" class="form-control text-uppercase" id="newCourse" placeholder="Ingrese nuevo curso">
         </div>
       </div>
+
+      <!-- Campo de Observaciones -->
+      <div class="mb-3">
+        <label for="observations" class="form-label">Observaciones</label>
+        <textarea class="form-control" id="observations" rows="4" placeholder="Escriba las observaciones aquí"></textarea>
+      </div>
+
       <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
     <hr>
     <div id="alert-container"></div>
-    <h3 class="text-center">Lista de Alumnos</h3>
+    <h3 class="text-center">📑 Lista de Alumnos</h3>
     <div class="accordion" id="schoolsAccordion"></div>
   </div>
 
   <script type="module" src="modalNew.js"></script>
-
 
   <!-- Firebase Configuración -->
   <script type="module" src="firebase.js"></script>
