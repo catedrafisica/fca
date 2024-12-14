@@ -57,3 +57,18 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // Obtener todos los enlaces de navegación
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  // Obtener la URL actual
+  const currentPage = window.location.pathname.split("/").pop();
+
+  // Iterar sobre los enlaces para agregar la clase activa y text-success
+  navLinks.forEach(link => {
+    if (link.getAttribute("href") === currentPage) {
+      link.classList.add("active", "text-success");
+    } else {
+      link.classList.remove("active", "text-success");
+    }
+  });
