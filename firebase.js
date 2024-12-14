@@ -100,6 +100,15 @@ const loadStudents = async () => {
       students.push(doc.data());
     });
 
+    // Ordenar la lista de estudiantes por apellido y luego por nombre
+    students.sort((a, b) => {
+      const surnameComparison = a.surname.localeCompare(b.surname, "es");
+      return surnameComparison !== 0
+        ? surnameComparison
+        : a.name.localeCompare(b.name, "es");
+    });
+
+    // Agrupar estudiantes por colegio y curso
     const groupedBySchool = students.reduce((groups, student) => {
       const school = student.school || "Sin colegio";
       if (!groups[school]) {
@@ -113,10 +122,15 @@ const loadStudents = async () => {
       return groups;
     }, {});
 
+    // Ordenar colegios en orden decreciente
+    const sortedSchools = Object.keys(groupedBySchool).sort((a, b) => 
+      b.localeCompare(a, "es")
+    );
+
     // Limpiar el spinner antes de añadir los datos
     schoolsAccordion.innerHTML = "";
 
-    Object.keys(groupedBySchool).forEach((school, schoolIndex) => {
+    sortedSchools.forEach((school, schoolIndex) => {
       const schoolId = `school-${schoolIndex}`;
       const courses = groupedBySchool[school];
 
@@ -188,8 +202,6 @@ const loadStudents = async () => {
     `;
   }
 };
-
-
 
 // Cargar colegios y cursos cuando se cargue la página
 document.addEventListener("DOMContentLoaded", () => {
