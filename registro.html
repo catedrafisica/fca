@@ -35,15 +35,12 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-
-
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="registro.html">Inicio</a> </li>
-          <li class="nav-item"> <a class="nav-link" href="index.html">Registro de Alumnos</a> </li>
+          <li class="nav-item"><a class="nav-link active" href="registro.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html">Registro de Alumnos</a></li>
         </ul>
-
         <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" name="buscar" id="buscar">
           <button class="btn btn-outline-success" type="submit">Buscar</button>
         </form>
       </div>
@@ -60,7 +57,7 @@
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">Nombre</label>
-        <input type="text" class="form-control text-uppercase" id="name" placeholder="Ingrese el nombre" required>
+        <input type="text" class="form-control text-uppercase" id="name" placeholder="Ingrese el nombre" autocomplete="name" required>
       </div>
       <div class="mb-3">
         <label for="dni" class="form-label">DNI</label>
