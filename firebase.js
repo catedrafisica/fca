@@ -144,5 +144,4 @@ const loadStudents = async () => {
   }
 };
 
-document.addEventListener("DOMContentLoaded", loadStudents);
-
+document.addEventListener("DOMContentLoaded", loadStudents)
