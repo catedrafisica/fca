@@ -50,13 +50,13 @@
       </div>
       <div class="mb-3">
         <label for="dni" class="form-label">DNI</label>
-        <input type="text" class="form-control" id="dni" placeholder="Ingrese el DNI" required>
+        <input type="text" class="form-control" id="dni" placeholder="INGRESE EL DNI" required>
       </div>
       <div class="row mb-3">
         <div class="col-md-6">
           <label for="status" class="form-label">Alta/Baja</label>
           <select class="form-control" id="status" required>
-            <option value="" disabled selected>Seleccione estado</option>
+            <option value="" disabled selected>SELECCIONE ESTADO</option>
             <option value="alta">Alta</option>
             <option value="baja" disabled>Baja</option>
           </select>
@@ -88,7 +88,6 @@
           </div>
         </div>
       </div>
-
       <!-- Modal para Nuevo Curso -->
       <div class="modal fade" id="newCourseModal" tabindex="-1" aria-labelledby="newCourseModalLabel"
         aria-hidden="true">
@@ -111,14 +110,11 @@
         </div>
       </div>
 
-
-
       <div class="mb-3">
         <label for="school" class="form-label">Colegio</label>
         <select class="form-control text-uppercase" id="school" required>
           <option value="" disabled selected>Seleccione un colegio</option>
           <option value="colegio1">Colegio 1</option>
-          <option value="colegio2">Colegio 2</option>
           <option value="nuevo_colegio">Nuevo Colegio</option>
         </select>
         <div id="newSchoolDiv" style="display: none;">
@@ -126,14 +122,11 @@
           <input type="text" class="form-control text-uppercase" id="newSchool" placeholder="Ingrese nuevo colegio">
         </div>
       </div>
-
-
       <div class="mb-3">
         <label for="course" class="form-label">Curso</label>
         <select class="form-control text-uppercase" id="course" required>
           <option value="" disabled selected>Seleccione un curso</option>
-          <option value="primero">Primero</option>
-          <option value="segundo">Segundo</option>
+          <option value="curso 1">Curso 1</option>
           <option value="nuevo_curso">Nuevo Curso</option>
         </select>
         <div id="newCourseDiv" style="display: none;">
@@ -143,14 +136,14 @@
       </div>
       <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
-
     <hr>
+    <div id="alert-container"></div>
     <h3 class="text-center">Lista de Alumnos</h3>
     <div class="accordion" id="schoolsAccordion"></div>
   </div>
 
   <script type="module" src="modalNew.js"></script>
-  
+
 
   <!-- Firebase Configuración -->
   <script type="module" src="firebase.js"></script>

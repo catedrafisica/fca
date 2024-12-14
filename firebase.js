@@ -1,3 +1,4 @@
+
 // Importar funciones necesarias
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
@@ -44,16 +45,52 @@ studentForm.addEventListener("submit", async (e) => {
       course,
       status: { state: "Alta", date: new Date().toLocaleDateString("es-ES") },
     });
-    alert("Alumno registrado con éxito");
-    studentForm.reset();
-    loadStudents();
+
+    // Crear el alert de Bootstrap dinámicamente
+    const alertBox = document.createElement('div');
+    alertBox.classList.add('alert', 'alert-success', 'alert-dismissible', 'fade', 'show');
+    alertBox.setAttribute('role', 'alert');
+    alertBox.innerHTML = 'Alumno registrado con éxito. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+
+    // Añadir el alert al contenedor
+    const alertContainer = document.getElementById('alert-container');
+    alertContainer.appendChild(alertBox);
+
+    // Esperar 2 segundos y luego ocultar el alert, resetear el formulario y cargar los estudiantes
+    setTimeout(() => {
+      // Ocultar el alert
+      alertBox.classList.remove('show');
+      alertBox.classList.add('fade');
+
+      // Restablecer el formulario
+      studentForm.reset();
+
+      // Restablecer los valores de los selects a su estado predeterminado
+      document.getElementById("school").selectedIndex = 0;  // Primer valor predeterminado
+      document.getElementById("course").selectedIndex = 0;  // Primer valor predeterminado
+
+      // Si tienes campos adicionales de tipo "Nuevo" (como newSchool, newCourse), también puedes resetearlos:
+      document.getElementById("newSchool").value = '';  // Limpiar el campo 'Nuevo Colegio'
+      document.getElementById("newCourse").value = '';  // Limpiar el campo 'Nuevo Curso'
+
+      // Llamar a la función que recarga los estudiantes
+      loadStudents();
+    }, 2000); // Espera 2 segundos antes de ejecutar la acción
+
   } catch (error) {
     console.error("Error al registrar el alumno:", error);
   }
 });
 
 const loadStudents = async () => {
-  schoolsAccordion.innerHTML = "";
+  // Mostrar el spinner de "Cargando..."
+  schoolsAccordion.innerHTML = `
+    <div class="d-flex justify-content-center my-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  `;
 
   try {
     const querySnapshot = await getDocs(collection(db, "students"));
@@ -75,6 +112,9 @@ const loadStudents = async () => {
       groups[school][course].push(student);
       return groups;
     }, {});
+
+    // Limpiar el spinner antes de añadir los datos
+    schoolsAccordion.innerHTML = "";
 
     Object.keys(groupedBySchool).forEach((school, schoolIndex) => {
       const schoolId = `school-${schoolIndex}`;
@@ -141,7 +181,93 @@ const loadStudents = async () => {
     });
   } catch (error) {
     console.error("Error al cargar los alumnos:", error);
+    schoolsAccordion.innerHTML = `
+      <div class="alert alert-danger" role="alert">
+        Ocurrió un error al cargar los alumnos. Por favor, inténtelo nuevamente.
+      </div>
+    `;
   }
 };
 
-document.addEventListener("DOMContentLoaded", loadStudents)
+
+
+// Cargar colegios y cursos cuando se cargue la página
+document.addEventListener("DOMContentLoaded", () => {
+  loadSchoolsAndCourses();
+  loadStudents(); // Cargar los alumnos al cargar la página
+});
+
+// Función para cargar colegios y cursos desde Firebase
+const loadSchoolsAndCourses = async () => {
+  try {
+    // Consulta a Firebase para obtener todos los estudiantes
+    const querySnapshot = await getDocs(collection(db, "students"));
+    const schools = new Set();
+    const courses = new Set();
+
+    // Recorrer cada estudiante y agregar el colegio y curso a los sets
+    querySnapshot.forEach(doc => {
+      const student = doc.data();
+      if (student.school) {
+        schools.add(student.school);  // Agregar colegio
+      }
+      if (student.course) {
+        courses.add(student.course);  // Agregar curso
+      }
+    });
+
+    // Actualizar las opciones del select de colegios
+    const schoolSelect = document.getElementById('school');
+    schoolSelect.innerHTML = ''; // Limpiar las opciones existentes
+
+    // Agregar la opción predeterminada "Seleccione un colegio"
+    const defaultSchoolOption = document.createElement('option');
+    defaultSchoolOption.value = '';
+    defaultSchoolOption.disabled = true;
+    defaultSchoolOption.selected = true;
+    defaultSchoolOption.textContent = 'Seleccione un colegio';
+    schoolSelect.appendChild(defaultSchoolOption);
+
+    // Agregar los colegios desde Firebase
+    schools.forEach(school => {
+      const option = document.createElement('option');
+      option.value = school;
+      option.textContent = school;
+      schoolSelect.appendChild(option);
+    });
+
+    // Agregar la opción "Nuevo Colegio"
+    const newSchoolOption = document.createElement('option');
+    newSchoolOption.value = 'nuevo_colegio';
+    newSchoolOption.textContent = 'Nuevo Colegio';
+    schoolSelect.appendChild(newSchoolOption);
+
+    // Actualizar las opciones del select de cursos
+    const courseSelect = document.getElementById('course');
+    courseSelect.innerHTML = ''; // Limpiar las opciones existentes
+
+    // Agregar la opción predeterminada "Seleccione un curso"
+    const defaultCourseOption = document.createElement('option');
+    defaultCourseOption.value = '';
+    defaultCourseOption.disabled = true;
+    defaultCourseOption.selected = true;
+    defaultCourseOption.textContent = 'Seleccione un curso';
+    courseSelect.appendChild(defaultCourseOption);
+
+    // Agregar los cursos desde Firebase
+    courses.forEach(course => {
+      const option = document.createElement('option');
+      option.value = course;
+      option.textContent = course;
+      courseSelect.appendChild(option);
+    });
+
+    // Agregar la opción "Nuevo Curso"
+    const newCourseOption = document.createElement('option');
+    newCourseOption.value = 'nuevo_curso';
+    newCourseOption.textContent = 'Nuevo Curso';
+    courseSelect.appendChild(newCourseOption);
+  } catch (error) {
+    console.error("Error al cargar los colegios y cursos:", error);
+  }
+};
