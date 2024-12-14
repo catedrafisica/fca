@@ -1,66 +1,161 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro de Alumnos</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Firebase JS SDK -->
-  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
-  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
 </head>
+
 <body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="https://via.placeholder.com/150" alt="Logo" width="30" height="30"
+          class="d-inline-block align-text-top">
+        Registro de Alumnos
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Acerca de</a></li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Formulario de Registro -->
   <div class="container mt-5">
     <h2 class="text-center mb-4">Registro de Alumnos</h2>
     <form id="studentForm">
-      <div class="mb-3">
-        <label for="name" class="form-label">Nombre</label>
-        <input type="text" class="form-control text-uppercase" id="name" placeholder="Ingrese el nombre" required>
-      </div>
       <div class="mb-3">
         <label for="surname" class="form-label">Apellido</label>
         <input type="text" class="form-control text-uppercase" id="surname" placeholder="Ingrese el apellido" required>
       </div>
       <div class="mb-3">
+        <label for="name" class="form-label">Nombre</label>
+        <input type="text" class="form-control text-uppercase" id="name" placeholder="Ingrese el nombre" required>
+      </div>
+      <div class="mb-3">
         <label for="dni" class="form-label">DNI</label>
         <input type="text" class="form-control" id="dni" placeholder="Ingrese el DNI" required>
       </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="status" class="form-label">Alta/Baja</label>
+          <select class="form-control" id="status" required>
+            <option value="" disabled selected>Seleccione estado</option>
+            <option value="alta">Alta</option>
+            <option value="baja" disabled>Baja</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="date" class="form-label">Fecha</label>
+          <input type="date" class="form-control" id="date" required>
+        </div>
+      </div>
+
+      <!-- Modal para Nuevo Colegio -->
+      <div class="modal fade" id="newSchoolModal" tabindex="-1" aria-labelledby="newSchoolModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newSchoolModalLabel">Agregar Nuevo Colegio</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <label for="newSchoolInput" class="form-label">Nombre del Colegio</label>
+              <input type="text" class="form-control text-uppercase" id="newSchoolInput"
+                placeholder="Ingrese el nombre del nuevo colegio">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" id="saveNewSchool">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal para Nuevo Curso -->
+      <div class="modal fade" id="newCourseModal" tabindex="-1" aria-labelledby="newCourseModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newCourseModalLabel">Agregar Nuevo Curso</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <label for="newCourseInput" class="form-label">Nombre del Curso</label>
+              <input type="text" class="form-control text-uppercase" id="newCourseInput"
+                placeholder="Ingrese el nombre del nuevo curso">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" id="saveNewCourse">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
       <div class="mb-3">
         <label for="school" class="form-label">Colegio</label>
-        <input type="text" class="form-control text-uppercase" id="school" placeholder="Ingrese el colegio" required>
+        <select class="form-control text-uppercase" id="school" required>
+          <option value="" disabled selected>Seleccione un colegio</option>
+          <option value="colegio1">Colegio 1</option>
+          <option value="colegio2">Colegio 2</option>
+          <option value="nuevo_colegio">Nuevo Colegio</option>
+        </select>
+        <div id="newSchoolDiv" style="display: none;">
+          <label for="newSchool" class="form-label">Nuevo Colegio</label>
+          <input type="text" class="form-control text-uppercase" id="newSchool" placeholder="Ingrese nuevo colegio">
+        </div>
       </div>
+
+
       <div class="mb-3">
         <label for="course" class="form-label">Curso</label>
-        <input type="text" class="form-control text-uppercase" id="course" placeholder="Ingrese el curso" required>
-      </div>
-      <div class="mb-3">
-        <label for="division" class="form-label">División</label>
-        <input type="text" class="form-control text-uppercase" id="division" placeholder="Ingrese la división" required>
+        <select class="form-control text-uppercase" id="course" required>
+          <option value="" disabled selected>Seleccione un curso</option>
+          <option value="primero">Primero</option>
+          <option value="segundo">Segundo</option>
+          <option value="nuevo_curso">Nuevo Curso</option>
+        </select>
+        <div id="newCourseDiv" style="display: none;">
+          <label for="newCourse" class="form-label">Nuevo Curso</label>
+          <input type="text" class="form-control text-uppercase" id="newCourse" placeholder="Ingrese nuevo curso">
+        </div>
       </div>
       <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
+
     <hr>
     <h3 class="text-center">Lista de Alumnos</h3>
-    <table class="table table-bordered mt-3">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>DNI</th>
-          <th>Colegio</th>
-          <th>Curso</th>
-          <th>División</th>
-        </tr>
-      </thead>
-      <tbody id="studentTableBody">
-      </tbody>
-    </table>
+    <div class="accordion" id="schoolsAccordion"></div>
   </div>
 
-  <!-- Firebase Configuración e Integración -->
-  <script type="module" src="firebase.js"></script>
-</body>
-</html>
+  <script type="module" src="modalNew.js"></script>
+  
 
+  <!-- Firebase Configuración -->
+  <script type="module" src="firebase.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
