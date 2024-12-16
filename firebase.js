@@ -10,7 +10,8 @@ import {
   getDoc,
   getDocs,
   query,
-  where
+  where,
+  addDoc
 } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
 // Configuración de Firebase
@@ -29,4 +30,4 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Exportar funciones comunes
-export { db, collection, doc, setDoc, updateDoc, arrayUnion, getDoc, getDocs, query, where };
+export { db, collection, doc, setDoc, updateDoc, arrayUnion, getDoc, getDocs, query, where, addDoc };

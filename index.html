@@ -50,7 +50,8 @@
   <!-- Formulario de Registro -->
   <div class="container mt-5">
     <h2 class="text-center mb-4 fs-3">👇🏻 Registro de Alumnos</h2>
-    <div id="alert-container"></div>
+    <div id="alert-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1050; max-width: 300px;"></div>
+
     <form id="studentForm">
       <div class="mb-3">
         <div class="row">
@@ -89,6 +90,7 @@
           </div>
         </div>
       </div>
+
       <!-- Modal para Nuevo Colegio -->
       <div class="modal fade" id="newSchoolModal" tabindex="-1" aria-labelledby="newSchoolModalLabel"
         aria-hidden="true">
@@ -131,14 +133,32 @@
           </div>
         </div>
       </div>
-
+      <!-- Modal para Nueva Asignatura -->
+      <div class="modal fade" id="newSubjectModal" tabindex="-1" aria-labelledby="newSubjectModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newSubjectModalLabel">Agregar Nueva Asignatura</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <label for="newSubjectInput" class="form-label">Nombre de la Asignatura</label>
+              <input type="text" class="form-control text-uppercase" id="newSubjectInput"
+                placeholder="Ingrese el nombre de la nueva asignatura">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" id="saveNewSubject">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="mb-3">
         <div class="row">
           <div class="col">
             <select class="form-control  form-select text-uppercase" id="school" required>
               <option value="" disabled selected>Seleccione un colegio</option>
-              <option value="COLEGIO 1">Colegio 1</option>
-              <option class="text-primary" value="nuevo_colegio">Nuevo Colegio</option>
             </select>
             <div id="newSchoolDiv" style="display: none;">
               <label for="newSchool" class="form-label">Nuevo Colegio</label>
@@ -148,8 +168,6 @@
           <div class="col">
             <select class="form-control  form-select text-uppercase" id="course" required>
               <option value="" disabled selected>Seleccione un curso</option>
-              <option value="CURSO 1">Curso 1</option>
-              <option class="text-primary" value="nuevo_curso">Nuevo Curso</option>
             </select>
             <div id="newCourseDiv" style="display: none;">
               <label for="newCourse" class="form-label">Nuevo Curso</label>
@@ -161,10 +179,6 @@
       <div class="mb-3">
         <select class="form-control form-select text-uppercase" id="subject" required>
           <option value="" disabled selected>Seleccione una asignatura</option>
-          <option value="FISICA">Física</option>
-          <option value="FISICA Y ASTRONOMIA">Física y Astronomía</option>
-          <option value="FISICO QUIMICA">Físico Química</option>
-          <option class="text-primary" value="nueva_asignatura">Nueva Asignatura</option>
         </select>
       </div>
       <div class="mb-3">
@@ -206,7 +220,24 @@
       <p class="mt-2">Cargando...</p>
     </div>
 
-  </div>
+  </div><br>
+  <!-- Footer -->
+  <footer class="bg-light text-center text-lg-start mt-4">
+    <div class="w-100 bg-light py-3">
+      <div class="container">
+        <div class="row pt-2">
+          <div class="col-12 text-center">
+            <p class="text-left text-secondary small">
+              Copyright &copy; 2025 Pura Física - Licencia MIT. Todos
+              los derechos reservados. Designed by <a class="text-success" href="LICENSE.txt"
+                target="_blank"><strong>augusalterats</strong></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </footer>
   <script>
     function formatearDNI(input) {
       let valor = input.value.replace(/[^\d]/g, ""); // Eliminar caracteres no numéricos
@@ -273,6 +304,7 @@
   <script type="module" src="./obtener.js"></script>
   <script type="module" src="./main.js"></script>
   <script type="module" src="./buscarAlumno.js"></script>
+  <script type="module" src="./modalNew.js"></script>
 </body>
 
 </html>
