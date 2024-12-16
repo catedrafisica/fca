@@ -122,6 +122,25 @@ async function buscarAlumno(event) {
     mostrarMensaje("Error al buscar el alumno", "danger");
   }
 }
-
 // Asociar el evento submit del formulario con la función
 document.getElementById("searchForm").addEventListener("submit", buscarAlumno);
+
+// Selecciona el contenedor de la lista
+const navItems = document.getElementById('navItem');
+
+// Escucha los clics en los elementos de la lista
+navItems.addEventListener('click', (event) => {
+    // Verifica si el clic se produjo en un enlace
+    if (event.target.tagName === 'A') {
+        // Elimina las clases 'active' y 'text-success' de todos los enlaces
+        const links = navItems.querySelectorAll('.nav-link');
+        links.forEach(link => {
+            link.classList.remove('active');
+            link.classList.remove('text-success');
+        });
+
+        // Agrega las clases 'active' y 'text-success' al enlace seleccionado
+        event.target.classList.add('active');
+        event.target.classList.add('text-success');
+    }
+});
