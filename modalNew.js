@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const querySnapshot = await getDocs(collection(db, collectionName));
     querySnapshot.forEach((doc) => {
       const option = document.createElement("option");
-      option.value = doc.id;
+      option.value = doc.data().name;;
       option.textContent = doc.data().name;
       selectElement.appendChild(option);
     });
