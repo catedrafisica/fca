@@ -117,10 +117,17 @@ document.getElementById("boton-cargar-csv").addEventListener("click", async () =
         campo.disabled = false; // Desbloquea el campo
       });
       // Reinicia la barra de progreso a 0%
+      const cargarCSV = document.getElementById("boton-cargar-csv");
+      const guardarNuevo = document.getElementById("boton-guardar-nuevo");
       const barraProgreso = document.getElementById("barra-progreso");
+      cargarCSV.disabled = true;
+      guardarNuevo.disabled = false;
+      barraProgreso.classList.remove("bg-success");
+      barraProgreso.classList.add("bg-primary");
       barraProgreso.style.width = "0%";
       barraProgreso.setAttribute("aria-valuenow", "0");
-    }, 10000);
+    }, 8000);
   }
 });
+
 
