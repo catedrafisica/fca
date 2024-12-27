@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     apellido: "GoMEZ",
     nombre: "JuAN",
     documento: "12.345.678",
-    seleccionIngreso: "FCA - UNNE",
+    seleccionIngreso: "INGENIERÍA AGRONÓMICA",
     añoIngreso: new Date().getFullYear(),
     materia: "FÍSICA I",
     grupo: "GRUPO 1",

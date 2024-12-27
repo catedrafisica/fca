@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
       observaciones: observacionesCampo,
       materias: materiasCursadas,
     };
-
+  
     try {
       const result = await guardarAlumno(alumnos);
       if (result) {
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       mostrarAlerta("Ocurrió un error al guardar el alumno. Intente nuevamente.", "danger");
       console.error(error);
-    }
+    };
   });
 
   function mostrarAlerta(mensaje, tipo) {
@@ -100,5 +100,5 @@ document.addEventListener("DOMContentLoaded", () => {
       barraProgreso.style.width = "0%";
       barraProgreso.setAttribute("aria-valuenow", "0");
     }, 5000);
-  }
+  };
 });
