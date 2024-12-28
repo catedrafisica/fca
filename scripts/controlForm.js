@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+/*document.addEventListener("DOMContentLoaded", () => {
   // Valores predeterminados
   const valoresPredeterminados = {
     apellido: "GoMEZ",
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Mensaje de notificación
   console.log("Borrar linea:1 al 30 - Formulario rellenado con valores predeterminados.");
 });
-
+*/
 
 
 // 1- Apellido, nombre y DNI
