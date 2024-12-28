@@ -43,9 +43,9 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto" id="navItem">
           <li class="nav-item"><a class="nav-link" href="#">Listas</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Asistencias</a></li>
+          <li class="nav-item"><a class="nav-link text-success" href="./index.html" active>Asistencias</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Calificaciones</a></li>
-          <li class="nav-item"><a class="nav-link text-success" href="./index.html">Registros</a></li>
+          <li class="nav-item"><a class="nav-link" href="./registro.html">Registros</a></li>
           <li class="nav-item"><a class="nav-link" href="./info.html">Info</a></li>
         </ul><br>
       </div>
@@ -66,132 +66,9 @@
     <!-- Alerta para notificaciones -->
     <div id="contenedor-alerta" class="position-fixed top-0 end-0 p-3" style="z-index: 1050; max-width: 300px;"></div>
 
-    <form id="formulario-alumno">
-      <!-- Apellido/s, Nombre/s y DNI -->
-      <div class="mb-4">
-        <div class="row g-2">
-          <div class="col-md-4">
-            <label for="apellido" class="form-label">Apellido/s</label>
-            <input type="text" class="form-control text-uppercase" id="apellido" placeholder="Ingrese apellido/s"
-              required>
-          </div>
-          <div class="col-md-4">
-            <label for="nombre" class="form-label">Nombre/s</label>
-            <input type="text" class="form-control text-uppercase" id="nombre" placeholder="Ingrese nombre/s" required>
-          </div>
-          <div class="col-md-4">
-            <label for="documento" class="form-label">DNI</label>
-            <input type="text" class="form-control text-uppercase" id="documento"
-              placeholder="Sin puntos y sin espacios" pattern="\d{2}\.\d{3}\.\d{3}" maxlength="10"
-              title="Ingrese un DNI válido (formato: 12.345.678)" required>
-          </div>
-        </div>
-      </div>
+ 
 
-      <!-- Ingreso a FCA UNNE-->
-      <div class="mb-4">
-        <div class="row g-2">
-          <div class="col-md-6">
-            <label for="seleccion-ingreso" class="form-label">Ingreso a FCA - UNNE</label>
-            <select class="form-select text-uppercase" id="seleccion-ingreso" required>
-              <option value="" selected disabled>Seleccione</option>
-              <option value="INGENIERÍA AGRONÓMICA">Ingeniería Agronómica</option>
-              <option value="INGENIERÍA INDUSTRIAL">Ingeniería Industrial</option>
-            </select>
-          </div>
-          <div class="col-md-4">
-            <label for="año-ingreso" class="form-label">Año de ingreso</label>
-            <input type="number" class="form-control text-uppercase" id="año-ingreso" min="1900" max="2100"
-              placeholder="Ej: 2024" required>
-          </div>
-          <div class="col-md-2 d-flex align-items-center">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="año-actual">
-              <label for="año-actual" class="form-check-label">Año actual</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- Inscripción a Materia y Grupo -->
-      <div class="mb-4">
-        <div class="row g-2">
-          <div class="col-md-6">
-            <label for="materia" class="form-label">Inscripción a Materia</label>
-            <select class="form-select text-uppercase" id="materia" required>
-              <option value="" disabled selected>Seleccione una materia</option>
-              <option value="FÍSICA I">Física I (Agr. 55)</option>
-              <option value="FÍSICA II">Física II (Agr. 57)</option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label for="grupo" class="form-label">Grupo</label>
-            <select class="form-select text-uppercase" id="grupo" required>
-              <option value="" disabled selected>Seleccione un grupo</option>
-              <option value="GRUPO 1">Grupo 1</option>
-              <option value="GRUPO 2">Grupo 2</option>
-              <option value="GRUPO 3">Grupo 3</option>
-              <option value="GRUPO 4">Grupo 4</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cursada -->
-      <div class="mb-4">
-        <div class="row g-2">
-          <div class="col-md-6">
-            <label for="tipo-cursada" class="form-label">Tipo de cursante</label>
-            <select class="form-select  text-uppercase" id="tipo-cursada" required>
-              <option value="" disabled selected>Seleccione tipo de cursante</option>
-              <option value="NUEVO CURSANTE">Nuevo cursante</option>
-              <option value="RECURSANTE">Recursante</option>
-            </select>
-          </div>
-          <div class="col-md-4">
-            <label for="fecha-cursada" class="form-label">Fecha de inicio</label>
-            <input type="date" class="form-control" id="fecha-cursada" required>
-          </div>
-          <div class="col-md-2 d-flex align-items-center">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="fecha-actual">
-              <label for="fecha-actual" class="form-check-label">Fecha actual</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Observaciones -->
-      <div class="mb-4">
-        <label for="observaciones" class="form-label">Observaciones</label>
-        <textarea class="form-control text-uppercase" id="observaciones" rows="1"
-          placeholder="Escriba las observaciones aquí"></textarea>
-      </div>
-
-      <!-- Barra de progreso -->
-      <div class="progress mb-4">
-        <div id="barra-progreso" class="progress-bar bg-primary" role="progressbar" style="width: 50%;"
-          aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-          50%
-        </div>
-      </div>
-
-      <!-- Carga de archivo CSV -->
-      <div class="mb-4">
-        <label for="archivo-csv" class="form-label">Cargar archivo .csv</label>
-        <input type="file" class="form-control" id="archivo-csv" accept=".csv">
-        <div id="alerta-csv" class="alert alert-danger d-none mt-2" role="alert">
-          <i class="bi bi-exclamation-circle"></i> Por favor, cargue un archivo .csv
-        </div>
-      </div>
-
-      <!-- Botones -->
-      <div class="d-flex justify-content-end gap-2">
-        <button id="boton-cargar-csv" class="btn btn-success" type="button" disabled>cargar .csv</button>
-        <button id="boton-guardar-nuevo" class="btn btn-primary" type="submit">Guardar</button>
-      </div>
-    </form>
+    
   </div>
   <!-- Fin Forms de Registro -->
   <br>
@@ -217,7 +94,7 @@
     // Espera 3 segundos (3000 milisegundos) antes de reemplazar el spinner con el título
     setTimeout(function () {
       // Cambia el spinner por el título
-      document.getElementById('tituloCarga').innerHTML = '👇🏻 Registro de Alumnos';
+      document.getElementById('tituloCarga').innerHTML = '✍🏻 Registro de Asistencias';
       // Oculta el spinner después de que se haya insertado el texto
       document.getElementById('spinnerContainer').style.visibility = 'hidden';
     }, 1000);  
