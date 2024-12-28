@@ -1,6 +1,3 @@
-Claro, aquí tienes todo el contenido del archivo README listo para copiar y pegar:
-
-```markdown
 # Registro de Alumnos FCA UNNE
 
 Este proyecto es un sistema de registro de alumnos que permite gestionar datos como el ingreso a la carrera, cursados de la materia Física, asistencia y notas en trabajos prácticos, laboratorios y parciales. Está diseñado para realizar seguimientos y servir como base de datos para el análisis del rendimiento académico.
