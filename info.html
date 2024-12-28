@@ -45,21 +45,31 @@
       </div>
   </nav>
   <!-- Fin Navbar -->
-
-  <!-- Inicio Forms de Registro -->
+  <!-- Inicio Info de Registro -->
   <div class="container mt-5">
-    <h2 class="text-center mb-4 fs-3">👋🏻 Información para Registro de Alumnos</h2>
+    <!-- Título que se reemplazará después del retraso -->
+    <h6 class="text-center mb-4 fs-3" id="tituloCarga"></h6>
+    <!-- Spinner visible inicialmente -->
+    <div class="d-flex justify-content-center mb-4" id="spinnerContainer">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Alerta para notificaciones -->
+    <div id="contenedor-alerta" class="position-fixed top-0 end-0 p-3" style="z-index: 1050; max-width: 300px;"></div>
+
 
     <!-- Primer acordeón -->
-    <div class="accordion mb-4" id="accordionCSV">
+    <div class="accordion mb-4" id="acordeon1">
       <div class="accordion-item">
-        <h2 class="accordion-header" id="headingCSV">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseCSV" aria-expanded="false" aria-controls="collapseCSV">
+        <h2 class="accordion-header" id="heading1">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1"
+            aria-expanded="false" aria-controls="collapse1">
             1. Guía en PDF: ¿Cómo preparar el archivo .csv para cargar registros de alumnos?
           </button>
         </h2>
-        <div id="collapseCSV" class="accordion-collapse collapse" aria-labelledby="headingCSV">
+        <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1">
           <div class="accordion-body">
             <embed src="./pdfs/prepararCSV.pdf" type="application/pdf" width="100%" height="600px">
           </div>
@@ -68,23 +78,127 @@
     </div>
 
     <!-- Segundo acordeón -->
-    <div class="accordion mb-4" id="accordionOtro">
+    <div class="accordion mb-4" id="acordeon2">
       <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOtro">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseOtro" aria-expanded="false" aria-controls="collapseOtro">
+        <h2 class="accordion-header" id="heading2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2"
+            aria-expanded="false" aria-controls="collapse2">
             2. Guía en PDF: ¿Cómo validar los registros cargados en el sistema?
           </button>
         </h2>
-        <div id="collapseOtro" class="accordion-collapse collapse" aria-labelledby="headingOtro">
+        <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2">
           <div class="accordion-body">
             <embed src="./pdfs/validarRegistros.pdf" type="application/pdf" width="100%" height="600px">
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Tercer acordeón -->
+    <div class="accordion mb-4" id="acordeon3">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading3">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3"
+            aria-expanded="false" aria-controls="collapse3">
+            3. Guía en PDF: ¿Cómo solucionar errores comunes al preparar archivos CSV?
+          </button>
+        </h2>
+        <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3">
+          <div class="accordion-body">
+            <embed src="./pdfs/erroresComunes.pdf" type="application/pdf" width="100%" height="600px">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cuarto acordeón -->
+    <div class="accordion mb-4" id="acordeon4">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading4">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4"
+            aria-expanded="false" aria-controls="collapse4">
+            4. Guía en PDF: ¿Cómo realizar actualizaciones masivas en los registros?
+          </button>
+        </h2>
+        <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4">
+          <div class="accordion-body">
+            <embed src="./pdfs/actualizacionesMasivas.pdf" type="application/pdf" width="100%" height="600px">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quinto acordeón -->
+    <div class="accordion mb-4" id="acordeon5">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading5">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5"
+            aria-expanded="false" aria-controls="collapse5">
+            5. Guía en PDF: ¿Cómo exportar reportes de alumnos registrados?
+          </button>
+        </h2>
+        <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5">
+          <div class="accordion-body">
+            <embed src="./pdfs/exportarReportes.pdf" type="application/pdf" width="100%" height="600px">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sexto acordeón -->
+    <div class="accordion mb-4" id="acordeon6">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading6">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6"
+            aria-expanded="false" aria-controls="collapse6">
+            6. Guía en PDF: ¿Cómo modificar datos individuales de un registro?
+          </button>
+        </h2>
+        <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6">
+          <div class="accordion-body">
+            <embed src="./pdfs/modificarDatos.pdf" type="application/pdf" width="100%" height="600px">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Séptimo acordeón -->
+    <div class="accordion mb-4" id="acordeon7">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading7">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7"
+            aria-expanded="false" aria-controls="collapse7">
+            7. Guía en PDF: ¿Cómo eliminar registros duplicados?
+          </button>
+        </h2>
+        <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7">
+          <div class="accordion-body">
+            <embed src="./pdfs/eliminarDuplicados.pdf" type="application/pdf" width="100%" height="600px">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Octavo acordeón -->
+    <div class="accordion mb-4" id="acordeon8">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading8">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8"
+            aria-expanded="false" aria-controls="collapse8">
+            8. Guía en PDF: ¿Cómo generar reportes de actividad de usuarios?
+          </button>
+        </h2>
+        <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8">
+          <div class="accordion-body">
+            <embed src="./pdfs/reportesActividad.pdf" type="application/pdf" width="100%" height="600px">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- Fin Forms de Registro -->
+  <!-- Fin Info de Registro -->
+
+
   <br>
   <!-- Inicio Footer -->
   <footer class="bg-light text-center text-lg-start mt-4">
@@ -103,6 +217,17 @@
     </div>
   </footer>
   <!-- Fin Footer -->
+
+  <script>
+    // Espera 3 segundos (3000 milisegundos) antes de reemplazar el spinner con el título
+    setTimeout(function () {
+      // Cambia el spinner por el título
+      document.getElementById('tituloCarga').innerHTML = '👋🏻 Información para Registro de Alumnos';
+      // Oculta el spinner después de que se haya insertado el texto
+      document.getElementById('spinnerContainer').style.visibility = 'hidden';
+    }, 1000);  
+  </script>
+
 
   <!-- Inicio Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
