@@ -41,9 +41,9 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto" id="navItem">
-          <li class="nav-item"><a class="nav-link text-success" href="./index.html" active>Asistencias</a></li>
+          <li class="nav-item"><a class="nav-link" href="./index.html">Asistencias</a></li>
           <li class="nav-item"><a class="nav-link" href="./calificaciones.html">Calificaciones</a></li>
-          <li class="nav-item"><a class="nav-link" href="./listas.html">Listas</a></li>
+          <li class="nav-item"><a class="nav-link text-success" href="./listas.html" active>Listas</a></li>
           <li class="nav-item"><a class="nav-link" href="./registro.html">Registros</a></li>
           <li class="nav-item"><a class="nav-link" href="./info.html">Info</a></li>
         </ul><br>
@@ -53,6 +53,7 @@
 
   <!-- Inicio Forms de Registro -->
   <div class="container mt-5">
+
     <!-- Título que se reemplazará después del retraso -->
     <h6 class="text-center mb-4 fs-3" id="tituloCarga"></h6>
     <!-- Spinner visible inicialmente -->
@@ -92,7 +93,7 @@
     // Espera 3 segundos (3000 milisegundos) antes de reemplazar el spinner con el título
     setTimeout(function () {
       // Cambia el spinner por el título
-      document.getElementById('tituloCarga').innerHTML = '✍🏻 Registro de Asistencias';
+      document.getElementById('tituloCarga').innerHTML = '📑 Listas de Alumnos';
       // Oculta el spinner después de que se haya insertado el texto
       document.getElementById('spinnerContainer').style.visibility = 'hidden';
     }, 1000);  
