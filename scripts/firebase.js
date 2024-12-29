@@ -45,3 +45,21 @@ const guardarAlumno = async (alumno) => {
 };
 
 export { guardarAlumno };
+
+// Función para obtener todos los alumnos sin ordenar
+const obtenerAlumnos = async () => {
+    try {
+        // Consulta a la colección "alumnos" sin ordenar
+        const alumnosSnapshot = await getDocs(collection(db, "alumnos"));
+        const alumnos = [];
+        alumnosSnapshot.forEach((doc) => {
+            alumnos.push({ id: doc.id, ...doc.data() });
+        });
+
+        return alumnos; // Devuelve el array de alumnos
+    } catch (error) {
+        console.error("Error al obtener los alumnos:", error);
+        return [];
+    }
+};
+export { db, obtenerAlumnos };

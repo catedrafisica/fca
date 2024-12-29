@@ -20,9 +20,9 @@
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-  
+
   <script type="module" src="./scripts/firebase.js"></script>
-  
+
 </head>
 <!-- Fin Head -->
 
@@ -65,43 +65,42 @@
     <!-- Alerta para notificaciones -->
     <div id="contenedor-alerta" class="position-fixed top-0 end-0 p-3" style="z-index: 1050; max-width: 300px;"></div>
 
- 
+    <div class="accordion" id="acordeonTabla">
+      <!-- Los acordeones se generarán dinámicamente aquí -->
+    </div>
 
-
-  </div>
-  <!-- Fin Forms de Registro -->
-  <br>
-  <!-- Inicio Footer -->
-  <footer class="bg-light text-center text-lg-start mt-4">
-    <div class="w-100 bg-light py-3">
-      <div class="container">
-        <div class="row pt-2">
-          <div class="col-12 text-center">
-            <p class="text-left text-secondary small">
-              Copyright &copy; 2024 Pura Física - Licencia MIT. Todos
-              los derechos reservados. Desiganado a <a class="text-success" href="./LICENSE.md"
-                target="_blank"><strong>augusalterats</strong></a>
-            </p>
+    <br>
+    <!-- Inicio Footer -->
+    <footer class="bg-light text-center text-lg-start mt-4">
+      <div class="w-100 bg-light py-3">
+        <div class="container">
+          <div class="row pt-2">
+            <div class="col-12 text-center">
+              <p class="text-left text-secondary small">
+                Copyright &copy; 2024 Pura Física - Licencia MIT. Todos
+                los derechos reservados. Desiganado a <a class="text-success" href="./LICENSE.md"
+                  target="_blank"><strong>augusalterats</strong></a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </footer>
-  <!-- Fin Footer -->
+    </footer>
+    <!-- Fin Footer -->
+    <script type="module" src="./scripts/listas.js"></script>
+    <script>
+      // Espera 3 segundos (3000 milisegundos) antes de reemplazar el spinner con el título
+      setTimeout(function () {
+        // Cambia el spinner por el título
+        document.getElementById('tituloCarga').innerHTML = '📑 Listas de Alumnos';
+        // Oculta el spinner después de que se haya insertado el texto
+        document.getElementById('spinnerContainer').style.visibility = 'hidden';
+      }, 1000);  
+    </script>
 
-  <script>
-    // Espera 3 segundos (3000 milisegundos) antes de reemplazar el spinner con el título
-    setTimeout(function () {
-      // Cambia el spinner por el título
-      document.getElementById('tituloCarga').innerHTML = '📑 Listas de Alumnos';
-      // Oculta el spinner después de que se haya insertado el texto
-      document.getElementById('spinnerContainer').style.visibility = 'hidden';
-    }, 1000);  
-  </script>
-
-  <!-- Inicio Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <!--Fin Bootstrap JS -->
+    <!-- Inicio Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!--Fin Bootstrap JS -->
 </body>
 
 </html>
