@@ -81,10 +81,10 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto" id="navItem">
           <li class="nav-item"><a class="nav-link text-success" href="./index.html" active>Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Asistencias</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Calificaciones</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Listas</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Registros</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Ficha del Alumno</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Asistencia</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Calificaciones</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Info</a></li>
         </ul>
       </div>
@@ -139,25 +139,51 @@
         document.getElementById('descripcionCalendario').classList.remove('d-none');
         const descripcion = document.getElementById('descripcionCalendario');
         descripcion.classList.remove('d-none');
-        descripcion.innerHTML = "<ul>" +
-          "<li>Este calendario incluye las fechas de clases teóricas, laboratorios, prácticas, evaluaciones parciales y exámenes finales de Física I y II.</li>" +
-          "<li>La réplica de Física I Trabajos Prácticos y Laboratorios con un solo grupo son de 08:00 a 10:00.</li>" +
-          "<ul>" +
-          "<li>Hasta el 1° Parcial: Ing. Agr. (Mgter.) YFRAN ELVIRA, María de las Mercedes y Ing. Agr. (Dra) ESPASANDIN, Fabiana Daniela.</li>" +
-          "<li>Hasta el 2° Parcial: Lic. MARTINEZ, Fernando A. y Prof. ALTERATS, Augusto Rodrigo.</li>" +
-          "</ul>" +
-          "<li>Las fechas de exámenes finales de Física II (*) se solicitarán para ser trasladadas al viernes siguiente.</li>" +
-          "<li>Horarios de Grupos de Laboratorio de Física II, los días viernes:" +
-          "<ul>" +
-          "<li>Grupo 1: de 07:00 a 09:00 - Lic. MARTINEZ, Fernando A. y Prof. ALTERATS, Augusto Rodrigo.</li>" +
-          "<li>Grupo 2: de 09:00 a 11:00 - Lic. MARTINEZ, Fernando A. y Prof. ALTERATS, Augusto Rodrigo.</li>" +
-          "<li>Grupo 3: de 11:00 a 13:00 - Lic. MARTINEZ, Fernando A. y Prof. ALTERATS, Augusto Rodrigo.</li>" +
-          "<li>Grupo 4: de 14:00 a 16:00 - Ing. Agr. (Mgter.) CESPEDES FLORES, Flora Elizabet.</li>" +
-          "<li>Grupo 5: de 16:00 a 18:00 - Ing. Agr. (Mgter.) CESPEDES FLORES, Flora Elizabet.</li>" +
-          "</ul>" +
-          "</li>" +
-          "</ul>";
-
+        descripcion.innerHTML = `
+            <div class="accordion" id="accordionFisica">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFisicaI">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFisicaI" aria-expanded="false" aria-controls="collapseFisicaI">
+                            Física I
+                        </button>
+                    </h2>
+                    <div id="collapseFisicaI" class="accordion-collapse collapse" aria-labelledby="headingFisicaI" data-bs-parent="#accordionFisica">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Este <strong>calendario</strong> incluye las fechas de clases teóricas, laboratorios, prácticas, evaluaciones parciales y exámenes finales.</li>
+                                <li>La <strong>réplica de Física I</strong> Trabajos Prácticos y Laboratorios con un solo grupo son de <strong>08:00 a 10:00</strong>.</li>
+                                <ul>
+                                    <li>Hasta el <strong>1° Parcial</strong>: Ing. Agr. (Mgter.) YFRAN ELVIRA, María de las Mercedes y Ing. Agr. (Dra) ESPASANDIN, Fabiana Daniela.</li>
+                                    <li>Hasta el <strong>2° Parcial</strong>: Lic. MARTINEZ, Fernando A. y Prof. ALTERATS, Augusto Rodrigo.</li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFisicaII">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFisicaII" aria-expanded="false" aria-controls="collapseFisicaII">
+                            Física II
+                        </button>
+                    </h2>
+                    <div id="collapseFisicaII" class="accordion-collapse collapse" aria-labelledby="headingFisicaII" data-bs-parent="#accordionFisica">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Las fechas de <strong>exámenes finales de Física II (*)</strong> se solicitarán para ser trasladadas al viernes siguiente.</li>
+                                <li>Horarios de <strong>Grupos de Laboratorio de Física II</strong>, los días viernes:
+                                    <ul>
+                                        <li><strong>Grupo 1:</strong> de 07:00 a 09:00 - Lic. MARTINEZ, Fernando A. y Prof. ALTERATS, Augusto Rodrigo.</li>
+                                        <li><strong>Grupo 2:</strong> de 09:00 a 11:00 - Lic. MARTINEZ, Fernando A. y Prof. ALTERATS, Augusto Rodrigo.</li>
+                                        <li><strong>Grupo 3:</strong> de 11:00 a 13:00 - Lic. MARTINEZ, Fernando A. y Prof. ALTERATS, Augusto Rodrigo.</li>
+                                        <li><strong>Grupo 4:</strong> de 14:00 a 16:00 - Ing. Agr. (Mgter.) CESPEDES FLORES, Flora Elizabet.</li>
+                                        <li><strong>Grupo 5:</strong> de 16:00 a 18:00 - Ing. Agr. (Mgter.) CESPEDES FLORES, Flora Elizabet.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
 
         var calendarEl = document.getElementById('calendario');
         var calendar = new FullCalendar.Calendar(calendarEl, {
