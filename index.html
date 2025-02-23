@@ -92,9 +92,11 @@
   </nav>
   <!-- Fin Navbar -->
 
-  <!-- Inicio Forms de Registro -->
+  <!-- Inicio Calendario -->
   <div class="container mt-5">
     <h6 class="text-center mb-4 fs-3 d-none" id="tituloCarga">🗓️ Calendario de la Cátedra</h6>
+    <!-- Descripción del Calendario -->
+    <div id="descripcionCalendario" class="mt-3 text-secondary d-none"></div>
     <div class="d-flex justify-content-center mb-4" id="spinnerContainer">
       <div class="spinner-border text-success" role="status">
         <span class="visually-hidden">Cargando...</span>
@@ -103,7 +105,7 @@
     <div id="contenedor-alerta" class="position-fixed top-0 end-0 p-3" style="z-index: 1050; max-width: 300px;"></div>
     <div id="calendario" class="mt-4 d-none"></div>
   </div>
-  <!-- Fin Forms de Registro -->
+  <!-- Fin Calendario -->
   <br>
   <!-- Inicio Footer -->
   <footer class="bg-light text-center text-lg-start mt-4">
@@ -134,6 +136,23 @@
         document.getElementById('tituloCarga').classList.remove('d-none');
         document.getElementById('spinnerContainer').classList.add('d-none');
         document.getElementById('calendario').classList.remove('d-none');
+        document.getElementById('descripcionCalendario').classList.remove('d-none');
+        const descripcion = document.getElementById('descripcionCalendario');
+        descripcion.classList.remove('d-none');
+        descripcion.innerHTML = "<ul>" +
+          "<li>Este calendario incluye las fechas de clases teóricas, laboratorios, prácticas, evaluaciones parciales y exámenes finales de Física I y II.</li>" +
+          "<li>Las fechas de exámenes finales de Física II (*) se solicitarán para ser trasladadas al viernes siguiente.</li>" +
+          "<li>Horarios de Grupos de Laboratorio de Física II, los días viernes:" +
+          "<ul>" +
+          "<li>Grupo 1: de 07:00 a 09:00</li>" +
+          "<li>Grupo 2: de 09:00 a 11:00</li>" +
+          "<li>Grupo 3: de 11:00 a 13:00</li>" +
+          "<li>Grupo 4: de 14:00 a 16:00</li>" +
+          "<li>Grupo 5: de 16:00 a 18:00</li>" +
+          "</ul>" +
+          "</li>" +
+          "</ul>";
+
 
         var calendarEl = document.getElementById('calendario');
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -189,12 +208,23 @@
                 { title: 'F II Segundo Parcial', start: '2025-05-09', className: 'event-parciales' },
                 { title: 'F II Recuperatorio del Segundo Parcial', start: '2025-05-16', className: 'event-parciales' },
                 { title: 'Cierre de Trimestre', start: '2025-05-17', className: 'event-primary' },
+                // Mesas Finales
+                { title: 'F I 01° Mesa de Examen', start: '2025-02-10', className: 'event-final' },
+                { title: 'F I 02° Mesa de Examen', start: '2025-03-21', className: 'event-final' },
+                { title: 'F I 03° Mesa de Examen', start: '2025-04-21', className: 'event-final' },
+                { title: 'F I 04° Mesa de Examen', start: '2025-05-26', className: 'event-final' },
+                { title: 'F I 05° Mesa de Examen', start: '2025-06-30', className: 'event-final' },
+                { title: 'F I 06° Mesa de Examen (13 h)', start: '2025-08-20', className: 'event-final' },
+                { title: 'F I 07° Mesa de Examen', start: '2025-09-18', className: 'event-final' },
+                { title: 'F I 08° Mesa de Examen (13 h)', start: '2025-10-22', className: 'event-final' },
+                { title: 'F I 09° Mesa de Examen (13 h)', start: '2025-11-12', className: 'event-final' },
+                { title: 'F I 10° Mesa de Examen', start: '2025-12-18', className: 'event-final' },
 
                 { title: 'F II 01° Mesa de Examen', start: '2025-02-12', className: 'event-final' },
-                { title: 'F II 02° Mesa de Examen*', start: '2025-03-26', className: 'event-final' },
-                { title: 'F II 03° Mesa de Examen*', start: '2025-04-23', className: 'event-final' },
-                { title: 'F II 04° Mesa de Examen*', start: '2025-05-28', className: 'event-final' },
-                { title: 'F II 05° Mesa de Examen*', start: '2025-07-02', className: 'event-final' },
+                { title: 'F II 02° Mesa de Examen *', start: '2025-03-26', className: 'event-final' },
+                { title: 'F II 03° Mesa de Examen *', start: '2025-04-23', className: 'event-final' },
+                { title: 'F II 04° Mesa de Examen *', start: '2025-05-28', className: 'event-final' },
+                { title: 'F II 05° Mesa de Examen *', start: '2025-07-02', className: 'event-final' },
                 { title: 'F II 06° Mesa de Examen', start: '2025-08-14', className: 'event-final' },
                 { title: 'F II 07° Mesa de Examen', start: '2025-09-12', className: 'event-final' },
                 { title: 'F II 08° Mesa de Examen', start: '2025-10-17', className: 'event-final' },
