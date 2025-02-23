@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- Inicio Head -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Sistema de registro de alumnos organizado por cátedra y grupos, con funciones de búsqueda, registros y visualización.">
+  <meta name="author" content="Augusto Rodrigo Alterats">
+  <meta name="keywords" content="registro, alumnos, materia, ingreso, condición, gestión, educación">
+  <meta name="robots" content="index, follow">
+  <title>Física I y II - FCA UNNE</title>
+  <!-- Favicon -->
+  <link rel="icon" href="images/favicom.svg" type="image/svg+xml">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FullCalendar CSS desde otro CDN -->
+  <link href="https://unpkg.com/@fullcalendar/core@6.1.8/main.min.css" rel="stylesheet">
+  <!-- Fuente de Google opcional -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
+  <!-- Incluye FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+  <!-- Incluye tu CSS personalizado -->
+  <style>
+    .event-teoria {
+      background-color: #6897ca !important;
+      /* Azul */
+      border-color: #007bff !important;
+      color: white !important;
+    }
+
+    .event-laboratorio {
+      background-color: #70be82 !important;
+      /* Verde */
+      border-color: #28a745 !important;
+      color: white !important;
+    }
+
+    .event-practico {
+      background-color: #645936 !important;
+      /* Rojo */
+      border-color: #d1dc35 !important;
+      color: white !important;
+    }
+
+    .event-final {
+      background-color: #636363 !important;
+      /* Rojo */
+      border-color: #141414 !important;
+      color: white !important;
+    }
+
+    .event-parciales {
+      background-color: #c56972 !important;
+      /* Rojo */
+      border-color: #dc3545 !important;
+      color: white !important;
+    }
+  </style>
+</head>
+<!-- Fin Head -->
+
+<body>
+  <!-- Inicio Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand text-success" href="./index.html">
+        <img src="images/favicom.svg" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+        Cátedra de Física I y II - FCA UNNE
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto" id="navItem">
+          <li class="nav-item"><a class="nav-link" href="./index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Listas</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Ficha del Alumno</a></li>
+          <li class="nav-item"><a class="nav-link text-success" href="./asistencia.html" active>Asistencia</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Calificaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Info</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Fin Navbar -->
+
+  <!-- Inicio Asistencia -->
+  <div class="container mt-5">
+    <h6 class="text-center mb-4 fs-3 d-none" id="tituloAsistencia">✍🏼 Asistencias</h6>
+    <!-- Descripción del Asistencia -->
+    <div id="descripcionAsistencia" class="mt-3 text-secondary d-none"></div>
+    <div class="d-flex justify-content-center mb-4" id="spinnerContainer">
+      <div class="spinner-border text-success" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+    <div id="contenedor-alerta" class="position-fixed top-0 end-0 p-3" style="z-index: 1050; max-width: 300px;"></div>
+    <div id="asistencia" class="mt-4 d-none"></div>
+  </div>
+  <!-- Fin Calendario -->
+  <br>
+
+  <!-- Inicio Footer -->
+  <footer class="bg-light text-center text-lg-start mt-4">
+    <div class="w-100 bg-light py-3">
+      <div class="container">
+        <div class="row pt-2">
+          <div class="col-12 text-center">
+            <p class="text-left text-secondary small">
+              Copyright &copy; 2024 Pura Física - Licencia MIT. Todos
+              los derechos reservados. Diseñado por <a class="text-success" href="./LICENSE.md"
+                target="_blank"><strong>augusalterats</strong></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Fin Footer -->
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- FullCalendar Script UMD -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+
+ <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(function () {
+    document.getElementById('tituloAsistencia').classList.remove('d-none');
+    document.getElementById('spinnerContainer').classList.add('d-none');
+    document.getElementById('asistencia').classList.remove('d-none');
+    document.getElementById('descripcionAsistencia').classList.remove('d-none');
+
+    const alumnos = {
+      "Física I": {
+        "Grupo A": [
+          { name: "Abalo, Blas Augusto", dni: "27465601" },
+          { name: "Aalena Sánchez", dni: "27465602" }
+        ]
+      },
+      "Física II": {
+        "Grupo 1": [
+          { name: "Abalo, Blas Augusto", dni: "27465601" },
+          { name: "Elena Sánchez", dni: "27465602" }
+        ]
+      }
+    };
+
+    // Ordenamos los alumnos por nombre de manera alfabética en cada grupo
+    Object.keys(alumnos).forEach(materia => {
+      Object.keys(alumnos[materia]).forEach(grupo => {
+        alumnos[materia][grupo].sort((a, b) => a.name.localeCompare(b.name)); // Orden alfabético
+      });
+    });
+
+    const asistenciaDiv = document.getElementById("asistencia");
+    asistenciaDiv.classList.remove("d-none");
+
+    let html = "";
+    Object.keys(alumnos).forEach((materia, i) => {
+      html += `
+      <div class="accordion mb-5" id="accordion${materia.replace(/\s+/g, '')}">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading${i}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">
+              ${materia}
+            </button>
+          </h2>
+          <div id="collapse${i}" class="accordion-collapse collapse" aria-labelledby="heading${i}">
+            <div class="accordion-body">
+              <div class="accordion mb-4" id="accordionGrupos${materia.replace(/\s+/g, '')}">`;
+
+      Object.keys(alumnos[materia]).forEach((grupo, j) => {
+        const grupoId = `collapseGrupo${materia.replace(/\s+/g, '')}${j}`;
+        const fechaId = `fecha-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}`;
+        html += `
+                  <div class="accordion-item mb-3">
+                    <h2 class="accordion-header" id="headingGrupo${grupoId}">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${grupoId}" aria-expanded="false" aria-controls="${grupoId}">
+                        ${grupo}
+                      </button>
+                    </h2>
+                    <div id="${grupoId}" class="accordion-collapse collapse" aria-labelledby="headingGrupo${grupoId}">
+                      <div class="accordion-body">
+                        <label for='${fechaId}' class='form-label'>Fecha:</label>
+                        <input type='date' class='form-control mb-2' id='${fechaId}' value='${getCurrentDate()}'>
+                        <table class='table table-bordered'>
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Apellido y Nombre</th>
+                              <th>D.N.I.</th>
+                              <th>Asistencia</th>
+                            </tr>
+                          </thead>
+                          <tbody>`;
+        alumnos[materia][grupo].forEach((nombre, index) => {
+          const dni = parseInt(nombre.dni);
+          const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
+          html += `
+                          <tr>
+                            <td>${index + 1}</td>
+                            <td>${nombre.name}</td>
+                            <td>${formatDNI}</td>
+                            <td>
+                              <select class='form-select asistencia' data-grupo="${grupo}" data-materia="${materia}">
+                                <option value='presente'>Presente</option>
+                                <option value='ausente'>Ausente</option>
+                                <option value='ausente justificado'>Ausente Justificado</option>
+                              </select>
+                            </td>
+                          </tr>`;
+        });
+
+        html += `</tbody></table>
+                        <button class='btn btn-primary mt-2 cargar-asistencia' data-grupo="${grupo}" data-materia="${materia}" data-fecha="${fechaId}">Cargar Asistencia</button>
+                      </div>
+                    </div>
+                  </div>`;
+      });
+
+      html += `</div></div></div></div>`;
+    });
+
+    asistenciaDiv.innerHTML = html;
+
+    // Agregamos el evento click a los botones de "Cargar Asistencia"
+    document.querySelectorAll('.cargar-asistencia').forEach(button => {
+      button.addEventListener('click', function() {
+        const grupo = this.getAttribute('data-grupo');
+        const materia = this.getAttribute('data-materia');
+        const fechaId = this.getAttribute('data-fecha');
+        const fecha = document.getElementById(fechaId).value;  // Obtenemos la fecha seleccionada
+
+        // Obtener la asistencia de los estudiantes
+        const asistenciaSeleccionada = [];
+        const selects = document.querySelectorAll(`select[data-grupo="${grupo}"][data-materia="${materia}"]`);
+        
+        selects.forEach(select => {
+          const studentName = select.closest('tr').querySelector('td:nth-child(2)').textContent;
+          const asistencia = select.value;
+          
+          asistenciaSeleccionada.push({
+            estudiante: studentName,
+            asistencia: asistencia
+          });
+        });
+
+        // Aquí procesamos la fecha junto con la asistencia
+        console.log(`Asistencia cargada para el grupo ${grupo} de ${materia} en la fecha ${fecha}:`, asistenciaSeleccionada);
+
+        // Mostrar un mensaje o realizar alguna otra acción
+        alert(`Asistencia de ${grupo} de ${materia} en la fecha ${fecha} cargada correctamente.`);
+      });
+    });
+
+  }, 1500);
+
+  // Función para obtener la fecha actual en formato YYYY-MM-DD
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+});
+
+ </script>
+
+
+
+
+</body>
+
+</html>
