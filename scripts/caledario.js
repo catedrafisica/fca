@@ -161,5 +161,5 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       calendar.render();
-    }, 1500);
+    }, 1000);
   });
