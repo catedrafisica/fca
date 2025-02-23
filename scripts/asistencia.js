@@ -2,42 +2,49 @@ import { alumnos } from "./baseDatos.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   setTimeout(function () {
-      document.getElementById('tituloAsistencia').classList.remove('d-none');
-      document.getElementById('spinnerContainer').classList.add('d-none');
-      document.getElementById('asistencia').classList.remove('d-none');
-      document.getElementById('descripcionAsistencia').classList.remove('d-none');
+    document.getElementById('tituloAsistencia').classList.remove('d-none');
+    document.getElementById('spinnerContainer').classList.add('d-none');
+    document.getElementById('asistencia').classList.remove('d-none');
+    document.getElementById('descripcionAsistencia').classList.remove('d-none');
 
-      Object.keys(alumnos).forEach(materia => {
-          Object.keys(alumnos[materia]).forEach(grupo => {
-              alumnos[materia][grupo].sort((a, b) => a.name.localeCompare(b.name));
-          });
+    Object.keys(alumnos).forEach(materia => {
+      Object.keys(alumnos[materia]).forEach(grupo => {
+        alumnos[materia][grupo].sort((a, b) => a.name.localeCompare(b.name));
       });
+    });
 
-      const asistenciaDiv = document.getElementById("asistencia");
-      asistenciaDiv.classList.remove("d-none");
+    const asistenciaDiv = document.getElementById("asistencia");
+    asistenciaDiv.classList.remove("d-none");
 
-      let html = "";
-      Object.keys(alumnos).forEach((materia, i) => {
-          html += `
+    let html = "";
+    Object.keys(alumnos).forEach((materia, i) => {
+      // Calculamos el total de alumnos por materia
+      const totalMateria = Object.values(alumnos[materia]).reduce((acc, grupo) => acc + grupo.length, 0);
+      
+      html += `
       <div class="accordion mb-5" id="accordion${materia.replace(/\s+/g, '')}">
         <div class="accordion-item">
           <h2 class="accordion-header" id="heading${i}">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">
-              ${materia}
+              ${materia} (Total: ${totalMateria} alumnos)
             </button>
           </h2>
           <div id="collapse${i}" class="accordion-collapse collapse" aria-labelledby="heading${i}">
             <div class="accordion-body">
               <div class="accordion mb-4" id="accordionGrupos${materia.replace(/\s+/g, '')}">`;
 
-          Object.keys(alumnos[materia]).forEach((grupo, j) => {
-              const grupoId = `collapseGrupo${materia.replace(/\s+/g, '')}${j}`;
-              const fechaId = `fecha-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}`;
-              html += `
+      Object.keys(alumnos[materia]).forEach((grupo, j) => {
+        const grupoId = `collapseGrupo${materia.replace(/\s+/g, '')}${j}`;
+        const fechaId = `fecha-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}`;
+        
+        // Calculamos el total de alumnos por grupo
+        const totalGrupo = alumnos[materia][grupo].length;
+        
+        html += `
                   <div class="accordion-item mb-3">
                     <h2 class="accordion-header" id="headingGrupo${grupoId}">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${grupoId}" aria-expanded="false" aria-controls="${grupoId}">
-                        ${grupo}
+                        ${grupo} (Total: ${totalGrupo} alumnos)
                       </button>
                     </h2>
                     <div id="${grupoId}" class="accordion-collapse collapse" aria-labelledby="headingGrupo${grupoId}">
@@ -54,10 +61,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             </tr>
                           </thead>
                           <tbody>`;
-              alumnos[materia][grupo].forEach((nombre, index) => {
-                  const dni = parseInt(nombre.dni);
-                  const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
-                  html += `
+        
+        alumnos[materia][grupo].forEach((nombre, index) => {
+          const dni = parseInt(nombre.dni);
+          const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
+          html += `
                           <tr>
                             <td>${index + 1}</td>
                             <td class="text-start">${nombre.name}</td>
@@ -71,21 +79,21 @@ document.addEventListener("DOMContentLoaded", function () {
                               </select>
                             </td>
                           </tr>`;
-              });
+        });
 
-              html += `</tbody></table>
+        html += `</tbody></table>
                         <button class='btn btn-primary mt-2 cargar-asistencia' data-grupo="${grupo}" data-materia="${materia}" data-fecha="${fechaId}">Cargar Asistencia</button>
                         <button class='btn btn-secondary mt-2 colocar-todos-presentes' data-grupo="${grupo}" data-materia="${materia}">Colocar a todos presentes</button>
                       </div>
                     </div>
                   </div>`;
-          });
-
-          html += `</div></div></div></div>`;
-          html += `</div></div></div></div>`;
       });
 
-      asistenciaDiv.innerHTML = html;
+      html += `</div></div></div></div>`;
+      html += `</div></div></div></div>`;
+    });
+
+    asistenciaDiv.innerHTML = html;
 
       // Agregar el evento al botón de "Colocar a todos presentes"
       document.querySelectorAll('.colocar-todos-presentes').forEach(button => {

@@ -20,13 +20,15 @@ document.addEventListener("DOMContentLoaded", function () {
         asistenciaDiv.classList.remove("d-none");
 
         let html = "";
+        
         Object.keys(alumnos).forEach((materia, i) => {
+            const totalMateria = calcularTotalAlumnosPorMateria(materia); // Total de alumnos por materia
             html += `
         <div class="accordion mb-5" id="accordion${materia.replace(/\s+/g, '')}">
           <div class="accordion-item">
             <h2 class="accordion-header" id="heading${i}">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">
-                ${materia}
+                ${materia} (Total: ${totalMateria} alumnos)
               </button>
             </h2>
             <div id="collapse${i}" class="accordion-collapse collapse" aria-labelledby="heading${i}">
@@ -38,18 +40,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 const fechaId = `fecha-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}`;
                 const actividadId = `actividad-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}`;
 
+                const totalGrupo = alumnos[materia][grupo].length; // Total de alumnos por grupo
+
                 html += `
                     <div class="accordion-item mb-3">
                       <h2 class="accordion-header" id="headingGrupo${grupoId}">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${grupoId}" aria-expanded="false" aria-controls="${grupoId}">
-                          ${grupo}
+                          ${grupo} (Total: ${totalGrupo} alumnos)
                         </button>
                       </h2>
                       <div id="${grupoId}" class="accordion-collapse collapse" aria-labelledby="headingGrupo${grupoId}">
                         <div class="accordion-body">
                           <label for='${fechaId}' class='form-label'>Fecha:</label>
                           <input type='date' class='form-control mb-2' id='${fechaId}' value='${getCurrentDate()}'>
-
                           <label for='${actividadId}' class='form-label'>Actividad:</label>
                           <select class='form-select mb-3' id='${actividadId}'>
                             ${generarOpcionesColoquios(n1, n2)}
@@ -159,10 +162,13 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 
-
-
-
     }, 1000);
+
+    function calcularTotalAlumnosPorMateria(materia) {
+        return Object.keys(alumnos[materia]).reduce((total, grupo) => {
+            return total + alumnos[materia][grupo].length;
+        }, 0);
+    }
 
     function generarOpcionesColoquios(n1, n2) {
         let opciones = "<option value='' selected disabled>Seleccione la actividad evaluada...</option>";
@@ -243,7 +249,4 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById(actividadId).selectedIndex = 0;
     }
 
-
 });
-
-

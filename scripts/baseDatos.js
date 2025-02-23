@@ -1,18 +1,23 @@
-export const alumnos = {
-    "Física I": {
-        "Grupo Réplica": [
-            { name: "Sabao, Roberto Augusto", dni: "27465601", asistencia: {}, notas: {}, observaciones: "" },
-            { name: "Elena Sánchez", dni: "27465602", asistencia: {}, notas: {}, observaciones: "" }
-        ]
-    },
-    "Física II": {
-        "Grupo 1": [
-            { name: "Abalo, Blas Augusto", dni: "27465601", asistencia: {}, notas: {}, observaciones: "" },
-            { name: "Acevedo, Ramiro German", dni: "27465602", asistencia: {}, notas: {}, observaciones: "" }
-        ],
-        "Grupo 2": [
-            { name: "Abal, Blas Augusto", dni: "27465601", asistencia: {}, notas: {}, observaciones: "" },
-            { name: "Aceved, Ramiro German", dni: "27465602", asistencia: {}, notas: {}, observaciones: "" }
-        ]
+import Alumnos from './alumnosClass.js';
+
+const alumnosObj = new Alumnos();
+
+alumnosObj.agregarAlumno("Física I", "Grupo Réplica", "Sabao, Roberto Augusto", "27465601");
+alumnosObj.agregarAlumno("Física I", "Grupo Réplica", "Elena Sánchez", "27465602");
+alumnosObj.agregarAlumno("Física II", "Grupo 1", "Abalo, Blas Augusto", "27865601");
+alumnosObj.agregarAlumno("Física II", "Grupo 1", "Acevedo, Ramiro German", "27469602");
+alumnosObj.agregarAlumno("Física II", "Grupo 2", "Romero, Jose", "27425601");
+alumnosObj.agregarAlumno("Física II", "Grupo 2", "Alvares, Rodolfo", "27465602");
+
+alumnosObj.agregarNota("Física I", "Grupo Réplica", "27465601", "Primer Parcial", 8, "10/03/2025");
+
+console.log(alumnosObj.data)
+for (const materia in alumnosObj.data) {
+    for (const grupo in alumnosObj.data[materia]) { // Corrección aquí
+        alumnosObj.data[materia][grupo].forEach(estudiante => {
+            console.log(`Materia: ${materia}, Grupo: ${grupo}, Nombre: ${estudiante.name}, DNI: ${estudiante.dni}, Notas: ${estudiante.notas[0].valor}`);
+        });
     }
-};
+}
+
+export const alumnos = alumnosObj.data;

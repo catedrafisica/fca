@@ -11,11 +11,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let html = "";
         Object.keys(alumnos).forEach((materia, i) => {
+            // Calculamos el total de alumnos por materia
+            const totalMateria = Object.values(alumnos[materia]).reduce((acc, grupo) => acc + grupo.length, 0);
+            
             html += `<div class="accordion mb-5" id="accordion${materia.replace(/\s+/g, '')}">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="heading${i}">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="false">
-                                ${materia}
+                                ${materia} (Total: ${totalMateria} alumnos)
                             </button>
                         </h2>
                         <div id="collapse${i}" class="accordion-collapse collapse" aria-labelledby="heading${i}">
@@ -25,7 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <option value="Todos">Todos los alumnos</option>`;
             
             Object.keys(alumnos[materia]).forEach((grupo) => {
-                html += `<option value="${grupo}">${grupo}</option>`;
+                // Calculamos el total de alumnos por grupo
+                const totalGrupo = alumnos[materia][grupo].length;
+                html += `<option value="${grupo}">${grupo} (Total: ${totalGrupo} alumnos)</option>`;
             });
             
             html += `</select>
