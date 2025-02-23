@@ -44,10 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
                       <div class="accordion-body">
                         <label for='${fechaId}' class='form-label'>Fecha:</label>
                         <input type='date' class='form-control mb-2' id='${fechaId}' value='${getCurrentDate()}'>
-                        <table class='table table-bordered'>
+                        <table class='table table-bordered text-center'>
                           <thead>
                             <tr>
-                              <th>#</th>
+                              <th>Orden</th>
                               <th>Apellido y Nombre</th>
                               <th>D.N.I.</th>
                               <th>Asistencia</th>
@@ -60,10 +60,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   html += `
                           <tr>
                             <td>${index + 1}</td>
-                            <td>${nombre.name}</td>
+                            <td class="text-start">${nombre.name}</td>
                             <td>${formatDNI}</td>
                             <td>
-                              <select class='form-select asistencia' data-grupo="${grupo}" data-materia="${materia}">
+                              <select class='form-select asistencia text-center' data-grupo="${grupo}" data-materia="${materia}">
                                 <option value='' selected>Seleccione un tipo de asistencia...</option>
                                 <option value='presente'>Presente</option>
                                 <option value='ausente'>Ausente</option>
@@ -81,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   </div>`;
           });
 
+          html += `</div></div></div></div>`;
           html += `</div></div></div></div>`;
       });
 

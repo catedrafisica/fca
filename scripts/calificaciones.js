@@ -55,10 +55,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             ${generarOpcionesColoquios(n1, n2)}
                           </select>
 
-                          <table class='table table-bordered'>
+                          <table class='table table-bordered text-center'>
                             <thead>
                               <tr>
-                                <th>#</th>
+                                <th>Orden</th>
                                 <th>Apellido y Nombre</th>
                                 <th>D.N.I.</th>
                                 <th>Nota</th>
@@ -75,12 +75,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     html += `
                             <tr>
                               <td>${index + 1}</td>
-                              <td>${nombre.name}</td>
+                              <td class="text-start">${nombre.name}</td>
                               <td>${formatDNI}</td>
                               <td>
-                                <input type="number" class="form-control nota" min="0" max="10" step="0.1" data-calificacion="${calificacionId}" data-grupo="${grupo}" data-materia="${materia}">
+                                <input type="number" class="form-control text-center nota" min="0" max="10" step="0.1" data-calificacion="${calificacionId}" data-grupo="${grupo}" data-materia="${materia}">
                               </td>
-                              <td id="${calificacionId}">-</td>
+                              <td id="${calificacionId}">---</td>
                             </tr>`;
                 });
 
@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>`;
             });
 
+            html += `</div></div></div></div>`;
             html += `</div></div></div></div>`;
         });
 
@@ -124,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const dni = input.closest('tr').querySelector('td:nth-child(3)').textContent;
                     const nota = input.value ? parseFloat(input.value) : null;
 
-                    if (nota === null || isNaN(nota)) {
+                    if (nota === null || isNaN(nota) || nota > 10 || nota < 0) {
                         camposIncompletos = true;
                     }
 
@@ -185,13 +186,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function clasificarNota(nota) {
-        if (nota >= 10) return "Sobresaliente";
-        if (nota >= 9) return "Distinguido";
-        if (nota >= 8) return "Muy Bueno";
-        if (nota >= 7) return "Bueno";
-        if (nota >= 6) return "Aprobado";
-        if (nota > 0) return "Insuficiente";
-        return "Reprobado";
+        if (nota >= 0 && nota <= 10) {
+            if (nota >= 10) return "🫶🏼 Sobresaliente";
+            if (nota >= 9) return "👏🏼 Distinguido";
+            if (nota >= 8) return "💪🏼 Muy Bueno";
+            if (nota >= 7) return "👍🏼 Bueno";
+            if (nota >= 6) return "🤏🏼 Aprobado";
+            if (nota > 0) return "🙏🏼 Insuficiente";
+            return "🤌🏼 Ausente"; //Reprobado
+        } else {
+            return "⚠️ Nota invalida"
+        }
     }
 
     function mostrarAlerta(mensaje, tipo, callback = null) {
@@ -228,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Resetear las calificaciones en la tabla
         document.querySelectorAll(`td[id^="calificacion-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}"]`).forEach(td => {
-            td.textContent = "-";
+            td.textContent = "---";
         });
 
         // Resetear la fecha a la actual
