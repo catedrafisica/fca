@@ -89,8 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   </div>`;
       });
 
-      html += `</div></div></div></div>`;
-      html += `</div></div></div></div>`;
+      html += `</div></div></div></div></div></div></div></div>`;
+
     });
 
     asistenciaDiv.innerHTML = html;

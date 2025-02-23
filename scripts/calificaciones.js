@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         asistenciaDiv.classList.remove("d-none");
 
         let html = "";
-        
+
         Object.keys(alumnos).forEach((materia, i) => {
             const totalMateria = calcularTotalAlumnosPorMateria(materia); // Total de alumnos por materia
             html += `
@@ -94,8 +94,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>`;
             });
 
-            html += `</div></div></div></div>`;
-            html += `</div></div></div></div>`;
+            html += `</div></div></div></div></div></div></div></div>`;
+
         });
 
         asistenciaDiv.innerHTML = html;
