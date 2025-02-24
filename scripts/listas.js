@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function mostrarAlumnos(lista, contenedor) {
-    let html = `<table class='table table-bordered text-center'>
+    let html = `<div class="table-responsive"><table class='table table-bordered text-center'>
                     <thead>
                         <tr>
                             <th>Orden</th>
@@ -105,9 +105,10 @@ function mostrarAlumnos(lista, contenedor) {
                     <td>${alumno.condicion || '---'}</td>
                  </tr>`;
     });
-    html += "</tbody></table>";
+    html += "</tbody></table></div>"; // Cierre del div table-responsive
     contenedor.innerHTML = html;
 }
+
 
 const { jsPDF } = window.jspdf;
 
