@@ -156,17 +156,17 @@ window.generarPDF = function (index) {
                 halign: 'center',
             },
             columnStyles: {
-                0: { cellWidth: 8 },  // Orden
-                1: { cellWidth: 38 },  // Apellido y Nombre (ligeramente más ancho)
-                2: { cellWidth: 20 },  // DNI
-                3: { cellWidth: 17 },  // Asistencia
-                4: { cellWidth: 15 },  // 1° Parcial
-                5: { cellWidth: 17 },  // Recup. 1° Parcial
-                6: { cellWidth: 15 },  // 2° Parcial
-                7: { cellWidth: 17 },  // Recup. 2° Parcial
-                8: { cellWidth: 17 },  // Extra Parcial
-                9: { cellWidth: 18 },  // Coloquios Aprob.
-                10: { cellWidth: 18 }, // Condición
+                0: { cellWidth: 8, halign: 'center' },   // Orden
+                1: { cellWidth: 38, halign: 'left' },   // Apellido y Nombre alineado a la derecha
+                2: { cellWidth: 20, halign: 'center' },  // DNI
+                3: { cellWidth: 17, halign: 'center' },  // Asistencia
+                4: { cellWidth: 15, halign: 'center' },  // 1° Parcial
+                5: { cellWidth: 17, halign: 'center' },  // Recup. 1° Parcial
+                6: { cellWidth: 15, halign: 'center' },  // 2° Parcial
+                7: { cellWidth: 17, halign: 'center' },  // Recup. 2° Parcial
+                8: { cellWidth: 17, halign: 'center' },  // Extra Parcial
+                9: { cellWidth: 18, halign: 'center' },  // Coloquios Aprob.
+                10: { cellWidth: 18, halign: 'center' }, // Condición
             },
             didDrawPage: function (data) {
                 // Línea separadora en cada página
