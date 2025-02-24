@@ -3,7 +3,7 @@ class Alumnos {
         this.data = {};
     }
 
-    agregarAlumno(materia, grupo, nombre, dni) {
+    agregarAlumno(materia, grupo, nombre, dni, condicion = "Activo") {
         if (!this.data[materia]) {
             this.data[materia] = {};
         }
@@ -13,6 +13,7 @@ class Alumnos {
         this.data[materia][grupo].push({
             name: nombre,
             dni: dni,
+            condicion: condicion,
             asistencia: [{ actividad: null, fecha: null, valor: null }],
             notas: [{ actividad: null, fecha: null, valor: null }],
             observaciones: ""
@@ -31,14 +32,11 @@ class Alumnos {
             return;
         }
 
-        // Si la primera nota es null, reemplazarla
         if (alumno.notas.length === 1 && alumno.notas[0].actividad === null) {
             alumno.notas[0] = { actividad, fecha, valor };
         } else {
             alumno.notas.push({ actividad, fecha, valor });
         }
-
-        console.log(`Nota agregada a ${alumno.name}: ${actividad} - ${valor}`);
     }
 
     agregarAsistencia(materia, grupo, dni, actividad, fecha, valor) {
@@ -53,14 +51,11 @@ class Alumnos {
             return;
         }
 
-        // Si la primera asistencia es null, reemplazarla
         if (alumno.asistencia.length === 1 && alumno.asistencia[0].actividad === null) {
             alumno.asistencia[0] = { actividad, fecha, valor };
         } else {
             alumno.asistencia.push({ actividad, fecha, valor });
         }
-
-        console.log(`Asistencia agregada a ${alumno.name}: ${actividad} - ${valor}`);
     }
 
     modificarNota(materia, grupo, dni, actividad, nuevoValor, nuevaFecha) {
@@ -126,6 +121,23 @@ class Alumnos {
         alumno.observaciones = nuevaObservacion;
 
         console.log(`Observaciones actualizadas para ${alumno.name}: ${nuevaObservacion}`);
+    }
+
+    editarCondicion(materia, grupo, dni, nuevaCondicion) {
+        if (!this.data[materia] || !this.data[materia][grupo]) {
+            console.log("Materia o grupo no encontrado.");
+            return;
+        }
+
+        const alumno = this.data[materia][grupo].find(a => a.dni === dni);
+        if (!alumno) {
+            console.log("Alumno no encontrado.");
+            return;
+        }
+
+        alumno.condicion = nuevaCondicion;
+
+        console.log(`Condición actualizada para ${alumno.name}: ${nuevaCondicion}`);
     }
 }
 

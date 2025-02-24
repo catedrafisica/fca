@@ -73,9 +73,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             <td>
                               <select class='form-select asistencia text-center' data-grupo="${grupo}" data-materia="${materia}">
                                 <option value='' selected>Seleccione un tipo de asistencia...</option>
-                                <option value='presente'>Presente</option>
-                                <option value='ausente'>Ausente</option>
-                                <option value='ausente justificado'>Ausente Justificado</option>
+                                <option value='P'>Presente</option>
+                                <option value='A'>Ausente</option>
+                                <option value='AJ'>Ausente Justificado</option>
                               </select>
                             </td>
                           </tr>`;
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
               // Cambiar todos los selectores a "Presente"
               const selects = document.querySelectorAll(`select[data-grupo="${grupo}"][data-materia="${materia}"]`);
               selects.forEach(select => {
-                  select.value = 'presente';
+                  select.value = 'P';
               });
           });
       });

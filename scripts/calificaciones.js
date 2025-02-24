@@ -173,12 +173,12 @@ document.addEventListener("DOMContentLoaded", function () {
     function generarOpcionesColoquios(n1, n2) {
         let opciones = "<option value='' selected disabled>Seleccione la actividad evaluada...</option>";
         for (let i = 1; i <= n1; i++) {
-            opciones += `<option value='Coloquio ${i}'>Coloquio ${i}</option>`;
+            opciones += `<option value='coloquio${i}'>Coloquio ${i}</option>`;
         }
         opciones += `<option value='parcial1'>Primer Parcial</option>` +
             `<option value='recup1'>Recuperatorio del Primer Parcial</option>`;
         for (let i = 1; i <= n2; i++) {
-            opciones += `<option value='Coloquio ${n1 + i}'>Coloquio ${n1 + i}</option>`;
+            opciones += `<option value='coloquio${n1 + i}'>Coloquio ${n1 + i}</option>`;
         }
         opciones += `<option value='parcial2'>Segundo Parcial</option>` +
             `<option value='recup2'>Recuperatorio del Segundo Parcial</option>` +
@@ -250,3 +250,4 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
