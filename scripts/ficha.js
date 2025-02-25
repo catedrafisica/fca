@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         const tr = document.createElement("tr");
                         let asistenciaTexto = "";
                         if (asist.valor === "P") asistenciaTexto = "Presente";
-                        else if (asist.valor === "A") asistenciaTexto = "Ausente";
+                        else if (asist.valor === "A") asistenciaTexto = `<span style='color: red;'>Ausente</span>`;
                         else if (asist.valor === "AJ") asistenciaTexto = "Ausente Justificado";
                         else asistenciaTexto = asist.valor;
                         tr.innerHTML = `<td>${asist.actividad}</td><td>${asist.fecha}</td><td>${asistenciaTexto}</td>`;
