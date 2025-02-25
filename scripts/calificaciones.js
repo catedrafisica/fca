@@ -104,6 +104,10 @@ document.addEventListener("DOMContentLoaded", function () {
             input.addEventListener('input', function () {
                 const calificacionId = this.getAttribute('data-calificacion');
                 const nota = parseFloat(this.value);
+                const calificacion = clasificarNota(nota);
+                if (calificacion === "⚠️ Nota invalida"){
+                    this.value = "";
+                }
                 document.getElementById(calificacionId).textContent = clasificarNota(nota);
             });
         });
@@ -132,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         camposIncompletos = true;
                     }
 
-                    const calificacion = clasificarNota(nota);
+//                    const calificacion = clasificarNota(nota);
 
                     notasSeleccionadas.push({
                         name: studentName,

@@ -76,9 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             <td>${formatDNI}</td>
                             <td>
                               <select class='form-select asistencia text-center' data-grupo="${grupo}" data-materia="${materia}">
-                                <option value='' selected>Seleccione un tipo de asistencia...</option>
+                                <option value='' selected disabled>Seleccione un tipo de asistencia...</option>
                                 <option value='P'>Presente</option>
-                                <option value='A'>Ausente</option>
+                                <option value='A' style='color: red;'>Ausente</option>
                                 <option value='AJ'>Ausente Justificado</option>
                               </select>
                             </td>
@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function generarOpcionesLabProblem(n) {
-  let opciones = "<option value='' selected>Seleccione una actividad...</option>";
+  let opciones = "<option value='' selected disabled>Seleccione una actividad...</option>";
   for (let i = 1; i <= n; i++) {
     opciones += `<option value='Problemas - Serie ${i}'>Problemas - Serie ${i}</option>`;
     opciones += `<option value='Laboratorio ${i}'>Laboratorio ${i}</option>`;
