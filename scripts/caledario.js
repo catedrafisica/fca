@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('spinnerContainer').classList.add('d-none');
         document.getElementById('calendario').classList.remove('d-none');
         document.getElementById('descripcionCalendario').classList.remove('d-none');
-        const descripcion = document.getElementById('descripcionCalendario');
-        descripcion.classList.remove('d-none');
+        const acordeonesContainer = document.getElementById('acordeones');
 
         // Agregar estilos dinámicamente desde JavaScript
         const style = document.createElement("style");
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
         document.head.appendChild(style);
 
-        descripcion.innerHTML = `
+        acordeonesContainer.innerHTML = `
         <div class="accordion mb-4" id="accordionFisicaI">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingFisicaI">

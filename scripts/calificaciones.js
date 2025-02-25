@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('calificaciones').classList.remove('d-none');
         document.getElementById('descripcionCalificaciones').classList.remove('d-none');
 
-        const n1 = 2; // Cantidad de coloquios antes del primer parcial
-        const n2 = 3; // Cantidad de coloquios después del primer parcial y antes del segundo
+        const n1 = 5; // Cantidad de coloquios Lab. antes del primer parcial
+        const n2 = 5; // Cantidad de coloquios Lab. después del primer parcial y antes del segundo
 
         Object.keys(alumnos).forEach(materia => {
             Object.keys(alumnos[materia]).forEach(grupo => {
@@ -135,11 +135,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     const calificacion = clasificarNota(nota);
 
                     notasSeleccionadas.push({
-                        estudiante: studentName,
+                        name: studentName,
                         dni: dni,
-                        nota: nota,
-                        calificacion: calificacion
-                    });
+                        materia: materia,
+                        grupo: grupo,
+                        registro: {
+                          actividad: actividad,
+                          fecha: fecha,
+                          valor: nota
+                        }
+                      });
+
+
+
                 });
 
                 // Validar que se haya seleccionado una actividad
@@ -155,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Mostrar éxito y limpiar el formulario después de cerrar el modal
                 mostrarAlerta(`✅ Notas de ${grupo} de ${materia} en la fecha ${fecha} para ${actividad} cargadas correctamente.`, "success", function () {
-                    console.log(`Notas cargadas para el grupo ${grupo} de ${materia} en la fecha ${fecha}, actividad ${actividad}:`, notasSeleccionadas);
+                    console.log(notasSeleccionadas);
                     resetearFormulario(grupo, materia, fechaId, actividadId);
                 });
 
@@ -173,16 +181,16 @@ document.addEventListener("DOMContentLoaded", function () {
     function generarOpcionesColoquios(n1, n2) {
         let opciones = "<option value='' selected disabled>Seleccione la actividad evaluada...</option>";
         for (let i = 1; i <= n1; i++) {
-            opciones += `<option value='coloquio${i}'>Coloquio ${i}</option>`;
+            opciones += `<option value='Coloquio Lab. ${i}'>Coloquio Lab. ${i}</option>`;
         }
-        opciones += `<option value='parcial1'>Primer Parcial</option>` +
-            `<option value='recup1'>Recuperatorio del Primer Parcial</option>`;
+        opciones += `<option value='Primer Parcial'>Primer Parcial</option>` +
+            `<option value='Recuperatorio del Primer Parcial'>Recuperatorio del Primer Parcial</option>`;
         for (let i = 1; i <= n2; i++) {
-            opciones += `<option value='coloquio${n1 + i}'>Coloquio ${n1 + i}</option>`;
+            opciones += `<option value='Coloquio Lab. ${n1 + i}'>Coloquio Lab. ${n1 + i}</option>`;
         }
-        opciones += `<option value='parcial2'>Segundo Parcial</option>` +
-            `<option value='recup2'>Recuperatorio del Segundo Parcial</option>` +
-            `<option value='extra'>Parcial Extra</option>`;
+        opciones += `<option value='Segundo Parcial'>Segundo Parcial</option>` +
+            `<option value='Recuperatorio del Segundo Parcial'>Recuperatorio del Segundo Parcial</option>` +
+            `<option value='Parcial Extra'>Parcial Extra</option>`;
         return opciones;
     }
 
