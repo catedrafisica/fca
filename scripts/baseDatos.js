@@ -10,13 +10,18 @@ alumnosObj.agregarAlumno("Física II", "Grupo 2", "Romero, Jose", "27425601");
 alumnosObj.agregarAlumno("Física II", "Grupo 2", "Alvares, Rodolfo", "27465602");
 
 alumnosObj.agregarNota("Física I", "Grupo Réplica", "27465601", "Primer Parcial", 0, "10/03/2025");
-alumnosObj.agregarNota("Física I", "Grupo Réplica", "27465601", "Recuperatorio del Primer Parcial", 7, "15/03/2025");
+alumnosObj.agregarNota("Física I", "Grupo Réplica", "27465601", "Recuperatorio del Primer Parcial", 6, "15/03/2025");
+alumnosObj.agregarNota("Física I", "Grupo Réplica", "27465601", "Coloquio Lab. 1", 5, "12/03/2025");
+alumnosObj.agregarNota("Física I", "Grupo Réplica", "27465601", "Segundo Parcial", 5, "10/03/2025");
+alumnosObj.agregarNota("Física I", "Grupo Réplica", "27465601", "Recuperatorio del Segundo Parcial", 10, "15/03/2025");
 alumnosObj.agregarNota("Física I", "Grupo Réplica", "27465601", "Coloquio Lab. 1", 8, "12/03/2025");
+alumnosObj.agregarNota("Física I", "Grupo Réplica", "27465601", "Parcial Extra", 7, "10/03/2025");
 alumnosObj.agregarAsistencia("Física I","Grupo Réplica","27465601","Problemas - Serie 1","12/03/2025","P");
 alumnosObj.agregarAsistencia("Física I","Grupo Réplica","27465601","Problemas - Serie 2","15/03/2025","A")
 alumnosObj.agregarAsistencia("Física I","Grupo Réplica","27465601","Laboratorio 1","18/03/2025","AJ")
 alumnosObj.agregarAsistencia("Física I","Grupo Réplica","27465601","Laboratorio 2","20/03/2025","A")
 alumnosObj.agregarAsistencia("Física I","Grupo Réplica","27465602","Laboratorio 1","20/03/2025","P")
+alumnosObj.agregarAsistencia("Física I","Grupo Réplica","27465602","Laboratorio 1","21/03/2025","A")
 
 console.log(alumnosObj)
 /* for (const materia in alumnosObj.data) {

@@ -95,13 +95,13 @@ function mostrarAlumnos(lista, contenedor) {
                     <td>${index + 1}</td>
                     <td class="text-start">${alumno.name}</td>
                     <td>${formatDNI}</td>
-                    <td>${registros ? registros + "%" : '---%'}</td>
+                    <td>${registros ? registros : '---%'}</td>
                     <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Primer Parcial") : '---'}</td>
                     <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Recuperatorio del Primer Parcial") : '---'}</td>
                     <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Segundo Parcial") : '---'}</td>
                     <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Recuperatorio del Segundo Parcial") : '---'}</td>
                     <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Parcial Extra") : '---'}</td>                    
-                    <td>${alumno.notas[0].actividad ? calcularPorcentajeAprobados(alumno.notas) + "%" : '---%'}</td>
+                    <td>${alumno.notas[0].actividad ? calcularPorcentajeAprobados(alumno.notas) : '---%'}</td>
                     <td>${alumno.condicion || '---'}</td>
                  </tr>`;
     });
@@ -111,7 +111,7 @@ function mostrarAlumnos(lista, contenedor) {
 
 
 const { jsPDF } = window.jspdf;
- import { dataImag } from "../images/membrete.js";
+import { dataImag } from "../images/membrete.js";
 
 window.generarPDF = function (index) {
     const doc = new jsPDF(); // Orientación vertical
@@ -183,24 +183,29 @@ window.generarPDF = function (index) {
     doc.save(`Lista de Alumnos_${materia}_${grupo}_${fecha}.pdf`);
 };
 
-function calcularPorcentajeAsistencia(alumno) {
+function calcularPorcentajeAsistencia(alumno, max = 80) {
     const asistencias = alumno.asistencia.filter(a => a.actividad !== null);
     if (asistencias.length === 0) {
         console.log("No hay registros de asistencia.");
-        return 0;
-    };
+        return `<span style='color: red;'>0,0%</span>`;
+    }
     const asistenciasFiltradas = asistencias.filter(a => a.valor !== "AJ");
     const totalAsistencias = asistenciasFiltradas.length;
     const asistenciasPresentes = asistenciasFiltradas.filter(a => a.valor === "P").length;
 
     if (totalAsistencias === 0) {
         console.log("No hay asistencias válidas para calcular el porcentaje.");
-        return 0;
-    };
+        return `<span style='color: red;'>0,0%</span>`;;
+    }
 
     const porcentaje = (asistenciasPresentes / totalAsistencias) * 100;
-    return porcentaje.toFixed(1).replace('.', ',');
+    const porcentajeTexto = porcentaje.toFixed(1).replace('.', ',') + "%";
+
+    return porcentaje < max
+        ? `<span style='color: red;'>${porcentajeTexto}</span>`
+        : porcentajeTexto;
 };
+
 
 
 function evaluarParcial(notasArr, actividad = "Primer Parcial") {
@@ -211,31 +216,39 @@ function evaluarParcial(notasArr, actividad = "Primer Parcial") {
 
     if (!parcial) {
         return "---";
-    };
-    let estado = parcial.valor >= 6 ? "Aprob." : "Desp.";
-    if (parcial.valor === 0){
-        return "Ausente";
+    }
+
+    let estado = parcial.valor >= 6
+        ? `${parcial.valor} (Aprob.)`
+        : `<span style='color: red;'>${parcial.valor} (Desap.)</span>`;
+
+    if (parcial.valor === 0) {
+        return `<span style='color: red;'>Ausente</span>`;
     } else {
-        return `${parcial.valor} (${estado})`;
-    };
-};
+        return estado;
+    }
+}
 
 
-function calcularPorcentajeAprobados(actividades) {
+
+function calcularPorcentajeAprobados(actividades, max = 80) {
     if (actividades.length === 1 && actividades[0].valor === null) {
-        return "---";
+        return "---%";
     };
     const actividadesExcluidas = ["Primer Parcial", "Segundo Parcial", "Recuperatorio del Primer Parcial", "Recuperatorio del Segundo Parcial", "Parcial Extra"];
     const actividadesValidas = actividades.filter(actividad =>
         !actividadesExcluidas.includes(actividad.actividad)
     );
     if (actividadesValidas.length === 0) {
-        return "---";
+        return "---%";
     }
     const totalActividades = actividadesValidas.length;
     const aprobados = actividadesValidas.filter(actividad => actividad.valor >= 6).length;
     const porcentajeAprobados = (aprobados / totalActividades) * 100;
-    return porcentajeAprobados.toFixed(1);
+    const porcentajeTexto = porcentajeAprobados.toFixed(1) + "%";
+    return porcentajeAprobados < max
+    ? `<span style='color: red;'>${porcentajeTexto}</span>`
+    : porcentajeTexto;
 };
 
 

@@ -113,6 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Crear elementos de la ficha de alumno
                 const fichaDiv = document.createElement("div");
+                //                fichaDiv.className = "table-responsive";
                 fichaDiv.id = "fichaAlumno";
 
                 // Título Datos Personales
@@ -148,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <th>Grupo</th>
       <td>${grupo}</td>
       <th>Asistencia</th>
-      <td>${calcularPorcentajeAsistencia(alumno)}%</td>
+      <td>${calcularPorcentajeAsistencia(alumno)}</td>
       <th>Condición</th>
       <td>${alumno.condicion}</td>            
     `;
@@ -240,9 +241,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         // Si la nota es 0 se muestra solo "Ausente"
                         if (nota.valor === 0) {
                             notaTexto = evaluarNota(nota.valor);
+                            notaTexto = `<span style='color: red;'>${notaTexto}</span>`
                         } else if (nota.valor !== null && !isNaN(nota.valor)) {
                             notaTexto = nota.valor + " (" + evaluarNota(nota.valor) + ")";
-                        }
+                            if (nota.valor < 6) {
+                                notaTexto = `<span style='color: red;'>${notaTexto}</span>`
+                            };
+                        };
                         tr.innerHTML = `<td>${actividadTexto}</td><td>${nota.fecha}</td><td>${notaTexto}</td>`;
                         if (
                             actividadKey.includes("parcial") ||
@@ -268,12 +273,61 @@ document.addEventListener("DOMContentLoaded", function () {
                 h4Obs.textContent = "Observaciones";
                 fichaDiv.appendChild(h4Obs);
 
+                // Contenedor de observaciones
+                const obsContainer = document.createElement("div");
+
+                // Crear un párrafo para mostrar la observación actual
                 const pObs = document.createElement("p");
-                pObs.textContent =
-                    alumno.observaciones && alumno.observaciones.trim().length > 0
-                        ? alumno.observaciones
-                        : "Sin observaciones.";
-                fichaDiv.appendChild(pObs);
+                pObs.id = "observacionTexto";
+                pObs.textContent = alumno.observaciones && alumno.observaciones.trim().length > 0
+                    ? alumno.observaciones
+                    : "Sin observaciones.";
+                obsContainer.appendChild(pObs);
+
+                // Crear un campo de texto oculto para editar la observación
+                const textareaObs = document.createElement("textarea");
+                textareaObs.id = "observacionInput";
+                textareaObs.className = "form-control d-none mt-2"; // Bootstrap para diseño
+                textareaObs.value = alumno.observaciones || "";
+                obsContainer.appendChild(textareaObs);
+
+                // Contenedor de botones con espacio
+                const btnContainer = document.createElement("div");
+                btnContainer.className = "mt-2"; // Espaciado superior
+
+                // Botón Editar
+                const btnEditar = document.createElement("button");
+                btnEditar.textContent = "Editar";
+                btnEditar.className = "btn btn-primary btn-sm me-2"; // Espacio a la derecha
+                btnEditar.addEventListener("click", function () {
+                    pObs.classList.add("d-none"); // Oculta el párrafo
+                    textareaObs.classList.remove("d-none"); // Muestra el textarea
+                    btnGuardar.classList.remove("d-none"); // Muestra el botón guardar
+                });
+                btnContainer.appendChild(btnEditar);
+
+                // Botón Guardar
+                const btnGuardar = document.createElement("button");
+                btnGuardar.textContent = "Guardar";
+                btnGuardar.className = "btn btn-success btn-sm d-none"; // Inicialmente oculto
+                btnGuardar.addEventListener("click", function () {
+                    pObs.textContent = textareaObs.value.trim() || "Sin observaciones.";
+                    pObs.classList.remove("d-none"); // Muestra el párrafo
+                    textareaObs.classList.add("d-none"); // Oculta el textarea
+                    btnGuardar.classList.add("d-none"); // Oculta el botón guardar
+
+                    // Guardar en la estructura de datos (opcionalmente en base de datos)
+                    alumno.observaciones = textareaObs.value.trim();
+                });
+                btnContainer.appendChild(btnGuardar);
+
+                // Agregar el contenedor de botones
+                obsContainer.appendChild(btnContainer);
+
+                // Agregar todo a la ficha
+                fichaDiv.appendChild(obsContainer);
+
+
 
                 // Insertar la ficha completa en el contenedor
                 fichaAlumnoContainer.appendChild(fichaDiv);
@@ -283,25 +337,27 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-function calcularPorcentajeAsistencia(alumno) {
-
+function calcularPorcentajeAsistencia(alumno, max = 80) {
     const asistencias = alumno.asistencia.filter(a => a.actividad !== null);
-    console.log(asistencias)
     if (asistencias.length === 0) {
         console.log("No hay registros de asistencia.");
-        return 0;
+        return `<span style='color: red;'>0,0%</span>`;
     }
-
     const asistenciasFiltradas = asistencias.filter(a => a.valor !== "AJ");
     const totalAsistencias = asistenciasFiltradas.length;
     const asistenciasPresentes = asistenciasFiltradas.filter(a => a.valor === "P").length;
 
     if (totalAsistencias === 0) {
         console.log("No hay asistencias válidas para calcular el porcentaje.");
-        return 0;
+        return `<span style='color: red;'>0,0%</span>`;
     }
 
     const porcentaje = (asistenciasPresentes / totalAsistencias) * 100;
-    return porcentaje.toFixed(1).replace('.', ',');
+    const porcentajeTexto = porcentaje.toFixed(1).replace('.', ',') + "%";
+
+    return porcentaje < max
+        ? `<span style='color: red;'>${porcentajeTexto}</span>`
+        : porcentajeTexto;
 };
+
 
