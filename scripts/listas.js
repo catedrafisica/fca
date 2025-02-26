@@ -1,7 +1,17 @@
-import { alumnos } from "./baseDatos.js";
+import { getAlumnos } from './baseDatos.js';
 
-document.addEventListener("DOMContentLoaded", function () {
+async function mostrarAlumnosFB() {
+    const alumnos = await getAlumnos();
+    console.log("Alumnos cargados:", alumnos);
+    return alumnos;
+};
+
+document.addEventListener("DOMContentLoaded", async function () {
+    // Esperar a que los alumnos sean recuperados
+    const alumnos = await mostrarAlumnosFB();
+
     setTimeout(function () {
+
         document.getElementById('tituloListas').classList.remove('d-none');
         document.getElementById('spinnerContainer').classList.add('d-none');
         document.getElementById('listas').classList.remove('d-none');
@@ -10,11 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
         asistenciaDiv.classList.remove("d-none");
 
         let html = "";
-        Object.keys(alumnos).forEach((materia, i) => {
-            // Calculamos el total de alumnos por materia
-            const totalMateria = Object.values(alumnos[materia]).reduce((acc, grupo) => acc + grupo.length, 0);
+        Object.keys(alumnos)
+            .sort()
+            .forEach((materia, i) => {
+                // Calculamos el total de alumnos por materia
+                const totalMateria = Object.values(alumnos[materia]).reduce((acc, grupo) => acc + grupo.length, 0);
 
-            html += `<div class="accordion mb-5" id="accordion${materia.replace(/\s+/g, '')}">
+                html += `<div class="accordion mb-5" id="accordion${materia.replace(/\s+/g, '')}">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="heading${i}">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="false">
@@ -27,20 +39,22 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <option value="" selected disabled>Seleccione para generar la lista...</option>
                                     <option value="Todos">Todos los alumnos</option>`;
 
-            Object.keys(alumnos[materia]).forEach((grupo) => {
-                // Calculamos el total de alumnos por grupo
-                const totalGrupo = alumnos[materia][grupo].length;
-                html += `<option value="${grupo}">${grupo} (Total: ${totalGrupo} alumnos)</option>`;
-            });
+                Object.keys(alumnos[materia])
+                    .sort()
+                    .forEach((grupo) => {
+                        // Calculamos el total de alumnos por grupo
+                        const totalGrupo = alumnos[materia][grupo].length;
+                        html += `<option value="${grupo}">${grupo} (Total: ${totalGrupo} alumnos)</option>`;
+                    });
 
-            html += `</select>
+                html += `</select>
                                 <div class="listas" id="listas-${i}"></div>
                                 <button class='btn btn-primary mt-2' id='btn-pdf-${i}' onclick='generarPDF(${i})' disabled>Generar PDF</button>
                             </div>
                         </div>
                     </div>
                 </div>`;
-        });
+            });
 
         asistenciaDiv.innerHTML = html;
 
@@ -109,7 +123,6 @@ function mostrarAlumnos(lista, contenedor) {
     contenedor.innerHTML = html;
 }
 
-
 const { jsPDF } = window.jspdf;
 import { dataImag } from "../images/membrete.js";
 
@@ -169,8 +182,10 @@ window.generarPDF = function (index) {
                 10: { cellWidth: 18, halign: 'center' }, // Condición
             },
             didDrawPage: function (data) {
-                // Línea separadora en cada página
-                doc.line(5, 50, 205, 50);
+                // Si es la primera página, dibujar la línea separadora
+                if (data.pageNumber === 1) {
+                    doc.line(5, 50, 205, 50);
+                }
 
                 // Número de página centrado en el pie de página
                 const pageNumber = doc.internal.getNumberOfPages();
@@ -182,6 +197,7 @@ window.generarPDF = function (index) {
 
     doc.save(`Lista de Alumnos_${materia}_${grupo}_${fecha}.pdf`);
 };
+
 
 function calcularPorcentajeAsistencia(alumno, max = 80) {
     const asistencias = alumno.asistencia.filter(a => a.actividad !== null);
@@ -209,26 +225,19 @@ function calcularPorcentajeAsistencia(alumno, max = 80) {
 
 
 function evaluarParcial(notasArr, actividad = "Primer Parcial") {
-    console.log("Buscando actividad:", actividad);
-    console.log("Notas disponibles:", notasArr);
     const parcial = notasArr.find(nota => nota.actividad.toLowerCase() === actividad.toLowerCase());
-    console.log("Resultado encontrado:", parcial);
-
     if (!parcial) {
         return "---";
-    }
-
+    };
     let estado = parcial.valor >= 6
         ? `${parcial.valor} (Aprob.)`
         : `<span style='color: red;'>${parcial.valor} (Desap.)</span>`;
-
     if (parcial.valor === 0) {
         return `<span style='color: red;'>Ausente</span>`;
     } else {
         return estado;
-    }
-}
-
+    };
+};
 
 
 function calcularPorcentajeAprobados(actividades, max = 80) {
@@ -247,11 +256,6 @@ function calcularPorcentajeAprobados(actividades, max = 80) {
     const porcentajeAprobados = (aprobados / totalActividades) * 100;
     const porcentajeTexto = porcentajeAprobados.toFixed(1) + "%";
     return porcentajeAprobados < max
-    ? `<span style='color: red;'>${porcentajeTexto}</span>`
-    : porcentajeTexto;
+        ? `<span style='color: red;'>${porcentajeTexto}</span>`
+        : porcentajeTexto;
 };
-
-
-
-
-

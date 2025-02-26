@@ -1,6 +1,14 @@
-import { alumnos } from "./baseDatos.js";
+import { getAlumnos } from './baseDatos.js';
 
-document.addEventListener("DOMContentLoaded", function () {
+async function mostrarAlumnosFB() {
+    const alumnos = await getAlumnos();
+    console.log("Alumnos cargados:", alumnos);
+    return alumnos;
+};
+
+document.addEventListener("DOMContentLoaded", async function () {
+    // Esperar a que los alumnos sean recuperados
+    const alumnos = await mostrarAlumnosFB();
     setTimeout(function () {
         document.getElementById('tituloCalificaciones').classList.remove('d-none');
         document.getElementById('spinnerContainer').classList.add('d-none');
@@ -35,7 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
               <div class="accordion-body">
                 <div class="accordion mb-4" id="accordionGrupos${materia.replace(/\s+/g, '')}">`;
 
-            Object.keys(alumnos[materia]).forEach((grupo, j) => {
+            const gruposOrdenados = Object.keys(alumnos[materia]).sort();
+            gruposOrdenados.forEach((grupo, j) => {
                 const grupoId = `collapseGrupo${materia.replace(/\s+/g, '')}${j}`;
                 const fechaId = `fecha-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}`;
                 const actividadId = `actividad-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}`;
@@ -105,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const calificacionId = this.getAttribute('data-calificacion');
                 const nota = parseFloat(this.value);
                 const calificacion = clasificarNota(nota);
-                if (calificacion === "⚠️ Nota invalida"){
+                if (calificacion === "⚠️ Nota invalida") {
                     this.value = "";
                 }
                 document.getElementById(calificacionId).textContent = clasificarNota(nota);
@@ -136,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         camposIncompletos = true;
                     }
 
-//                    const calificacion = clasificarNota(nota);
+                    //                    const calificacion = clasificarNota(nota);
 
                     notasSeleccionadas.push({
                         name: studentName,
@@ -144,11 +153,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         materia: materia,
                         grupo: grupo,
                         registro: {
-                          actividad: actividad,
-                          fecha: fecha,
-                          valor: nota
+                            actividad: actividad,
+                            fecha: fecha,
+                            valor: nota
                         }
-                      });
+                    });
 
 
 
@@ -262,4 +271,3 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
-

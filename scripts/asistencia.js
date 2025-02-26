@@ -1,6 +1,14 @@
-import { alumnos } from "./baseDatos.js";
+import { getAlumnos } from './baseDatos.js';
 
-document.addEventListener("DOMContentLoaded", function () {
+async function mostrarAlumnosFB() {
+  const alumnos = await getAlumnos();
+  console.log("Alumnos cargados:", alumnos);
+  return alumnos;
+};
+
+document.addEventListener("DOMContentLoaded", async function () {
+  // Esperar a que los alumnos sean recuperados
+  const alumnos = await mostrarAlumnosFB();
   setTimeout(function () {
     document.getElementById('tituloAsistencia').classList.remove('d-none');
     document.getElementById('spinnerContainer').classList.add('d-none');
@@ -33,7 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="accordion-body">
               <div class="accordion mb-4" id="accordionGrupos${materia.replace(/\s+/g, '')}">`;
 
-      Object.keys(alumnos[materia]).forEach((grupo, j) => {
+      const gruposOrdenados = Object.keys(alumnos[materia]).sort();
+      gruposOrdenados.forEach((grupo, j) => {
         const grupoId = `collapseGrupo${materia.replace(/\s+/g, '')}${j}`;
         const fechaId = `fecha-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}`;
 

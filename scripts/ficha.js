@@ -1,6 +1,14 @@
-import { alumnos } from "./baseDatos.js";
+import { getAlumnos } from './baseDatos.js';
 
-document.addEventListener("DOMContentLoaded", function () {
+async function mostrarAlumnosFB() {
+    const alumnos = await getAlumnos();
+    console.log("Alumnos cargados:", alumnos);
+    return alumnos;
+};
+
+document.addEventListener("DOMContentLoaded", async function () {
+    // Esperar a que los alumnos sean recuperados
+    const alumnos = await mostrarAlumnosFB();
     setTimeout(function () {
         document.getElementById('tituloFicha').classList.remove('d-none');
         document.getElementById('spinnerContainer').classList.add('d-none');
@@ -48,12 +56,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const fichaAlumnoContainer = document.getElementById("fichaAlumnoContainer");
 
         // Llenar select de materias
-        Object.keys(alumnosData.data).forEach(materia => {
-            const option = document.createElement("option");
-            option.value = materia;
-            option.textContent = materia;
-            materiaSelect.appendChild(option);
-        });
+        Object.keys(alumnosData.data)
+            .sort()
+            .forEach(materia => {
+                const option = document.createElement("option");
+                option.value = materia;
+                option.textContent = materia;
+                materiaSelect.appendChild(option);
+            });
 
         // Evento para seleccionar materia
         materiaSelect.addEventListener("change", function () {
@@ -67,7 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
             fichaAlumnoContainer.innerHTML = ""; // Limpiar ficha anterior
 
             if (materia) {
-                const grupos = Object.keys(alumnosData.data[materia]);
+                const grupos = Object.keys(alumnosData.data[materia])
+                    .sort();
                 grupos.forEach(grupo => {
                     const option = document.createElement("option");
                     option.value = grupo;
@@ -88,7 +99,8 @@ document.addEventListener("DOMContentLoaded", function () {
             fichaAlumnoContainer.innerHTML = "";
 
             if (materia && grupo) {
-                const alumnos = alumnosData.data[materia][grupo];
+                const alumnos = alumnosData.data[materia][grupo]
+                    .sort((a, b) => a.name.localeCompare(b.name));
                 alumnos.forEach(alumno => {
                     const option = document.createElement("option");
                     option.value = alumno.dni;
@@ -359,5 +371,3 @@ function calcularPorcentajeAsistencia(alumno, max = 80) {
         ? `<span style='color: red;'>${porcentajeTexto}</span>`
         : porcentajeTexto;
 };
-
-
