@@ -51,30 +51,35 @@ document.addEventListener("DOMContentLoaded", async function () {
         const totalGrupo = alumnos[materia][grupo].length;
 
         html += `
-                  <div class="accordion-item mb-3">
-                    <h2 class="accordion-header" id="headingGrupo${grupoId}">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${grupoId}" aria-expanded="false" aria-controls="${grupoId}">
-                        ${grupo} (Total: ${totalGrupo} alumnos)
-                      </button>
-                    </h2>
-                    <div id="${grupoId}" class="accordion-collapse collapse" aria-labelledby="headingGrupo${grupoId}">
-                      <div class="accordion-body">
-                        <label for='${fechaId}' class='form-label'>Fecha:</label>
-                        <input type='date' class='form-control mb-2' id='${fechaId}' value='${getCurrentDate()}'>
-                        <label for='actividad-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}' class='form-label'>Actividad:</label>
-                        <select class='form-select mb-2' id='actividad-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}'>
-                          ${generarOpcionesLabProblem(10)}
-                        </select>
-                        <table class='table table-bordered text-center'>
-                          <thead>
-                            <tr>
-                              <th>Orden</th>
-                              <th>Apellido y Nombre</th>
-                              <th>D.N.I.</th>
-                              <th>Asistencia</th>
-                            </tr>
-                          </thead>
-                          <tbody>`;
+        <div class="accordion-item mb-3">
+          <h2 class="accordion-header" id="headingGrupo${grupoId}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${grupoId}" aria-expanded="false" aria-controls="${grupoId}">
+              ${grupo} (Total: ${totalGrupo} alumnos)
+            </button>
+          </h2>
+          <div id="${grupoId}" class="accordion-collapse collapse" aria-labelledby="headingGrupo${grupoId}">
+            <div class="accordion-body">
+              <label for='${fechaId}' class='form-label'>Fecha:</label>
+              <input type='date' class='form-control mb-2' id='${fechaId}' value='${getCurrentDate()}'>
+              <label for='actividad-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}' class='form-label'>Actividad:</label>
+              <select class='form-select mb-2' id='actividad-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}'>
+                ${generarOpcionesLabProblem(10)}
+              </select>
+      
+              <!-- Botón para marcar todos como presentes -->
+              <button class='btn btn-success mb-2 colocar-todos-presentes' data-grupo="${grupo}" data-materia="${materia}">Poner todos presentes</button>
+      
+              <table class='table table-bordered text-center'>
+                <thead>
+                  <tr>
+                    <th>Orden</th>
+                    <th>Apellido y Nombre</th>
+                    <th>D.N.I.</th>
+                    <th>Asistencia</th>
+                  </tr>
+                </thead>
+                <tbody>`;
+
 
         alumnos[materia][grupo].forEach((nombre, index) => {
           const dni = parseInt(nombre.dni);
@@ -97,7 +102,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         html += `</tbody></table>
                         <button class='btn btn-primary mt-2 cargar-asistencia' data-grupo="${grupo}" data-materia="${materia}" data-fecha="${fechaId}">Cargar Asistencia</button>
-                        <button class='btn btn-secondary mt-2 colocar-todos-presentes' data-grupo="${grupo}" data-materia="${materia}">Colocar a todos presentes</button>
                       </div>
                     </div>
                   </div>`;
@@ -110,19 +114,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     asistenciaDiv.innerHTML = html;
 
-    // Agregar el evento al botón de "Colocar a todos presentes"
     document.querySelectorAll('.colocar-todos-presentes').forEach(button => {
       button.addEventListener('click', function () {
         const grupo = this.getAttribute('data-grupo');
         const materia = this.getAttribute('data-materia');
-
-        // Cambiar todos los selectores a "Presente"
+    
+        // Cambiar todos los selectores de asistencia a "Presente"
         const selects = document.querySelectorAll(`select[data-grupo="${grupo}"][data-materia="${materia}"]`);
         selects.forEach(select => {
           select.value = 'P';
         });
       });
     });
+    
 
     document.querySelectorAll('.cargar-asistencia').forEach(button => {
       button.addEventListener('click', async function () {
@@ -171,7 +175,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         };
 
         document.getElementById("spinnerFB").classList.remove("d-none"); // Mostrar spinner
-        
+
         try {
           const success = await guardarAsistencia(asistenciaSeleccionada);
           if (success) {

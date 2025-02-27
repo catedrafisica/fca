@@ -1,4 +1,6 @@
 import { getAlumnos } from './baseDatos.js';
+import { editarObservacion } from "./firebase.js";
+
 
 async function mostrarAlumnosFB() {
     const alumnos = await getAlumnos();
@@ -308,7 +310,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                 // Botón Editar
                 const btnEditar = document.createElement("button");
-                btnEditar.textContent = "Editar";
+                btnEditar.textContent = "Editar Obs.";
                 btnEditar.className = "btn btn-primary btn-sm me-2"; // Espacio a la derecha
                 btnEditar.addEventListener("click", function () {
                     pObs.classList.add("d-none"); // Oculta el párrafo
@@ -319,16 +321,22 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                 // Botón Guardar
                 const btnGuardar = document.createElement("button");
-                btnGuardar.textContent = "Guardar";
+                btnGuardar.textContent = "Guardar Obs.";
                 btnGuardar.className = "btn btn-success btn-sm d-none"; // Inicialmente oculto
-                btnGuardar.addEventListener("click", function () {
-                    pObs.textContent = textareaObs.value.trim() || "Sin observaciones.";
+                btnGuardar.addEventListener("click", async function () {
+                    const nuevaObservacion = textareaObs.value.trim();
+                    pObs.textContent = nuevaObservacion || "Sin observaciones.";
                     pObs.classList.remove("d-none"); // Muestra el párrafo
                     textareaObs.classList.add("d-none"); // Oculta el textarea
                     btnGuardar.classList.add("d-none"); // Oculta el botón guardar
 
-                    // Guardar en la estructura de datos (opcionalmente en base de datos)
-                    alumno.observaciones = textareaObs.value.trim();
+                    // Guardar en Firebase
+                    const resultado = await editarObservacion(alumno.dni, nuevaObservacion);
+                    if (resultado) {
+                        console.log("Observación guardada correctamente en Firebase.");
+                    } else {
+                        console.error("Error al guardar la observación en Firebase.");
+                    }
                 });
                 btnContainer.appendChild(btnGuardar);
 

@@ -46,57 +46,51 @@ async function agregarDatosAFirebase(datos) {
   }
 };
 // Llamar a la función con tus datos
-// agregarDatosAFirebase(tuObjetoJSON);
-
+// agregarDatosAFirebase(tuObjetoJSON) Para agregar nuevo completar el array y colocar true en ejecutarCargaAlumnos;
+const ejecutarCargaAlumnos = false;
 const datos = [
-  ['Física II', 'Grupo 1', 'BENITEZ, ADRIANO EZEQUIEL', '25001', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
-  ['Física II', 'Grupo 1', 'BAEZ, ENZO', '25002', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
-  ['Física II', 'Grupo 1', 'CEQUEIRA, LUCA', '25003', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
-  ['Física II', 'Grupo 2', 'BRITEZ, ANALIA', '25004', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
-  ['Física II', 'Grupo 2', 'CORIA, FABIO LEONEL', '25005', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
-  ['Física II', 'Grupo 3', 'OLIVEDA, NICOLAS', '25006', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
-  ['Física II', 'Grupo 3', 'SILVA, JUAN MARTÍN', '25007', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
-  ['Física II', 'Grupo 4', 'GATTO, NILSON FABRICIO', '25008', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
-  ['Física II', 'Grupo 4', 'OBREGÓN TORRENT, IGNACIO', '25009', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
-  ['Física II', 'Grupo 4', 'PEREIRA, ROSARIO ITATÍ', '25010', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
-  ['Física II', 'Grupo 5', 'GÓMEZ, RAMÓN ALBERTO', '25011', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
-  ['Física II', 'Grupo 5', 'TESTI, OCTAVIO', '25012', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente']
+  ['Física II', 'Grupo 1', 'BUSTOS, PABLO FACUNDO', '46856019', 'pablobusto87@gmail.com', '+54 3644 335993', 'Pendiente'],
+  ['Física II', 'Grupo 2', 'CAÑETE, LUIS ALCIBIADES', '39862157', 'luiscaa97@gmail.com', '+54 3773 493495', 'Pendiente']
+
 ];
 
-for (let i = 0; i < datos.length; i++) {
-  const [materia, grupo, name, dni, mail, celular, condicion] = datos[i];
-  const datosEstudiantes = {
-    "data": {
-      [`${materia}`]: {
-        [`${grupo}`]: [
-          {
-            "name": name,
-            "dni": dni,
-            "mail": mail,
-            "celular": celular,
-            "condicion": condicion,
-            "asistencia": [
-              {
-                "actividad": null,
-                "fecha": null,
-                "valor": null
-              }
-            ],
-            "notas": [
-              {
-                "actividad": null,
-                "fecha": null,
-                "valor": null
-              }
-            ],
-            "observaciones": ""
-          }
-        ]
+if (ejecutarCargaAlumnos) {
+  for (let i = 0; i < datos.length; i++) {
+    const [materia, grupo, name, dni, mail, celular, condicion] = datos[i];
+    const datosEstudiantes = {
+      "data": {
+        [`${materia}`]: {
+          [`${grupo}`]: [
+            {
+              "name": name,
+              "dni": dni,
+              "mail": mail,
+              "celular": celular,
+              "condicion": condicion,
+              "asistencia": [
+                {
+                  "actividad": null,
+                  "fecha": null,
+                  "valor": null
+                }
+              ],
+              "notas": [
+                {
+                  "actividad": null,
+                  "fecha": null,
+                  "valor": null
+                }
+              ],
+              "observaciones": ""
+            }
+          ]
+        }
       }
-    }
+    };
+    agregarDatosAFirebase(datosEstudiantes);
   };
-  //    agregarDatosAFirebase(datosEstudiantes);
 };
+
 
 
 async function obtenerEstudiantes() {
@@ -137,7 +131,7 @@ export async function guardarAsistencia(asistenciaSeleccionada) {
         } else {
           // Buscar si ya existe una asistencia con la misma actividad y fecha
           const actividadIndex = asistenciaActual.findIndex(a => a.actividad === alumno.registro.actividad && a.fecha === alumno.registro.fecha);
-          
+
           if (actividadIndex !== -1) {
             // Actualizar la asistencia existente con el nuevo valor
             asistenciaActual[actividadIndex] = alumno.registro;
@@ -168,4 +162,25 @@ export async function guardarAsistencia(asistenciaSeleccionada) {
 // Exportamos la base de datos para que otros archivos puedan usarla
 export { db };
 
+
+
+export async function editarObservacion(dni, nuevaObservacion) {
+  try {
+    const estudianteRef = doc(db, "estudiantes", dni);
+    const estudianteSnap = await getDoc(estudianteRef);
+
+    if (estudianteSnap.exists()) {
+      // Actualizar la observación en Firestore
+      await updateDoc(estudianteRef, { observaciones: nuevaObservacion });
+      console.log(`Observación actualizada para el estudiante con DNI: ${dni}`);
+      return true;
+    } else {
+      console.error("El estudiante no existe en la base de datos.");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error al actualizar la observación: ", error);
+    return false;
+  }
+}
 
