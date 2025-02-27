@@ -1,4 +1,5 @@
 import { getAlumnos } from './baseDatos.js';
+import { guardarNotas } from './firebase.js';
 
 async function mostrarAlumnosFB() {
     const alumnos = await getAlumnos();
@@ -121,13 +122,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         document.querySelectorAll('.cargar-notas').forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', async function () {
                 const grupo = this.getAttribute('data-grupo');
                 const materia = this.getAttribute('data-materia');
                 const fechaId = this.getAttribute('data-fecha');
-                const actividadId = this.getAttribute('data-actividad');
+                const actividadId = this.getAttribute('data-actividad'); // Nueva línea para obtener la actividad
                 const fecha = document.getElementById(fechaId).value;
-                const actividad = document.getElementById(actividadId).value;
+                const actividad = document.getElementById(actividadId).value; // Obtener la actividad seleccionada
+
+                if (!actividad) {
+                    mostrarAlerta("⚠️ Por favor, seleccione una actividad evaluada antes de continuar.", "danger");
+                    return;
+                }
 
                 const inputs = document.querySelectorAll(`input.nota[data-grupo="${grupo}"][data-materia="${materia}"]`);
 
@@ -137,14 +143,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                 // Validar que todas las notas estén completas
                 inputs.forEach(input => {
                     const studentName = input.closest('tr').querySelector('td:nth-child(2)').textContent;
-                    const dni = input.closest('tr').querySelector('td:nth-child(3)').textContent;
+                    const dni = input.closest('tr').querySelector('td:nth-child(3)').textContent.replace(/\./g, ''); // Eliminar puntos del DNI
                     const nota = input.value ? parseFloat(input.value) : null;
 
                     if (nota === null || isNaN(nota) || nota > 10 || nota < 0) {
                         camposIncompletos = true;
                     }
-
-                    //                    const calificacion = clasificarNota(nota);
 
                     notasSeleccionadas.push({
                         name: studentName,
@@ -152,33 +156,39 @@ document.addEventListener("DOMContentLoaded", async function () {
                         materia: materia,
                         grupo: grupo,
                         registro: {
-                            actividad: actividad,
+                            actividad: actividad, // Incluir la actividad en el registro
                             fecha: fecha,
                             valor: nota
                         }
                     });
-
-
-
                 });
-
-                // Validar que se haya seleccionado una actividad
-                if (!actividad) {
-                    mostrarAlerta("⚠️ Por favor, seleccione una actividad evaluada antes de continuar.", "danger");
-                    return;
-                }
 
                 if (camposIncompletos) {
                     mostrarAlerta("⚠️ Por favor, complete todas las notas antes de continuar.", "danger");
                     return;
                 }
 
-                // Mostrar éxito y limpiar el formulario después de cerrar el modal
-                mostrarAlerta(`✅ Notas de ${grupo} de ${materia} en la fecha ${fecha} para ${actividad} cargadas correctamente.`, "success", function () {
-                    console.log(notasSeleccionadas);
-                    resetearFormulario(grupo, materia, fechaId, actividadId);
-                });
+                document.getElementById("spinnerFB").classList.remove("d-none"); // Mostrar spinner
 
+                try {
+                    const success = await guardarNotas(notasSeleccionadas);
+                    if (success) {
+                        mostrarAlerta(
+                            `✅ Notas de ${grupo} de ${materia} en la fecha ${fecha} para la actividad "${actividad}" se han cargado correctamente...`,
+                            "success",
+                            function () {
+                                resetearFormulario(grupo, materia, fechaId, actividadId);
+                            }
+                        );
+                    } else {
+                        mostrarAlerta("⛔ Hubo un error al cargar las notas, por favor intenta nuevamente.", "danger");
+                    }
+                } catch (error) {
+                    console.error("Error al cargar las notas:", error);
+                    mostrarAlerta("⛔ Hubo un error al cargar las notas, por favor intenta nuevamente.", "danger");
+                } finally {
+                    document.getElementById("spinnerFB").classList.add("d-none"); // Ocultar spinner
+                }
             });
         });
 

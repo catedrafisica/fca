@@ -49,8 +49,8 @@ async function agregarDatosAFirebase(datos) {
 // agregarDatosAFirebase(tuObjetoJSON) Para agregar nuevo completar el array y colocar true en ejecutarCargaAlumnos;
 const ejecutarCargaAlumnos = false;
 const datos = [
-  ['Física II', 'Grupo 1', 'BUSTOS, PABLO FACUNDO', '46856019', 'pablobusto87@gmail.com', '+54 3644 335993', 'Pendiente'],
-  ['Física II', 'Grupo 2', 'CAÑETE, LUIS ALCIBIADES', '39862157', 'luiscaa97@gmail.com', '+54 3773 493495', 'Pendiente']
+  ['Física i', 'Grupo A', 'ALUMNO, PRUEBA 1', '12025', 'pablobusto87@gmail.com', '+54 3644 335993', 'Activo'],
+  ['Física i', 'Grupo A', 'ALUMNO, PRUEBA 2', '22025', 'luiscaa97@gmail.com', '+54 3773 493495', 'Pendiente']
 
 ];
 
@@ -159,8 +159,57 @@ export async function guardarAsistencia(asistenciaSeleccionada) {
   }
 }
 
+
+export async function guardarNotas(notasSeleccionadas) {
+  try {
+    for (const alumno of notasSeleccionadas) {
+      const alumnoRef = doc(db, "estudiantes", alumno.dni);
+      const alumnoSnap = await getDoc(alumnoRef);
+
+      if (alumnoSnap.exists()) {
+        let notasActuales = alumnoSnap.data().notas || [];
+
+        // Buscar si hay una nota con valores nulos
+        const notaIndex = notasActuales.findIndex(n => (n.materia === null || n.fecha === null || n.valor === null || n.actividad === null));
+
+        if (notaIndex !== -1) {
+          // Reemplazar la nota vacía con la nueva
+          notasActuales[notaIndex] = alumno.registro;
+        } else {
+          // Buscar si ya existe una nota con la misma materia, actividad y fecha
+          const materiaIndex = notasActuales.findIndex(n => n.materia === alumno.registro.materia && n.actividad === alumno.registro.actividad && n.fecha === alumno.registro.fecha);
+
+          if (materiaIndex !== -1) {
+            // Actualizar la nota existente con el nuevo valor
+            notasActuales[materiaIndex] = alumno.registro;
+          } else {
+            // Agregar la nueva nota si no hay coincidencias
+            notasActuales.push(alumno.registro);
+          }
+        }
+
+        // Actualizar el documento con la nueva lista de notas
+        await updateDoc(alumnoRef, { notas: notasActuales });
+      } else {
+        // Si el documento NO existe, lo creamos con los datos básicos y la primera nota
+        await setDoc(alumnoRef, {
+          nombre: alumno.name,
+          dni: alumno.dni,
+          notas: [alumno.registro] // Se guarda como un array con el primer registro de nota
+        });
+      }
+    }
+    return true;
+  } catch (error) {
+    console.error("Error al guardar las notas: ", error);
+    return false;
+  }
+}
+
 // Exportamos la base de datos para que otros archivos puedan usarla
 export { db };
+
+
 
 
 
