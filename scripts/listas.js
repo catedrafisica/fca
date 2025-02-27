@@ -2,7 +2,7 @@ import { getAlumnos } from './baseDatos.js';
 
 async function mostrarAlumnosFB() {
     const alumnos = await getAlumnos();
-//    console.log("Alumnos cargados:", alumnos);
+    //    console.log("Alumnos cargados:", alumnos);
     return alumnos;
 };
 
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         let html = "";
         Object.keys(alumnos)
-            .sort()
+            .sort((a, b) => a.localeCompare(b)) // Ordenar materias alfabéticamente
             .forEach((materia, i) => {
                 // Calculamos el total de alumnos por materia
                 const totalMateria = Object.values(alumnos[materia]).reduce((acc, grupo) => acc + grupo.length, 0);
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                                     <option value="Todos">Todos los alumnos</option>`;
 
                 Object.keys(alumnos[materia])
-                    .sort()
+                    .sort((a, b) => a.localeCompare(b)) // Ordenar grupos alfabéticamente
                     .forEach((grupo) => {
                         // Calculamos el total de alumnos por grupo
                         const totalGrupo = alumnos[materia][grupo].length;

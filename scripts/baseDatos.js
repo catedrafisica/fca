@@ -15,4 +15,19 @@ async function esperarEstudiantes() {
 // Exportar la función, no el resultado directo
 export async function getAlumnos() {
     return await esperarEstudiantes();
-}
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+    const fechaEspecifica = new Date("2025-02-27"); // Cambia esta fecha según lo necesites
+
+    const fechaFormateada = fechaEspecifica.toLocaleDateString("es-ES", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+
+    document.querySelectorAll("#actualSIU").forEach(elemento => {
+        elemento.textContent = `${fechaFormateada}.`;
+    });
+});
+

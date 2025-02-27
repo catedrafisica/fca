@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Llenar select de materias
         Object.keys(alumnosData.data)
-            .sort()
+            .sort((a, b) => a.localeCompare(b))
             .forEach(materia => {
                 const option = document.createElement("option");
                 option.value = materia;
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             if (materia) {
                 const grupos = Object.keys(alumnosData.data[materia])
-                    .sort();
+                    .sort((a, b) => a.localeCompare(b));
                 grupos.forEach(grupo => {
                     const option = document.createElement("option");
                     option.value = grupo;
@@ -121,7 +121,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             if (dni) {
                 // Buscar al alumno en la estructura de datos
-                const alumnos = alumnosData.data[materia][grupo];
+                const alumnos = alumnosData.data[materia][grupo]
+                    .sort((a, b) => a.name.localeCompare(b.name));
                 const alumno = alumnos.find(a => a.dni === dni);
 
                 // Crear elementos de la ficha de alumno
