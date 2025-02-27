@@ -1,12 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, setDoc, getDocs, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+const [TU_API_KEY, TU_AUTH_DOMAIN, TU_PROJECT_ID, TU_STORAGE_BUCKET, TU_MESSAGING_SENDER_ID, TU_APP_ID] = ["AIzaSyB2fn6CJSJCnfpwpvR6Bv0j8ep5zr7RQ7s", "bd-catedra-fisica-i-y-ii.firebaseapp.com", "bd-catedra-fisica-i-y-ii", "bd-catedra-fisica-i-y-ii.appspot.com", "334162853863", "1:334162853863:web:74be4219443b957e5c8742"];
 
-const TU_API_KEY = "AIzaSyB2fn6CJSJCnfpwpvR6Bv0j8ep5zr7RQ7s";
-const TU_AUTH_DOMAIN = "bd-catedra-fisica-i-y-ii.firebaseapp.com";
-const TU_PROJECT_ID = "bd-catedra-fisica-i-y-ii";
-const TU_STORAGE_BUCKET = "bd-catedra-fisica-i-y-ii.appspot.com";
-const TU_MESSAGING_SENDER_ID = "334162853863";
-const TU_APP_ID = "1:334162853863:web:74be4219443b957e5c8742";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, setDoc, getDocs, doc, updateDoc, getDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -22,11 +17,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Esta funcion ocupo para cargar nuevos alumnos en forma manual
 async function agregarDatosAFirebase(datos) {
   for (const materia in datos.data) {
     for (const grupo in datos.data[materia]) {
       for (const estudiante of datos.data[materia][grupo]) {
-        const estudianteRef = doc(db, "estudiantes", estudiante.dni.toString()); // Asegúrate de que 'dni' sea un string
+        const estudianteRef = doc(db, "estudiantes", estudiante.dni.toString());
 
         try {
           await setDoc(estudianteRef, {
@@ -48,15 +44,14 @@ async function agregarDatosAFirebase(datos) {
       }
     }
   }
-}
-
-
+};
 // Llamar a la función con tus datos
 // agregarDatosAFirebase(tuObjetoJSON);
 
 const datos = [
-['Física II','Grupo 1','ABALO, BLAS AUGUSTO','46717380','abaloblas@gmail.com', null,'Activo']
-]
+  //  [ materia, grupo,    nombre,                dni,         mail ,               celular,condicion]
+  ['Física II', 'Grupo 1', 'ABALO, BLAS AUGUSTO', '46717380', 'abaloblas@gmail.com', '+54 379 XXXXXX', 'Activo']
+];
 
 for (let i = 0; i < datos.length; i++) {
   const [materia, grupo, name, dni, mail, celular, condicion] = datos[i];
@@ -90,13 +85,8 @@ for (let i = 0; i < datos.length; i++) {
       }
     }
   };
-
-//  agregarDatosAFirebase(datosEstudiantes);
-
+  //    agregarDatosAFirebase(datosEstudiantes);
 };
-
-
-
 
 
 async function obtenerEstudiantes() {
@@ -112,7 +102,60 @@ async function obtenerEstudiantes() {
   } catch (error) {
     console.error("Error al obtener estudiantes:", error);
   }
-}
-
+};
 // Llamar a la función
 export const alumnosFirebase = obtenerEstudiantes();
+
+
+
+
+export async function guardarAsistencia(asistenciaSeleccionada) {
+  try {
+    for (const alumno of asistenciaSeleccionada) {
+      const alumnoRef = doc(db, "estudiantes", alumno.dni);
+      const alumnoSnap = await getDoc(alumnoRef);
+
+      if (alumnoSnap.exists()) {
+        let asistenciaActual = alumnoSnap.data().asistencia || [];
+
+        // Buscar si hay una asistencia con valores nulos
+        const asistenciaIndex = asistenciaActual.findIndex(a => a.actividad === null && a.fecha === null && a.valor === null);
+
+        if (asistenciaIndex !== -1) {
+          // Reemplazar la asistencia vacía con la nueva
+          asistenciaActual[asistenciaIndex] = alumno.registro;
+        } else {
+          // Buscar si ya existe una asistencia con la misma actividad y fecha
+          const actividadIndex = asistenciaActual.findIndex(a => a.actividad === alumno.registro.actividad && a.fecha === alumno.registro.fecha);
+          
+          if (actividadIndex !== -1) {
+            // Actualizar la asistencia existente con el nuevo valor
+            asistenciaActual[actividadIndex] = alumno.registro;
+          } else {
+            // Agregar la nueva asistencia si no hay coincidencias
+            asistenciaActual.push(alumno.registro);
+          }
+        }
+
+        // Actualizar el documento con la nueva asistencia
+        await updateDoc(alumnoRef, { asistencia: asistenciaActual });
+      } else {
+        // Si el documento NO existe, lo creamos con los datos básicos y la asistencia
+        await setDoc(alumnoRef, {
+          nombre: alumno.name,
+          dni: alumno.dni,
+          asistencia: [alumno.registro] // Se guarda como un array con el primer registro
+        });
+      }
+    }
+    return true;
+  } catch (error) {
+    console.error("Error al guardar la asistencia: ", error);
+    return false;
+  }
+}
+
+// Exportamos la base de datos para que otros archivos puedan usarla
+export { db };
+
+

@@ -2,7 +2,6 @@ import { getAlumnos } from './baseDatos.js';
 
 async function mostrarAlumnosFB() {
     const alumnos = await getAlumnos();
-    console.log("Alumnos cargados:", alumnos);
     return alumnos;
 };
 

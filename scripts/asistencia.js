@@ -1,8 +1,9 @@
 import { getAlumnos } from './baseDatos.js';
+import { guardarAsistencia } from './firebase.js';
+
 
 async function mostrarAlumnosFB() {
   const alumnos = await getAlumnos();
-  console.log("Alumnos cargados:", alumnos);
   return alumnos;
 };
 
@@ -124,7 +125,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     document.querySelectorAll('.cargar-asistencia').forEach(button => {
-      button.addEventListener('click', function () {
+      button.addEventListener('click', async function () {
         const grupo = this.getAttribute('data-grupo');
         const materia = this.getAttribute('data-materia');
         const fechaId = this.getAttribute('data-fecha');
@@ -153,7 +154,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
           asistenciaSeleccionada.push({
             name: studentName,
-            dni: dni,
+            dni: dni.replace(/\./g, ''),
             materia: materia,
             grupo: grupo,
             registro: {
@@ -167,14 +168,35 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (!allFieldsCompleted) {
           mostrarAlerta('⚠️ Por favor complete todos los campos de asistencia antes de continuar.', 'danger');
           return;
+        };
+
+        document.getElementById("spinnerContainer").classList.remove("d-none"); // Mostrar spinner
+        
+        try {
+          const success = await guardarAsistencia(asistenciaSeleccionada);
+          if (success) {
+            mostrarAlerta(
+              `✅ Asistencia de ${grupo} de ${materia} en la fecha ${fecha} con actividad "${actividad}" se está cargada...`,
+              "success",
+              async function () {
+                console.log(asistenciaSeleccionada);
+                resetForm();
+                setTimeout(function () {
+                  const modal = bootstrap.Modal.getInstance(document.getElementById("alertModal"));
+                  modal.hide();
+                }, 2000);
+              }
+            );
+          } else {
+            mostrarAlerta("⛔ Hubo un error al cargar la asistencia, por favor intenta nuevamente.", "danger");
+          }
+        } catch (error) {
+          console.error("Error al cargar la asistencia:", error);
+          mostrarAlerta("⛔ Hubo un error al cargar la asistencia, por favor intenta nuevamente.", "danger");
+        } finally {
+          document.getElementById("spinnerContainer").classList.add("d-none"); // Ocultar spinner
         }
 
-        // Mostrar la alerta de éxito incluyendo la actividad seleccionada
-        mostrarAlerta(`✅ Asistencia de ${grupo} de ${materia} en la fecha ${fecha} con actividad "${actividad}" cargada correctamente.`, 'success', function () {
-          console.log(asistenciaSeleccionada);
-          // Reiniciar los campos del formulario
-          resetForm();
-        });
 
       });
     });

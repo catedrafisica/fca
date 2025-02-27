@@ -3,7 +3,7 @@ class Alumnos {
         this.data = {};
     }
 
-    agregarAlumno(materia, grupo, nombre, dni, condicion = "Activo", mail = null, celular = null) {
+    agregarAlumno(materia, grupo, nombre, dni, condicion = "Activo", mail = null, celular = null, asistencia = [], notas = [], observaciones = "") {
         if (!this.data[materia]) {
             this.data[materia] = {};
         }
@@ -16,12 +16,12 @@ class Alumnos {
             mail: mail,
             celular: celular,
             condicion: condicion,
-            asistencia: [{ actividad: null, fecha: null, valor: null }],
-            notas: [{ actividad: null, fecha: null, valor: null }],
-            observaciones: ""
+            asistencia: asistencia.length ? asistencia : [{ actividad: null, fecha: null, valor: null }],
+            notas: notas.length ? notas : [{ actividad: null, fecha: null, valor: null }],
+            observaciones: observaciones
         });
-    }
-
+    };
+/* 
     agregarNota(materia, grupo, dni, actividad, valor, fecha) {
         if (!this.data[materia] || !this.data[materia][grupo]) {
             console.log("Materia o grupo no encontrado.");
@@ -141,6 +141,7 @@ class Alumnos {
 
         console.log(`Condición actualizada para ${alumno.name}: ${nuevaCondicion}`);
     }
+ */    
 }
 
 export default Alumnos;
