@@ -162,7 +162,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         { title: 'FII - 08° Mesa de Examen', start: '2025-10-17', className: 'event-final' },
                         { title: 'FII - 09° Mesa de Examen', start: '2025-11-07', className: 'event-final' },
                         { title: 'FII - 10° Mesa de Examen', start: '2025-12-19', className: 'event-final' },
-
+                        
+                        //Info
+                        { title: 'Reunión Consejo Directivo de Facultad\n(Resuelven situación de Pendientes de Readmisión)', start: '2025-03-07', className: 'event-primary' },
 
 
                     ];
