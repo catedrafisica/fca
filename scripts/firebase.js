@@ -49,8 +49,34 @@ async function agregarDatosAFirebase(datos) {
 // agregarDatosAFirebase(tuObjetoJSON) Para agregar nuevo completar el array y colocar true en ejecutarCargaAlumnos;
 const ejecutarCargaAlumnos = false;
 const datos = [
-  ['Física i', 'Grupo A', 'ALUMNO, PRUEBA 1', '12025', 'pablobusto87@gmail.com', '+54 3644 335993', 'Activo'],
-  ['Física i', 'Grupo A', 'ALUMNO, PRUEBA 2', '22025', 'luiscaa97@gmail.com', '+54 3773 493495', 'Pendiente']
+  ['Física I', 'Grupo Réplica', 'ANTONELLI, NAHUEL EXEQUIEL', '44384856', 'antonellinahuel2002@outlook.com.ar', null, 'Activo'],
+  ['Física I', 'Grupo Réplica', 'AYALA, JUAN ESTEBAN', '44743202', 'estebiayala@hotmail.com', '+54 3777 209454', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'AYALA, LUCAS ALBERTO', '41789490', 'lucasayala.arc@gmail.com', '+54 3794 339660', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'BARRIOS, LEANDRO JAVIER', '45645678', 'leandrobarrios175@gmail.com', null, 'Activo'],
+  ['Física I', 'Grupo Réplica', 'BAZZI FLEITAS, LUCIA ANTONELLA', '41281636', 'luciaantonellabazzifleitas@gmail.com', '+54 3794 287769', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'CAÑETE, LUIS ALCIBIADES', '39862157', 'luiscaa97@gmail.com', '+54 3773 493495', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'CASAS, DAVID DANTE', '42865427', 'deividcasas09@gmail.com', '+54 3731 623263', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'CORDOBA, RENATO TOMAS', '45879852', 'renatocordoba123@gmail.com', '+54 3624 626088', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'DA SILVA TAVARES, RAUL', '30249166', 'rdasiltava@hotmail.com', '+54 3794 682436', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'GOMEZ, AGUSTINA', '45856979', 'agusgomez20058@gmail.com', '+54 3731 508642', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'GOMEZ, FRANCISCO EZEQUIEL', '45103279', 'frangz420@gmail.com', '+54 362 4870261', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'GONZALEZ, JONATHAN LEONEL', '46605581', 'titogonzal72@gmail.com', '+54 3644 678757', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'GRENON, IGNACIO TAHIEL', '43700700', 'ignaciotahielgrenon@gmail.com', '+54 3764 604948', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'MONTIEL, MAGALI', '43108974', 'maguimontiel15@gmail.com', '+54 3773 526497', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'MONZON, MARIA ITATI', '45646144', 'mariamonzonitati13@gmail.com', '+54 3794 350022', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'MOREIRA ALVAREZ, MARIA PAZ', '45022321', 'pazporqui@gmail.com', '+54 3773 465508', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'PARRA, FRANCISCO JAVIER', '43622747', 'fp388122@gmail.com', '+54 3843 458823', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'POGONZA, NICOLAS', '38120197', 'nicopogonza@gmail.com', '+54 3731 646955', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'RODRIGUEZ ARSUAGA, MARIA SOL', '46242436', 'mariasolrodriguezarsuaga@gmail.com', '+54 3795 150803', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'ROJAS MENDIAZ, DIOMEDES GUILLERMO', '46076800', 'guillermo.rojas0806@gmail.com', '+54 3794 961528', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'SANCHEZ, FABRICIO EZEQUIEL', '45902472', 'fabrisan2004@gmail.com', null, 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'SCHENEBERGER, VALENTIN', '45604806', 'schenebergervalentin@gmail.com', '+54 3704 610216', 'Pendiente'], 
+  ['Física I', 'Grupo Réplica', 'SCHUGURENSKY, IGNACIO', '46600066', 'npschugu@gmail.com', '+54 3777 238343', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'SEGOVIA, SANTIAGO', '46243548', 'saraviasego@gmail.com', '+54 3773 419116', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'SILVERO, LOURDES CONSTANZA', '46085281', 'cotysilvero@gmail.com', '+54 3754 477773', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'SORIA ARTAVE, ANGELA ESTEFANIA', '40911421', 'angelasoria73@gmail.com', null, 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'SOSA BOFILL, TOMAS PABLO', '40284075', 'sbpablotomas@gmail.com', '+54 3794 712435', 'Activo'], 
+  ['Física I', 'Grupo Réplica', 'STEVENS, FEDERICO DAVID', '44624778', 'federicodavidst@gmail.com', null, 'Activo']
 
 ];
 

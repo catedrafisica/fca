@@ -25,43 +25,6 @@
 
   <!-- Incluye FullCalendar CSS -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
-  <!-- Incluye tu CSS personalizado -->
-  <style>
-    .event-teoria {
-      background-color: #6897ca !important;
-      /* Azul */
-      border-color: #007bff !important;
-      color: white !important;
-    }
-
-    .event-laboratorio {
-      background-color: #70be82 !important;
-      /* Verde */
-      border-color: #28a745 !important;
-      color: white !important;
-    }
-
-    .event-practico {
-      background-color: #645936 !important;
-      /* Rojo */
-      border-color: #d1dc35 !important;
-      color: white !important;
-    }
-
-    .event-final {
-      background-color: #636363 !important;
-      /* Rojo */
-      border-color: #141414 !important;
-      color: white !important;
-    }
-
-    .event-parciales {
-      background-color: #c56972 !important;
-      /* Rojo */
-      border-color: #dc3545 !important;
-      color: white !important;
-    }
-  </style>
 </head>
 <!-- Fin Head -->
 
@@ -84,8 +47,8 @@
           <li class="nav-item"><a class="nav-link text-success" href="./listas.html" active>Listas</a></li>
           <li class="nav-item"><a class="nav-link" href="./ficha.html">Ficha del Alumno</a></li>
           <li class="nav-item"><a class="nav-link" href="./asistencia.html">Asistencia</a></li>
-          <li class="nav-item"><a class="nav-link" href="./calificaciones.html" active>Calificaciones</a>
-          </li>
+          <li class="nav-item"><a class="nav-link" href="./calificaciones.html" active>Calificaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Información</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Gráficos</a></li>
         </ul>
       </div>
@@ -98,7 +61,8 @@
     <h6 class="text-center mb-4 fs-3 d-none" id="tituloListas">📋 Listas de Alumnos</h6>
     <!-- Descripción de Listas -->
     <div id="descripcionListas" class="mt-3 text-center text-secondary d-none">* Seleccionar la materia y el grupo,
-      elegir todos o un grupo y generar la planilla en PDF.<br>Última actualización con datos del SIU Guaraní: <strong id="actualSIU"></strong></div>
+      elegir todos o un grupo y generar la planilla en PDF.<br>Última actualización con datos del SIU Guaraní: <strong
+        id="actualSIU"></strong></div>
     <div class="d-flex justify-content-center mb-4" id="spinnerContainer">
       <div class="spinner-border text-success" role="status">
         <span class="visually-hidden">Cargando...</span>
@@ -153,7 +117,7 @@
   <script type="module" src="./scripts/listas.js"></script>
   <script type="module" src="./scripts/baseDatos.js"></script>
   <script type="module" src="./scripts/firebase.js"></script>
- 
+
 
 
 </body>
