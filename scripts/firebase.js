@@ -49,8 +49,18 @@ async function agregarDatosAFirebase(datos) {
 // agregarDatosAFirebase(tuObjetoJSON);
 
 const datos = [
-  //  [ materia, grupo,    nombre,                dni,         mail ,               celular,condicion]
-  ['Física II', 'Grupo 1', 'ABALO, BLAS AUGUSTO', '46717380', 'abaloblas@gmail.com', '+54 379 XXXXXX', 'Activo']
+  ['Física II', 'Grupo 1', 'BENITEZ, ADRIANO EZEQUIEL', '25001', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
+  ['Física II', 'Grupo 1', 'BAEZ, ENZO', '25002', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
+  ['Física II', 'Grupo 1', 'CEQUEIRA, LUCA', '25003', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
+  ['Física II', 'Grupo 2', 'BRITEZ, ANALIA', '25004', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
+  ['Física II', 'Grupo 2', 'CORIA, FABIO LEONEL', '25005', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
+  ['Física II', 'Grupo 3', 'OLIVEDA, NICOLAS', '25006', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
+  ['Física II', 'Grupo 3', 'SILVA, JUAN MARTÍN', '25007', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
+  ['Física II', 'Grupo 4', 'GATTO, NILSON FABRICIO', '25008', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
+  ['Física II', 'Grupo 4', 'OBREGÓN TORRENT, IGNACIO', '25009', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
+  ['Física II', 'Grupo 4', 'PEREIRA, ROSARIO ITATÍ', '25010', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
+  ['Física II', 'Grupo 5', 'GÓMEZ, RAMÓN ALBERTO', '25011', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente'],
+  ['Física II', 'Grupo 5', 'TESTI, OCTAVIO', '25012', 'usuario@dominio.com', '+54 379 XXXXXX', 'Pendiente']
 ];
 
 for (let i = 0; i < datos.length; i++) {

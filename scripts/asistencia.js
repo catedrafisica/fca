@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           return;
         };
 
-        document.getElementById("spinnerContainer").classList.remove("d-none"); // Mostrar spinner
+        document.getElementById("spinnerFB").classList.remove("d-none"); // Mostrar spinner
         
         try {
           const success = await guardarAsistencia(asistenciaSeleccionada);
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.error("Error al cargar la asistencia:", error);
           mostrarAlerta("⛔ Hubo un error al cargar la asistencia, por favor intenta nuevamente.", "danger");
         } finally {
-          document.getElementById("spinnerContainer").classList.add("d-none"); // Ocultar spinner
+          document.getElementById("spinnerFB").classList.add("d-none"); // Ocultar spinner
         }
 
 
