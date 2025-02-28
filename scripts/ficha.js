@@ -146,26 +146,28 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const mail = alumno.mail ? alumno.mail : "usuario@dominio.com";
                 const celular = alumno.celular ? alumno.celular : "+54 XXXX XXXXXX";
                 trDatos1.innerHTML = `
-      <th>Apellido y Nombre</th>
-      <td>${alumno.name}</td>
-      <th>DNI</th>
-      <td>${formatDNI}</td>
-      <th>Mail</th>
-      <td>${mail}</td>
-      <th>Celular</th>
-      <td>${celular}</td>
+      <th class ="text-center">Apellido y Nombre</th>
+      <td class ="text-center">${alumno.name}</td>
+      <th class ="text-center">DNI</th>
+      <td class ="text-center">${formatDNI}</td>
+      <th class ="text-center">Mail</th>
+      <td class ="text-center">${mail}</td>
+      <th class ="text-center">Celular</th>
+      <td colspan="3" class ="text-center">${celular}</td>
     `;
                 tbodyDatos.appendChild(trDatos1);
                 const trDatos2 = document.createElement("tr");
                 trDatos2.innerHTML = `
-      <th>Materia</th>
-      <td>${materia}</td>
-      <th>Grupo</th>
-      <td>${grupo}</td>
-      <th>Asistencia</th>
-      <td>${calcularPorcentajeAsistencia(alumno)}</td>
-      <th>Condición</th>
-      <td>${alumno.condicion}</td>            
+      <th class ="text-center">Materia</th>
+      <td class ="text-center">${materia}</td>
+      <th class ="text-center">L.U.</th>
+      <td class ="text-center">${alumno.lu || "- - - - - -"}</td>
+      <th class ="text-center">Grupo</th>
+      <td class ="text-center">${grupo}</td>
+      <th class ="text-center">Asistencia</th>
+      <td class ="text-center">${calcularPorcentajeAsistencia(alumno)}</td>
+      <th class ="text-center">Condición</th>
+      <td class ="text-center">${alumno.condicion}</td>            
     `;
                 tbodyDatos.appendChild(trDatos2);
                 tablaDatos.appendChild(tbodyDatos);

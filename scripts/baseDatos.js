@@ -6,8 +6,8 @@ async function esperarEstudiantes() {
     const alumnosObj = new Alumnos();
 
     for (const alumnosFB of estudiantes) {
-        const { materia, grupo, nombre, dni, condicion, email, celular, asistencia, notas, observaciones } = alumnosFB;
-        alumnosObj.agregarAlumno(materia, grupo, nombre, dni, condicion, email, celular, asistencia, notas, observaciones);
+        const { materia, grupo, nombre, dni, lu, condicion, email, celular, asistencia, notas, observaciones } = alumnosFB;
+        alumnosObj.agregarAlumno(materia, grupo, nombre, dni, lu, condicion, email, celular, asistencia, notas, observaciones);
     };
     return alumnosObj.data;
 };

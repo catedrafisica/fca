@@ -3,7 +3,7 @@ class Alumnos {
         this.data = {};
     }
 
-    agregarAlumno(materia, grupo, nombre, dni, condicion = "Activo", mail = null, celular = null, asistencia = [], notas = [], observaciones = "") {
+    agregarAlumno(materia, grupo, nombre, dni, lu = null ,condicion = "Activo", mail = null, celular = null, asistencia = [], notas = [], observaciones = "") {
         if (!this.data[materia]) {
             this.data[materia] = {};
         }
@@ -13,6 +13,7 @@ class Alumnos {
         this.data[materia][grupo].push({
             name: nombre,
             dni: dni,
+            lu: lu,
             mail: mail,
             celular: celular,
             condicion: condicion,
