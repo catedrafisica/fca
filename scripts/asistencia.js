@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     asistenciaDiv.classList.remove("d-none");
 
     let html = "";
-    Object.keys(alumnos).forEach((materia, i) => {
+    Object.keys(alumnos).sort((a, b) => a.localeCompare(b)).forEach((materia, i) => {
       // Calculamos el total de alumnos por materia
       const totalMateria = Object.values(alumnos[materia]).reduce((acc, grupo) => acc + grupo.length, 0);
 

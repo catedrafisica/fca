@@ -28,8 +28,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         asistenciaDiv.classList.remove("d-none");
 
         let html = "";
-
-        Object.keys(alumnos).forEach((materia, i) => {
+        Object.keys(alumnos).sort((a, b) => a.localeCompare(b)).forEach((materia, i) => {
             const totalMateria = calcularTotalAlumnosPorMateria(materia); // Total de alumnos por materia
             html += `
         <div class="accordion mb-5" id="accordion${materia.replace(/\s+/g, '')}">
