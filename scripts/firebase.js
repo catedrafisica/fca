@@ -50,8 +50,8 @@ async function agregarDatosAFirebase(datos) {
 // agregarDatosAFirebase(tuObjetoJSON) Para agregar nuevo completar el array y colocar true en ejecutarCargaAlumnos;
 const ejecutarCargaAlumnos = false;
 const datos = [
-  ['Física II', 'Grupo 1', 'GOMEZ, RAMÓN ALBERTO', '41412398', null, 'ramoncito.rngm29@gmail.com', null, 'Pendiente'],
-  ['Física II', 'Grupo 1', 'GATTO, NILSON FABRICIO', '40448150', null, 'nilsonfab2015@gmail.com', null, 'Pendiente']
+  ['Física A', 'Grupo 1', 'GOMEZ, RAMÓN ALBERTO', '41', null, 'ramoncito.rngm29@gmail.com', null, 'Pendiente'],
+  ['Física A', 'Grupo 1', 'GATTO, NILSON FABRICIO', '40', null, 'nilsonfab2015@gmail.com', null, 'Pendiente']
 //  ['Física II', 'Grupo 1', 'CORIA, FABIO LEONEL', '', null, 'coriafabioleonel@gmail.com', null, 'Pendiente']
 ];
 
