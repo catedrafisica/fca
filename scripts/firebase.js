@@ -288,6 +288,29 @@ export async function resetNotasDeEstudiantes() {
     console.error("Error al restablecer las notas: ", error);
   }
 }
-
-
 //resetNotasDeEstudiantes()
+
+export async function actualizarMateria() {
+  try {
+    const estudiantesRef = collection(db, "estudiantes"); // Referencia a la colección de estudiantes
+    const querySnapshot = await getDocs(estudiantesRef); // Obtiene todos los documentos de la colección
+
+    querySnapshot.forEach(async (docSnapshot) => {
+      const estudianteRef = doc(db, "estudiantes", docSnapshot.id); // Obtiene la referencia del estudiante
+      const estudianteData = docSnapshot.data(); // Obtiene los datos del estudiante
+
+      // Verificar si la materia es "Física I"
+      if (estudianteData.materia === "Física I") {
+        await updateDoc(estudianteRef, {
+          materia: "Física I - Réplica" // Actualiza la materia
+        });
+        console.log(`Materia del estudiante con DNI ${docSnapshot.id} actualizada a "Física I - Réplica".`);
+      }
+    });
+
+    console.log("Proceso completado para todos los estudiantes.");
+  } catch (error) {
+    console.error("Error al actualizar la materia: ", error);
+  }
+}
+// actualizarMateria()

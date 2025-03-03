@@ -39,6 +39,9 @@ setTimeout(function () {
         materiaSeleccionada = materia;
 
         if (!alumnos[materiaSeleccionada]) {
+            if (chartInstanceAsistencia) {
+                chartInstanceAsistencia.destroy();
+            };
             console.error("No hay datos para la materia seleccionada:", materiaSeleccionada);
             return;
         };
