@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById('calificaciones').classList.remove('d-none');
         document.getElementById('descripcionCalificaciones').classList.remove('d-none');
 
-        const n1 = 5; // Cantidad de coloquios Lab. antes del primer parcial
-        const n2 = 5; // Cantidad de coloquios Lab. después del primer parcial y antes del segundo
+        const n1 = 5; // Cantidad de coloquios Lab.
+        const n2 = 5; // Cantidad de Informe de Lab.
 
         Object.keys(alumnos).forEach(materia => {
             Object.keys(alumnos[materia]).forEach(grupo => {
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         opciones += `<option value='Primer Parcial'>Primer Parcial</option>` +
             `<option value='Recuperatorio del Primer Parcial'>Recuperatorio del Primer Parcial</option>`;
         for (let i = 1; i <= n2; i++) {
-            opciones += `<option value='Coloquio Lab. ${n1 + i}'>Coloquio Lab. ${n1 + i}</option>`;
+            opciones += `<option value='Informe de Lab. ${i}'>Informe de Lab. ${i}</option>`;
         }
         opciones += `<option value='Segundo Parcial'>Segundo Parcial</option>` +
             `<option value='Recuperatorio del Segundo Parcial'>Recuperatorio del Segundo Parcial</option>` +
