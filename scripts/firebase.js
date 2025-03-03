@@ -263,3 +263,31 @@ async function actualizarLUporDNI(listaEstudiantes) {
 // Ejecutar la función con una lista de estudiantes
 const datosLU = [{ dni: '44384856', lu: '13903' }, { dni: '44743202', lu: '14501' }, { dni: '41789490', lu: '14857' }, { dni: '45645678', lu: '13912' }, { dni: '41281636', lu: '12430' }, { dni: '39862157', lu: '13653' }, { dni: '42865427', lu: '13940' }, { dni: '45879852', lu: '14555' }, { dni: '30249166', lu: '9354' }, { dni: '45856979', lu: '14609' }, { dni: '45103279', lu: '14608' }, { dni: '46605581', lu: '14619' }, { dni: '43700700', lu: '14624' }, { dni: '43108974', lu: '15035' }, { dni: '45646144', lu: '14684' }, { dni: '45022321', lu: '14057' }, { dni: '43622747', lu: '14703' }, { dni: '38120197', lu: '13182' }, { dni: '46242436', lu: '14735' }, { dni: '46076800', lu: '14738' }, { dni: '45902472', lu: '14747' }, { dni: '45604806', lu: '15114' }, { dni: '46600066', lu: '15117' }, { dni: '46243548', lu: '15121' }, { dni: '46085281', lu: '14760' }, { dni: '40911421', lu: '12127' }, { dni: '40284075', lu: '11616' }, { dni: '44624778', lu: '14263' }];
 //actualizarLUporDNI(datosLU);
+
+export async function resetNotasDeEstudiantes() {
+  try {
+    const estudiantesRef = collection(db, "estudiantes"); // Referencia a la colección de estudiantes
+    const querySnapshot = await getDocs(estudiantesRef); // Obtiene todos los documentos de la colección
+
+    querySnapshot.forEach(async (docSnapshot) => {
+      const estudianteRef = doc(db, "estudiantes", docSnapshot.id); // Usa la id del documento en lugar de doc
+      await updateDoc(estudianteRef, {
+        notas: [
+          {
+            actividad: null,
+            fecha: null,
+            valor: null
+          }
+        ] // Establece las notas como valor inicial
+      });
+      console.log(`Notas del estudiante con DNI ${docSnapshot.id} han sido restablecidas.`);
+    });
+
+    console.log("Proceso completado para todos los estudiantes.");
+  } catch (error) {
+    console.error("Error al restablecer las notas: ", error);
+  }
+}
+
+
+//resetNotasDeEstudiantes()
