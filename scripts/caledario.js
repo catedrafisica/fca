@@ -129,9 +129,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         //Problemas
                         { title: 'FII - Práctico Serie 01:\nHidrostática', start: '2025-02-22', className: 'event-practicoII' },
                         { title: 'FII - Práctico Serie 02:\nHidrodinámica', start: '2025-03-08', className: 'event-practicoII' },
-                        { title: 'FII - Práctico Serie 03:\nSoluciones no electrolíticas', start: '2025-03-15', className: 'event-practicoII' },
-                        { title: 'FII - Práctico Serie 04:\nSoluciones diluidas', start: '2025-03-15', className: 'event-practicoII' },
-                        { title: 'FII - Práctico Serie 07:\nRadioactividad (Problemas)', start: '2025-04-25', className: 'event-practicoII' },
+                        { title: 'FII - Práctico Serie 03 y 04 :\nSoluciones no electrolíticas\nSoluciones diluidas', start: '2025-03-15', className: 'event-practicoII' },
+                         { title: 'FII - Práctico Serie 07:\nRadioactividad (Problemas)', start: '2025-04-25', className: 'event-practicoII' },
                         //Parciales, Consultas y Recuperatorios
                         { title: 'FII - Consultas del Primer Parcial', start: '2025-03-20', className: 'event-parciales' },
                         { title: 'FII - Primer Parcial', start: '2025-03-21', className: 'event-parciales' },

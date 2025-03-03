@@ -314,3 +314,104 @@ export async function actualizarMateria() {
   }
 }
 // actualizarMateria()
+
+
+export async function cambiarCondicion() {
+  try {
+    const estudiantesRef = collection(db, "estudiantes"); // Referencia a la colección de estudiantes
+    const querySnapshot = await getDocs(estudiantesRef); // Obtiene todos los documentos de la colección
+    let contador = 0;
+    querySnapshot.forEach(async (docSnapshot) => {
+      const estudianteRef = doc(db, "estudiantes", docSnapshot.id); // Obtiene la referencia del estudiante
+      const estudianteData = docSnapshot.data(); // Obtiene los datos del estudiante
+      const nuevaCondicion = "Pendiente"
+      // Verificar si la condición está en el valor que deseas actualizar
+      if (estudianteData.condicion !== "Activo") {
+        await updateDoc(estudianteRef, {
+          condicion: nuevaCondicion // Actualiza
+        });
+        contador++;
+        console.log(`Condición del estudiante ${contador}, con DNI ${docSnapshot.id} actualizada a "${nuevaCondicion}".`);
+      }
+    });
+
+    console.log("Proceso completado para todos los estudiantes.");
+  } catch (error) {
+    console.error("Error al actualizar la condición: ", error);
+  }
+}
+
+
+
+export async function actualizarCondicion() {
+  try {
+    const estudiantesRef = collection(db, "estudiantes");
+    const querySnapshot = await getDocs(estudiantesRef);
+    
+    for (const docSnapshot of querySnapshot.docs) {
+      const estudianteRef = doc(db, "estudiantes", docSnapshot.id);
+      const estudianteData = docSnapshot.data();
+
+      // 📌 Si la condición ya es "Pendiente", no modificarla
+      if (estudianteData.condicion === "Pendiente") {
+        console.log(`Condición del estudiante con DNI ${docSnapshot.id} es "Pendiente", no se modifica.`);
+        continue;
+      }
+
+      const notas = estudianteData.notas || [];
+      const asistencia = estudianteData.asistencia || [];
+
+      // 📌 Contar inasistencias y evaluaciones desaprobadas
+      let inasistencias = asistencia.filter(a => a.valor === 0).length;
+      let coloquiosDesaprobados = notas.filter(n => (n.actividad ?? "").includes("Coloquio") && n.valor < 6).length;
+      let informesDesaprobados = notas.filter(n => (n.actividad ?? "").includes("Informe") && n.valor < 6).length;
+      
+      let totalFaltas = inasistencias + coloquiosDesaprobados + informesDesaprobados;
+
+      // 📌 Si supera las faltas permitidas, es No Regular
+      if (totalFaltas > 3) {
+        await updateDoc(estudianteRef, { condicion: "No Regular" });
+        console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "No Regular".`);
+        continue;
+      }
+
+      // 📌 Obtener calificaciones de parciales y recuperatorios
+      let primerParcial = notas.find(n => n.actividad === "Parcial 1")?.valor ?? null;
+      let segundoParcial = notas.find(n => n.actividad === "Parcial 2")?.valor ?? null;
+      let recupPrimerParcial = notas.find(n => n.actividad === "Recuperatorio 1")?.valor ?? null;
+      let recupSegundoParcial = notas.find(n => n.actividad === "Recuperatorio 2")?.valor ?? null;
+      let extra = notas.find(n => n.actividad === "Parcial Extra")?.valor ?? null;
+
+      // 📌 Determinar si aprobó cada parcial
+      let primerAprobado = (primerParcial !== null && primerParcial >= 6) || (recupPrimerParcial !== null && recupPrimerParcial >= 6);
+      let segundoAprobado = (segundoParcial !== null && segundoParcial >= 6) || (recupSegundoParcial !== null && recupSegundoParcial >= 6);
+
+      // 📌 Verificar si el estudiante aún tiene intentos pendientes
+      let primerPendiente = (primerParcial === null || (primerParcial < 6 && recupPrimerParcial === null));
+      let segundoPendiente = (segundoParcial === null || (segundoParcial < 6 && recupSegundoParcial === null));
+
+      if (primerPendiente || segundoPendiente) {
+        await updateDoc(estudianteRef, { condicion: "Activo" });
+        console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "Activo".`);
+        continue;
+      }
+
+      // 📌 Evaluar si puede ser "Regular" o "No Regular"
+      if (primerAprobado && segundoAprobado) {
+        await updateDoc(estudianteRef, { condicion: "Regular" });
+        console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "Regular".`);
+      } else if ((primerAprobado || segundoAprobado) && extra !== null && extra >= 6) {
+        await updateDoc(estudianteRef, { condicion: "Regular" });
+        console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "Regular".`);
+      } else {
+        await updateDoc(estudianteRef, { condicion: "No Regular" });
+        console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "No Regular".`);
+      }
+    }
+    
+    console.log("Proceso completado para todos los estudiantes.");
+  } catch (error) {
+    console.error("Error al actualizar la condición: ", error);
+  }
+}
+

@@ -125,6 +125,7 @@ function mostrarAlumnos(lista, contenedor) {
 
 const { jsPDF } = window.jspdf;
 import { dataImag } from "../images/membrete.js";
+import { actualizarCondicion } from './firebase.js';
 
 window.generarPDF = function (index) {
     const doc = new jsPDF(); // Orientación vertical
@@ -259,3 +260,5 @@ function calcularPorcentajeAprobados(actividades, max = 80) {
         ? `<span style='color: red;'>${porcentajeTexto}</span>`
         : porcentajeTexto;
 };
+
+//actualizarCondicion()
