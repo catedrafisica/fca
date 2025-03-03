@@ -52,7 +52,7 @@ const ejecutarCargaAlumnos = false;
 const datos = [
   ['Física A', 'Grupo 1', 'GOMEZ, RAMÓN ALBERTO', '41', null, 'ramoncito.rngm29@gmail.com', null, 'Pendiente'],
   ['Física A', 'Grupo 1', 'GATTO, NILSON FABRICIO', '40', null, 'nilsonfab2015@gmail.com', null, 'Pendiente']
-//  ['Física II', 'Grupo 1', 'CORIA, FABIO LEONEL', '', null, 'coriafabioleonel@gmail.com', null, 'Pendiente']
+  //  ['Física II', 'Grupo 1', 'CORIA, FABIO LEONEL', '', null, 'coriafabioleonel@gmail.com', null, 'Pendiente']
 ];
 
 if (ejecutarCargaAlumnos) {
@@ -342,12 +342,45 @@ export async function cambiarCondicion() {
 }
 
 
+async function resetAsistencia() {
+  try {
+    const estudiantesRef = collection(db, "estudiantes");
+    const querySnapshot = await getDocs(estudiantesRef);
+
+    for (const docSnapshot of querySnapshot.docs) {
+      const estudianteRef = doc(db, "estudiantes", docSnapshot.id);
+      const estudianteData = docSnapshot.data();
+
+      if (estudianteData.materia === "Física I - Réplica") {
+        await updateDoc(estudianteRef, {
+          asistencia: [
+            {
+              actividad: null,
+              fecha: null,
+              valor: null
+            }
+          ]
+        });
+        console.log(`Asistencia reseteada para ${docSnapshot.id}`);
+      }
+    }
+
+    console.log("Asistencia de Física I - Réplica reseteada correctamente.");
+  } catch (error) {
+    console.error("Error al resetear la asistencia: ", error);
+  }
+}
+
+// Llamar a la función
+//resetAsistencia();
+
+
+
 
 export async function actualizarCondicion() {
   try {
     const estudiantesRef = collection(db, "estudiantes");
     const querySnapshot = await getDocs(estudiantesRef);
-    
     for (const docSnapshot of querySnapshot.docs) {
       const estudianteRef = doc(db, "estudiantes", docSnapshot.id);
       const estudianteData = docSnapshot.data();
@@ -360,12 +393,12 @@ export async function actualizarCondicion() {
 
       const notas = estudianteData.notas || [];
       const asistencia = estudianteData.asistencia || [];
+      const materia = estudianteData.materia || ""; // Asumiendo que "materia" es una propiedad del estudiante
 
       // 📌 Contar inasistencias y evaluaciones desaprobadas
       let inasistencias = asistencia.filter(a => a.valor === 0).length;
-      let coloquiosDesaprobados = notas.filter(n => (n.actividad ?? "").includes("Coloquio") && n.valor < 6).length;
-      let informesDesaprobados = notas.filter(n => (n.actividad ?? "").includes("Informe") && n.valor < 6).length;
-      
+      let coloquiosDesaprobados = notas.filter(n => (n.actividad ?? "").includes("Coloquio Lab.") && n.valor < 6).length;
+      let informesDesaprobados = notas.filter(n => (n.actividad ?? "").includes("Informe de Lab.") && n.valor < 6).length;
       let totalFaltas = inasistencias + coloquiosDesaprobados + informesDesaprobados;
 
       // 📌 Si supera las faltas permitidas, es No Regular
@@ -376,11 +409,44 @@ export async function actualizarCondicion() {
       }
 
       // 📌 Obtener calificaciones de parciales y recuperatorios
-      let primerParcial = notas.find(n => n.actividad === "Parcial 1")?.valor ?? null;
-      let segundoParcial = notas.find(n => n.actividad === "Parcial 2")?.valor ?? null;
-      let recupPrimerParcial = notas.find(n => n.actividad === "Recuperatorio 1")?.valor ?? null;
-      let recupSegundoParcial = notas.find(n => n.actividad === "Recuperatorio 2")?.valor ?? null;
+      let primerParcial = notas.find(n => n.actividad === "Primer Parcial")?.valor ?? null;
+      let segundoParcial = notas.find(n => n.actividad === "Segundo Parcial")?.valor ?? null;
+      let recupPrimerParcial = notas.find(n => n.actividad === "Recuperatorio del Primer Parcial")?.valor ?? null;
+      let recupSegundoParcial = notas.find(n => n.actividad === "Recuperatorio del Segundo Parcial")?.valor ?? null;
       let extra = notas.find(n => n.actividad === "Parcial Extra")?.valor ?? null;
+
+      // 📌 Verificar si la materia es "Física I - Réplica" y manejar la condición sin parcial extra
+      if (materia === "Física I - Réplica") {
+        // Si el primer parcial o su recuperatorio no existen (es decir, no rendido), se asigna "Activo"
+        if (primerParcial === null && recupPrimerParcial === null) {
+          await updateDoc(estudianteRef, { condicion: "Activo" });
+          console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "Activo" (no ha rendido el primer parcial ni su recuperatorio).`);
+          continue;
+        }
+
+        // Si el primer parcial o su recuperatorio están desaprobados, se asigna "No Regular"
+        let primerAprobado = (primerParcial !== null && primerParcial >= 6) || (recupPrimerParcial !== null && recupPrimerParcial >= 6);
+        if (!primerAprobado) {
+          await updateDoc(estudianteRef, { condicion: "No Regular" });
+          console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "No Regular" por desaprobar el primer parcial o su recuperatorio en Física I - Réplica.`);
+          continue;
+        }
+
+        // Si el segundo parcial o su recuperatorio no existen (es decir, no rendido), se asigna "Activo"
+        if (segundoParcial === null && recupSegundoParcial === null) {
+          await updateDoc(estudianteRef, { condicion: "Activo" });
+          console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "Activo" (no ha rendido el segundo parcial ni su recuperatorio).`);
+          continue;
+        }
+
+        // Si el segundo parcial o su recuperatorio están desaprobados, también se asigna "No Regular"
+        let segundoAprobado = (segundoParcial !== null && segundoParcial >= 6) || (recupSegundoParcial !== null && recupSegundoParcial >= 6);
+        if (!segundoAprobado) {
+          await updateDoc(estudianteRef, { condicion: "No Regular" });
+          console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "No Regular" por desaprobar el segundo parcial o su recuperatorio en Física I - Réplica.`);
+          continue;
+        }
+      }
 
       // 📌 Determinar si aprobó cada parcial
       let primerAprobado = (primerParcial !== null && primerParcial >= 6) || (recupPrimerParcial !== null && recupPrimerParcial >= 6);
@@ -408,10 +474,12 @@ export async function actualizarCondicion() {
         console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "No Regular".`);
       }
     }
-    
+
     console.log("Proceso completado para todos los estudiantes.");
   } catch (error) {
     console.error("Error al actualizar la condición: ", error);
   }
 }
 
+//import { actualizarCondicion } from './firebase.js';
+//actualizarCondicion()
