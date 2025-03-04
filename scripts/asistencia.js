@@ -69,39 +69,43 @@ document.addEventListener("DOMContentLoaded", async function () {
               <!-- Botón para marcar todos como presentes -->
               <button class='btn btn-success mb-2 colocar-todos-presentes' data-grupo="${grupo}" data-materia="${materia}">Poner todos presentes</button>
       
-              <table class='table table-bordered text-center'>
-                <thead>
-                  <tr>
-                    <th>Orden</th>
-                    <th>Apellido y Nombre</th>
-                    <th>D.N.I.</th>
-                    <th>Asistencia</th>
-                  </tr>
-                </thead>
-                <tbody>`;
 
+              
+<!-- Tabla de asistencia responsiva -->
+<div class="table-responsive">
+  <table class='table table-bordered text-center'>
+    <thead>
+      <tr>
+        <th>Orden</th>
+        <th>Apellido y Nombre</th>
+        <th>D.N.I.</th>
+        <th>Asistencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${alumnos[materia][grupo].map((nombre, index) => {
+        const dni = parseInt(nombre.dni);
+        const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
+        return `
+          <tr>
+            <td>${index + 1}</td>
+            <td class="text-start">${nombre.name}</td>
+            <td>${formatDNI}</td>
+            <td>
+              <select class='form-select asistencia text-center' data-grupo="${grupo}" data-materia="${materia}">
+                <option value='' selected disabled>Seleccione un tipo de asistencia...</option>
+                <option value='P'>Presente</option>
+                <option value='A' style='color: red;'>Ausente</option>
+                <option value='AJ'>Ausente Justificado</option>
+              </select>
+            </td>
+          </tr>`;
+      }).join('')}
+    </tbody>
+  </table>
+</div>
+<button class='btn btn-primary mt-2 cargar-asistencia' data-grupo="${grupo}" data-materia="${materia}" data-fecha="${fechaId}">Cargar Asistencia</button>
 
-        alumnos[materia][grupo].forEach((nombre, index) => {
-          const dni = parseInt(nombre.dni);
-          const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
-          html += `
-                          <tr>
-                            <td>${index + 1}</td>
-                            <td class="text-start">${nombre.name}</td>
-                            <td>${formatDNI}</td>
-                            <td>
-                              <select class='form-select asistencia text-center' data-grupo="${grupo}" data-materia="${materia}">
-                                <option value='' selected disabled>Seleccione un tipo de asistencia...</option>
-                                <option value='P'>Presente</option>
-                                <option value='A' style='color: red;'>Ausente</option>
-                                <option value='AJ'>Ausente Justificado</option>
-                              </select>
-                            </td>
-                          </tr>`;
-        });
-
-        html += `</tbody></table>
-                        <button class='btn btn-primary mt-2 cargar-asistencia' data-grupo="${grupo}" data-materia="${materia}" data-fecha="${fechaId}">Cargar Asistencia</button>
                       </div>
                     </div>
                   </div>`;

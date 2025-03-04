@@ -135,6 +135,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                 h4Datos.textContent = "Datos Personales";
                 fichaDiv.appendChild(h4Datos);
 
+                 // Contenedor responsivo para la tabla de Datos Personales
+                 const divTablaDatos = document.createElement("div");
+                 divTablaDatos.className = "table-responsive";
+
                 // Tabla Datos Personales
                 const tablaDatos = document.createElement("table");
                 tablaDatos.className = "table table-bordered";
@@ -172,6 +176,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                 tbodyDatos.appendChild(trDatos2);
                 tablaDatos.appendChild(tbodyDatos);
                 fichaDiv.appendChild(tablaDatos);
+
+                // Agregar la tabla dentro del contenedor responsivo
+                divTablaDatos.appendChild(tablaDatos);
+                fichaDiv.appendChild(divTablaDatos);
 
                 // Sección Asistencias
                 const h4Asist = document.createElement("h4");

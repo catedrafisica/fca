@@ -66,37 +66,39 @@ document.addEventListener("DOMContentLoaded", async function () {
                             ${generarOpcionesColoquios(n1, n2)}
                           </select>
 
-                          <table class='table table-bordered text-center'>
-                            <thead>
-                              <tr>
-                                <th>Orden</th>
-                                <th>Apellido y Nombre</th>
-                                <th>D.N.I.</th>
-                                <th>Nota</th>
-                                <th>Calificación</th>
-                              </tr>
-                            </thead>
-                            <tbody>`;
-
-                alumnos[materia][grupo].forEach((nombre, index) => {
-                    const dni = parseInt(nombre.dni);
-                    const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
-                    const calificacionId = `calificacion-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}-${index}`;
-
-                    html += `
-                            <tr>
-                              <td>${index + 1}</td>
-                              <td class="text-start">${nombre.name}</td>
-                              <td>${formatDNI}</td>
-                              <td>
-                                <input type="number" class="form-control text-center nota" min="0" max="10" step="0.1" data-calificacion="${calificacionId}" data-grupo="${grupo}" data-materia="${materia}">
-                              </td>
-                              <td id="${calificacionId}">---</td>
-                            </tr>`;
-                });
-
-                html += `</tbody></table>
+                          <!-- Tabla de calificaciones responsiva -->
+                          <div class="table-responsive">
+                            <table class='table table-bordered text-center'>
+                              <thead>
+                                <tr>
+                                  <th>Orden</th>
+                                  <th>Apellido y Nombre</th>
+                                  <th>D.N.I.</th>
+                                  <th>Nota</th>
+                                  <th>Calificación</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                ${alumnos[materia][grupo].map((nombre, index) => {
+                                  const dni = parseInt(nombre.dni);
+                                  const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
+                                  const calificacionId = `calificacion-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}-${index}`;
+                                  return `
+                                    <tr>
+                                      <td>${index + 1}</td>
+                                      <td class="text-start">${nombre.name}</td>
+                                      <td>${formatDNI}</td>
+                                      <td>
+                                        <input type="number" class="form-control text-center nota" min="0" max="10" step="0.1" data-calificacion="${calificacionId}" data-grupo="${grupo}" data-materia="${materia}">
+                                      </td>
+                                      <td id="${calificacionId}">---</td>
+                                    </tr>`;
+                                }).join('')}
+                              </tbody>
+                            </table>
+                          </div>
                           <button class='btn btn-primary mt-2 cargar-notas' data-grupo="${grupo}" data-materia="${materia}" data-fecha="${fechaId}" data-actividad="${actividadId}">Cargar Notas</button>
+
                         </div>
                       </div>
                     </div>`;
