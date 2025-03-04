@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         <th>Orden</th>
         <th>Apellido y Nombre</th>
         <th>D.N.I.</th>
+        <th>% Asist.</th>
         <th>Asistencia</th>
       </tr>
     </thead>
@@ -86,11 +87,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       ${alumnos[materia][grupo].map((nombre, index) => {
         const dni = parseInt(nombre.dni);
         const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
+        let registros = calcularPorcentajeAsistencia(nombre);
         return `
           <tr>
             <td>${index + 1}</td>
             <td class="text-start">${nombre.name}</td>
             <td>${formatDNI}</td>
+            <td>${registros}</td>
             <td>
               <select class='form-select asistencia text-center' data-grupo="${grupo}" data-materia="${materia}">
                 <option value='' selected disabled>Seleccione un tipo de asistencia...</option>
@@ -277,4 +280,27 @@ function generarOpcionesLabProblem(n) {
     opciones += `<option value='Laboratorio ${i}'>Laboratorio ${i}</option>`;
   };
   return opciones;
-}
+};
+
+function calcularPorcentajeAsistencia(alumno, max = 80) {
+  const asistencias = alumno.asistencia.filter(a => a.actividad !== null);
+  if (asistencias.length === 0) {
+      console.log("No hay registros de asistencia.");
+      return `<span style='color: red;'>0,0%</span>`;
+  }
+  const asistenciasFiltradas = asistencias.filter(a => a.valor !== "AJ");
+  const totalAsistencias = asistenciasFiltradas.length;
+  const asistenciasPresentes = asistenciasFiltradas.filter(a => a.valor === "P").length;
+
+  if (totalAsistencias === 0) {
+      console.log("No hay asistencias válidas para calcular el porcentaje.");
+      return `<span style='color: red;'>0,0%</span>`;;
+  }
+
+  const porcentaje = (asistenciasPresentes / totalAsistencias) * 100;
+  const porcentajeTexto = porcentaje.toFixed(1).replace('.', ',') + "%";
+
+  return porcentaje < max
+      ? `<span style='color: red;'>${porcentajeTexto}</span>`
+      : porcentajeTexto;
+};

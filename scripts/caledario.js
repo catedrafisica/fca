@@ -26,6 +26,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div id="collapseFisicaI" class="accordion-collapse collapse" aria-labelledby="headingFisicaI" data-bs-parent="#accordionFisicaI">
                     <div class="accordion-body">
                         <ul>
+                            <li><strong>Prof. Titular:</strong> Ing. Agr. (Dr.) BERNARDIS, Aldo Ceferino - qaaber@agr.unne.edu.ar</li>
+                            <li><strong>Prof. Adjunta:</strong> Ing. Agr. (Mgter.) PICCOLI, Analía - analia.piccoli@agr.unne.edu.ar</li>
+                            <li><strong>Jefe de Trab. Prácticos:</strong> Lic. MARTINEZ, Fernando A. - fernando.martinez@agr.unne.edu.ar</li>
+                            <li><strong>Auxiliar Docente de 1ª:</strong> Ing. Agr. (Mgter.) YFRAN ELVIRA, María de las Mercedes - maria.yfran@agr.unne.edu.ar</li>
+                            <li><strong>Auxiliar Docente de 1ª:</strong> Ing. Agr. (Dra) ESPASANDIN, Fabiana Daniela - fdespasandin@agr.unne.edu.ar</li>
+                            <li><strong>Auxiliar Docente de 1ª:</strong> Prof. ALTERATS, Augusto Rodrigo - augusto.alterats@agr.unne.edu.ar</li><br>
                             <li>Este <strong>calendario</strong> incluye las fechas de clases teóricas, laboratorios, prácticas, evaluaciones parciales y exámenes finales.</li>
                             <li>La <strong>réplica de Física I</strong> Trabajos Prácticos y Laboratorios con un solo grupo son de <strong>08:00 a 10:00</strong>.</li>
                             <ul>
@@ -48,12 +54,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div id="collapseFisicaII" class="accordion-collapse collapse" aria-labelledby="headingFisicaII" data-bs-parent="#accordionFisicaII">
                     <div class="accordion-body">
                         <ul>
+                            <li><strong>Prof. Titular:</strong> Ing. Agr. (Dr.) BERNARDIS, Aldo Ceferino - qaaber@agr.unne.edu.ar</li>
+                            <li><strong>Prof. Adjunta:</strong> Ing. Agr. (Mgter.) PICCOLI, Analía - analia.piccoli@agr.unne.edu.ar</li>                                <li><strong>Jefe de Trab. Prácticos:</strong> Lic. MARTINEZ, Fernando A. - fernando.martinez@agr.unne.edu.ar</li>
+                            <li><strong>Jefe de Trab. Prácticos:</strong> Ing. Agr. (Mgter.) CESPEDES FLORES, Flora Elizabet - fcespedes@agr.unne.edu.ar</li>
+                            <li><strong>Auxiliar Docente de 1ª:</strong> Prof. ALTERATS, Augusto Rodrigo - augusto.alterats@agr.unne.edu.ar</li><br>                            
                             <li>Las fechas de <strong>exámenes finales de Física II (*)</strong> se solicitarán para ser trasladadas al viernes siguiente.</li>
                             <li>Horarios de <strong>Grupos de Laboratorio de Física II</strong>, los días viernes:
                                 <ul>
-                                    <li><strong>Grupo 1:</strong> de 07:00 a 09:00 - Lic. MARTINEZ, Fernando A. y Prof. ALTERATS, Augusto Rodrigo.</li>
-                                    <li><strong>Grupo 2:</strong> de 09:00 a 11:00 - Lic. MARTINEZ, Fernando A. y Prof. ALTERATS, Augusto Rodrigo.</li>
-                                    <li><strong>Grupo 3:</strong> de 11:00 a 13:00 - Lic. MARTINEZ, Fernando A. y Prof. ALTERATS, Augusto Rodrigo.</li>
+                                    <li><strong>Grupo 1:</strong> de 07:00 a 09:00 - Lic. MARTINEZ, Fernando A.</li>
+                                    <li><strong>Grupo 2:</strong> de 09:00 a 11:00 - Lic. MARTINEZ, Fernando A.</li>
+                                    <li><strong>Grupo 3:</strong> de 11:00 a 13:00 - Prof. ALTERATS, Augusto Rodrigo.</li>
                                     <li><strong>Grupo 4:</strong> de 14:00 a 16:00 - Ing. Agr. (Mgter.) CESPEDES FLORES, Flora Elizabet.</li>
                                     <li><strong>Grupo 5:</strong> de 16:00 a 18:00 - Ing. Agr. (Mgter.) CESPEDES FLORES, Flora Elizabet.</li>
                                 </ul>

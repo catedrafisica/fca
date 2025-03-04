@@ -2,10 +2,11 @@ import { getAlumnos } from './baseDatos.js';
 
 async function mostrarAlumnosFB() {
     const alumnos = await getAlumnos();
-        console.log("Alumnos cargados:", alumnos);
+    console.log("Alumnos cargados:", alumnos);
     return alumnos;
 };
 
+let listaAlumnos = [];
 document.addEventListener("DOMContentLoaded", async function () {
     // Esperar a que los alumnos sean recuperados
     const alumnos = await mostrarAlumnosFB();
@@ -27,34 +28,56 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const totalMateria = Object.values(alumnos[materia]).reduce((acc, grupo) => acc + grupo.length, 0);
 
                 html += `<div class="accordion mb-5" id="accordion${materia.replace(/\s+/g, '')}">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading${i}">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="false">
-                                ${materia} (Total: ${totalMateria} alumnos)
-                            </button>
-                        </h2>
-                        <div id="collapse${i}" class="accordion-collapse collapse" aria-labelledby="heading${i}">
-                            <div class="accordion-body">
-                                <select class="form-select mb-3 selectGrupo" data-materia="${materia}" data-index="${i}">
-                                    <option value="" selected disabled>Seleccione para generar la lista...</option>
-                                    <option value="Todos">Todos los alumnos</option>`;
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading${i}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="false">
+                            ${materia} (Total: ${totalMateria} alumnos)
+                        </button>
+                    </h2>
+                    <div id="collapse${i}" class="accordion-collapse collapse" aria-labelledby="heading${i}">
+                        <div class="accordion-body">
+                            <select class="form-select mb-3 selectGrupo" data-materia="${materia}" data-index="${i}">
+                                <option value="" selected disabled>Seleccione para generar la lista...</option>
+                                <option value="Todos">Todos los alumnos</option>`;
 
+                // Insertar las opciones de los grupos
                 Object.keys(alumnos[materia])
                     .sort((a, b) => a.localeCompare(b)) // Ordenar grupos alfabéticamente
                     .forEach((grupo) => {
-                        // Calculamos el total de alumnos por grupo
                         const totalGrupo = alumnos[materia][grupo].length;
                         html += `<option value="${grupo}">${grupo} (Total: ${totalGrupo} alumnos)</option>`;
                     });
 
                 html += `</select>
-                                <div class="listas" id="listas-${i}"></div>
-                                <button class='btn btn-primary mt-2' id='btn-pdf-${i}' onclick='generarPDF(${i})' disabled>Generar PDF</button>
+            
+                           <!-- Grupo de Radios -->
+                            <div class="mb-3 text-center">
+                                <label class="form-label">Seleccione un filtro:</label>
+                                <div class="d-flex gap-3 flex-wrap justify-content-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="filtro${i}" id="informe${i}" value="informe" checked>
+                                        <label class="form-check-label" for="informe${i}">Informe</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="filtro${i}" id="asistencia${i}" value="asistencia">
+                                        <label class="form-check-label" for="asistencia${i}">Asistencia</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="filtro${i}" id="resultados${i}" value="resultados">
+                                        <label class="form-check-label" for="resultados${i}">Resultados</label>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="listas" id="listas-${i}"></div>
+                            <button class='btn btn-primary mt-2' id='btn-pdf-${i}' onclick='generarPDF(${i})' disabled>Generar PDF</button>
                         </div>
                     </div>
-                </div>`;
+                </div>
+            </div>`;
+
+
             });
+
 
         asistenciaDiv.innerHTML = html;
 
@@ -63,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const materia = this.dataset.materia;
                 const index = this.dataset.index;
                 const grupoSeleccionado = this.value;
-                let listaAlumnos = [];
+                listaAlumnos = [];
 
                 const btnPDF = document.getElementById(`btn-pdf-${index}`);
                 btnPDF.disabled = false;
@@ -77,10 +100,19 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
 
                 listaAlumnos.sort((a, b) => a.name.localeCompare(b.name));
-                mostrarAlumnos(listaAlumnos, document.getElementById(`listas-${index}`));
+                const seleccionado = document.querySelector(`input[name="filtro${index}"]:checked`);
+                mostrarAlumnos(listaAlumnos, document.getElementById(`listas-${index}`), seleccionado);
             });
         });
     }, 1000);
+});
+
+document.addEventListener("change", (event) => {
+    if (event.target.matches('input[type="radio"][name^="filtro"]')) {
+        let str = event.target.name;
+        let index = str.replace(/\D/g, ""); // Elimina todo lo que NO sea un número
+        mostrarAlumnos(listaAlumnos, document.getElementById(`listas-${index}`), event.target.name);
+    }
 });
 
 function mostrarAlumnos(lista, contenedor) {
@@ -198,7 +230,6 @@ window.generarPDF = function (index) {
     doc.save(`Lista de Alumnos_${materia}_${grupo}_${fecha}.pdf`);
 };
 
-
 function calcularPorcentajeAsistencia(alumno, max = 80) {
     const asistencias = alumno.asistencia.filter(a => a.actividad !== null);
     if (asistencias.length === 0) {
@@ -224,18 +255,25 @@ function calcularPorcentajeAsistencia(alumno, max = 80) {
 
 
 
-function evaluarParcial(notasArr, actividad = "Primer Parcial") {
+function evaluarParcial(notasArr, actividad = "Primer Parcial", soloCuali = false) {
     const parcial = notasArr.find(nota => nota.actividad.toLowerCase() === actividad.toLowerCase());
     if (!parcial) {
         return "---";
     };
-    let estado = parcial.valor >= 6
-        ? `${parcial.valor} (Aprob.)`
-        : `<span style='color: red;'>${parcial.valor} (Desap.)</span>`;
-    if (parcial.valor === 0) {
-        return `<span style='color: red;'>Ausente</span>`;
+    if (soloCuali) {
+        let estado = parcial.valor >= 6 ? `${parcial.valor} (Aprob.)` : `<span style='color: red;'>${parcial.valor} (Desap.)</span>`;
+        if (parcial.valor === 0) {
+            return `<span style='color: red;'>Ausente</span>`;
+        } else {
+            return estado;
+        };
     } else {
-        return estado;
+        let estado = parcial.valor >= 6 ? `Aprob.` : `<span style='color: red;'>Desap.</span>`;
+        if (parcial.valor === 0) {
+            return `<span style='color: red;'>Ausente</span>`;
+        } else {
+            return estado;
+        };
     };
 };
 
@@ -259,3 +297,4 @@ function calcularPorcentajeAprobados(actividades, max = 80) {
         ? `<span style='color: red;'>${porcentajeTexto}</span>`
         : porcentajeTexto;
 };
+
