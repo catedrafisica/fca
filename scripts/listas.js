@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
 
                 listaAlumnos.sort((a, b) => a.name.localeCompare(b.name));
-                const seleccionado = document.querySelector(`input[name="filtro${index}"]:checked`);
+                const seleccionado = document.querySelector(`input[name="filtro${index}"]:checked`).value;
                 mostrarAlumnos(listaAlumnos, document.getElementById(`listas-${index}`), seleccionado);
             });
         });
@@ -111,12 +111,12 @@ document.addEventListener("change", (event) => {
     if (event.target.matches('input[type="radio"][name^="filtro"]')) {
         let str = event.target.name;
         let index = str.replace(/\D/g, ""); // Elimina todo lo que NO sea un número
-        mostrarAlumnos(listaAlumnos, document.getElementById(`listas-${index}`), event.target.name);
+        mostrarAlumnos(listaAlumnos, document.getElementById(`listas-${index}`), event.target.value);
     }
 });
 
-function mostrarAlumnos(lista, contenedor) {
-    let html = `<div class="table-responsive"><table class='table table-bordered text-center'>
+function mostrarAlumnos(lista, contenedor, seleccionado) {
+    let htmlInforme = `<div class="table-responsive"><table class='table table-bordered text-center'>
                     <thead>
                         <tr>
                             <th>N°</th>
@@ -137,7 +137,7 @@ function mostrarAlumnos(lista, contenedor) {
         const dni = parseInt(alumno.dni);
         const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
         let registros = calcularPorcentajeAsistencia(alumno);
-        html += `<tr>
+        htmlInforme += `<tr>
                     <td>${index + 1}</td>
                     <td class="text-start">${alumno.name}</td>
                     <td>${formatDNI}</td>
@@ -151,7 +151,91 @@ function mostrarAlumnos(lista, contenedor) {
                     <td>${alumno.condicion || '---'}</td>
                  </tr>`;
     });
-    html += "</tbody></table></div>"; // Cierre del div table-responsive
+    htmlInforme += "</tbody></table></div>";
+
+    let htmlAsistencia = `<div class="table-responsive"><table class='table table-bordered text-center'>
+    <thead>
+        <tr>
+            <th>N°</th>
+            <th>Apellido y Nombre</th>
+            <th>D.N.I.</th>
+            <th>fecha:<br>&nbsp;/</th>
+            <th>fecha:<br>&nbsp;/</th>
+            <th>fecha:<br>&nbsp;/</th>
+            <th>fecha:<br>&nbsp;/</th>
+            <th>fecha:<br>&nbsp;/</th>
+            <th>fecha:<br>&nbsp;/</th>
+            <th>fecha:<br>&nbsp;/</th>
+            <th>fecha:<br>&nbsp;/</th>
+        </tr>
+    </thead>
+    <tbody>`;
+    lista.forEach((alumno, index) => {
+        const dni = parseInt(alumno.dni);
+        const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
+        htmlAsistencia += `<tr>
+    <td>${index + 1}</td>
+    <td class="text-start">${alumno.name}</td>
+    <td>${formatDNI}</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+ </tr>`;
+    });
+    htmlAsistencia += "</tbody></table></div>";
+
+    let htmlResultados = `<div class="table-responsive"><table class='table table-bordered text-center'>
+<thead>
+    <tr>
+        <th>N°</th>
+        <th>Apellido y Nombre</th>
+        <th>D.N.I.</th>
+        <th>1° Parcial</th>
+        <th>Recup. 1° Parcial</th>
+        <th>2° Parcial</th>
+        <th>Recup 2° Parcial</th>
+        <th>Extra Parcial</th>                    
+    </tr>
+</thead>
+<tbody>`;
+    lista.forEach((alumno, index) => {
+        const dni = parseInt(alumno.dni);
+        const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
+        let registros = calcularPorcentajeAsistencia(alumno);
+        htmlResultados += `<tr>
+<td>${index + 1}</td>
+<td class="text-start">${alumno.name}</td>
+<td>${formatDNI}</td>
+<td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Primer Parcial") : '---'}</td>
+<td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Recuperatorio del Primer Parcial") : '---'}</td>
+<td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Segundo Parcial") : '---'}</td>
+<td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Recuperatorio del Segundo Parcial") : '---'}</td>
+<td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Parcial Extra") : '---'}</td>                    
+</tr>`;
+    });
+    htmlResultados += "</tbody></table></div>";
+
+
+
+    let html = "";
+    switch (seleccionado) {
+        case "informe":
+            html = htmlInforme;
+            break;
+        case "asistencia":
+            html = htmlAsistencia;
+            break;
+        case "resultados":
+            html = htmlResultados;
+            break;
+    };
+
+
     contenedor.innerHTML = html;
 }
 
