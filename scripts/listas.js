@@ -148,11 +148,11 @@ function mostrarAlumnos(lista, contenedor, seleccionado) {
                     <td class="text-start">${alumno.name}</td>
                     <td>${formatDNI}</td>
                     <td>${registros ? registros : '---%'}</td>
-                    <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Primer Parcial") : '---'}</td>
-                    <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Recuperatorio del Primer Parcial") : '---'}</td>
-                    <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Segundo Parcial") : '---'}</td>
-                    <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Recuperatorio del Segundo Parcial") : '---'}</td>
-                    <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Parcial Extra") : '---'}</td>                    
+                    <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Primer Parcial", true) : '---'}</td>
+                    <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Recuperatorio del Primer Parcial", true) : '---'}</td>
+                    <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Segundo Parcial", true) : '---'}</td>
+                    <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Recuperatorio del Segundo Parcial", true) : '---'}</td>
+                    <td>${alumno.notas[0].actividad ? evaluarParcial(alumno.notas, "Parcial Extra", true) : '---'}</td>                    
                     <td>${alumno.notas[0].actividad ? calcularPorcentajeAprobados(alumno.notas) : '---%'}</td>
                     <td>${alumno.condicion || '---'}</td>
                  </tr>`;
