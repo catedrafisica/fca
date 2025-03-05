@@ -55,15 +55,15 @@ document.addEventListener("DOMContentLoaded", async function () {
                                 <label class="form-label">Seleccione un filtro:</label>
                                 <div class="d-flex gap-3 flex-wrap justify-content-center">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="filtro${i}" id="informe${i}" value="informe" checked>
+                                        <input class="form-check-input" type="radio" name="filtro${i}" id="informe${i}" value="informe" checked disabled>
                                         <label class="form-check-label" for="informe${i}">Informe</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="filtro${i}" id="asistencia${i}" value="asistencia">
+                                        <input class="form-check-input" type="radio" name="filtro${i}" id="asistencia${i}" value="asistencia" disabled>
                                         <label class="form-check-label" for="asistencia${i}">Asistencia</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="filtro${i}" id="resultados${i}" value="resultados">
+                                        <input class="form-check-input" type="radio" name="filtro${i}" id="resultados${i}" value="resultados" disabled>
                                         <label class="form-check-label" for="resultados${i}">Resultados</label>
                                     </div>
                                 </div>
@@ -91,6 +91,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const btnPDF = document.getElementById(`btn-pdf-${index}`);
                 btnPDF.disabled = false;
 
+                // Deshabilitar todos los radios dinámicamente
+                const radios = document.querySelectorAll(`[name^="filtro${index}"]`);
+                radios.forEach(radio => {
+                    radio.disabled = false;  // Establece el atributo disabled dinámicamente
+                });
+                
                 if (grupoSeleccionado === "Todos") {
                     Object.values(alumnos[materia]).forEach(grupo => {
                         listaAlumnos = listaAlumnos.concat(grupo);
