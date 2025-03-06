@@ -382,17 +382,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     function resetearFormulario(grupo, materia, fechaId, actividadId) {
         // Resetear las notas
         document.querySelectorAll(`input.nota[data-grupo="${grupo}"][data-materia="${materia}"]`).forEach(input => {
-            input.value = "";
+            input.value = ""; // Limpiar el valor del input
+            input.disabled = false; // Habilitar el input
+            input.classList.remove("disabled-no-regular"); // Eliminar la clase CSS que oculta el valor
         });
-
+    
         // Resetear las calificaciones en la tabla
         document.querySelectorAll(`td[id^="calificacion-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}"]`).forEach(td => {
             td.textContent = "---";
         });
-
+    
         // Resetear la fecha a la actual
         document.getElementById(fechaId).value = getCurrentDate();
-
+    
         // Resetear la selección de actividad
         document.getElementById(actividadId).selectedIndex = 0;
     }
