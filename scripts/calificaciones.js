@@ -80,10 +80,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                               </thead>
                               <tbody>
                                 ${alumnos[materia][grupo].map((nombre, index) => {
-                                  const dni = parseInt(nombre.dni);
-                                  const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
-                                  const calificacionId = `calificacion-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}-${index}`;
-                                  return `
+                    const dni = parseInt(nombre.dni);
+                    const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
+                    const calificacionId = `calificacion-${materia.replace(/\s+/g, '')}-${grupo.replace(/\s+/g, '')}-${index}`;
+                    return `
                                     <tr>
                                       <td>${index + 1}</td>
                                       <td class="text-start">${nombre.name}</td>
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                                       </td>
                                       <td id="${calificacionId}">---</td>
                                     </tr>`;
-                                }).join('')}
+                }).join('')}
                               </tbody>
                             </table>
                           </div>
@@ -109,6 +109,115 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         asistenciaDiv.innerHTML = html;
+
+
+
+
+
+
+        document.querySelectorAll('.nota').forEach(input => {
+            input.addEventListener('focus', async function () {
+                const actividadId = this.closest('.accordion-body').querySelector('select').id;
+                const actividadElement = document.getElementById(actividadId);
+
+                if (!actividadElement) {
+                    console.error("❌ No se encontró el elemento de actividad.");
+                    return;
+                }
+
+                const actividad = actividadElement.value;
+                const dni = this.closest('tr').querySelector('td:nth-child(3)').textContent.replace(/\./g, '');
+                const grupo = this.getAttribute('data-grupo');
+                const materia = this.getAttribute('data-materia');
+
+                // 🔹 Pasamos "alumnos" como parámetro
+                const alumnoData = await obtenerNotasAlumno(dni, materia, grupo, alumnos);
+
+                console.log(`🔍 Verificando alumno ${dni} para ${actividad}:`, alumnoData);
+
+                if (alumnoData.condicion === "No Regular") {
+                    this.disabled = true;
+                    this.value = -1;
+                    this.classList.add("disabled-no-regular"); // Aplicar la clase CSS
+                    mostrarAlerta(`❌ El alumno con DNI ${dni} es No Regular y no puede rendir ninguna actividad.`, "danger");
+                    return;
+                }
+
+                if (debeBloquearse(actividad, alumnoData)) {
+                    this.disabled = true;
+                    this.value = -1;
+                    this.classList.add("disabled-no-regular"); // Aplicar la clase CSS
+                    mostrarAlerta(`❌ El alumno con DNI ${dni} ya aprobó una instancia y no puede rendir ${actividad}.`, "danger");
+                } else {
+                    this.disabled = false;
+                }
+            });
+        });
+
+        async function obtenerNotasAlumno(dni, materia, grupo, alumnos) {
+            try {
+                // Verificar si la materia y el grupo existen en los datos
+                if (!alumnos[materia] || !alumnos[materia][grupo]) {
+                    console.warn(`⚠️ No se encontraron datos para la materia ${materia} y grupo ${grupo}`);
+                    return {
+                        primerParcial: null,
+                        recPrimerParcial: null,
+                        segundoParcial: null,
+                        recSegundoParcial: null,
+                        extraParcial: null,
+                        condicion: "Activo" // Si no hay datos, se asume que el alumno es "Activo"
+                    };
+                }
+        
+                // Buscar al alumno por DNI en el grupo y materia especificados
+                const alumno = alumnos[materia][grupo].find(alumno => alumno.dni === dni);
+        
+                if (!alumno) {
+                    console.warn(`⚠️ No se encontró al alumno con DNI ${dni} en ${materia} - ${grupo}`);
+                    return {
+                        primerParcial: null,
+                        recPrimerParcial: null,
+                        segundoParcial: null,
+                        recSegundoParcial: null,
+                        extraParcial: null,
+                        condicion: "Activo" // Si no se encuentra, se asume que el alumno es "Activo"
+                    };
+                }
+        
+                // Devolver los datos del alumno (notas y condición)
+                function obtenerNotasDeActividad(alumno, actividad) {
+                    // Filtrar las notas que coincidan con la actividad especificada
+                    const notasDeActividad = alumno.notas.filter(nota => nota.actividad === actividad);
+        
+                    // Si no se encuentran notas para la actividad, devolver null
+                    if (notasDeActividad.length === 0) {
+                        return null;
+                    }
+                    // Devolver la primera nota encontrada
+                    return notasDeActividad[0].valor;
+                }
+        
+                return {
+                    primerParcial: obtenerNotasDeActividad(alumno, "Primer Parcial"),
+                    recPrimerParcial: obtenerNotasDeActividad(alumno, "Recuperatorio del Primer Parcial"),
+                    segundoParcial: obtenerNotasDeActividad(alumno, "Segundo Parcial"),
+                    recSegundoParcial: obtenerNotasDeActividad(alumno, "Recuperatorio del Segundo Parcial"),
+                    extraParcial: obtenerNotasDeActividad(alumno, "Parcial Extra"),
+                    condicion: alumno.condicion ?? "Activo" // Si no se especifica, se asume "Activo"
+                };
+        
+            } catch (error) {
+                console.error(`❌ Error al obtener datos del alumno ${dni}:`, error);
+                return {
+                    primerParcial: null,
+                    recPrimerParcial: null,
+                    segundoParcial: null,
+                    recSegundoParcial: null,
+                    extraParcial: null,
+                    condicion: "Activo" // Si hay un error, se asume "Activo"
+                };
+            }
+        }
 
         document.querySelectorAll('.nota').forEach(input => {
             input.addEventListener('input', function () {
@@ -127,30 +236,39 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const grupo = this.getAttribute('data-grupo');
                 const materia = this.getAttribute('data-materia');
                 const fechaId = this.getAttribute('data-fecha');
-                const actividadId = this.getAttribute('data-actividad'); // Nueva línea para obtener la actividad
+                const actividadId = this.getAttribute('data-actividad'); // Obtener la actividad seleccionada
                 const fecha = document.getElementById(fechaId).value;
                 const actividad = document.getElementById(actividadId).value; // Obtener la actividad seleccionada
-
+        
                 if (!actividad) {
                     mostrarAlerta("⚠️ Por favor, seleccione una actividad evaluada antes de continuar.", "danger");
                     return;
                 }
-
+        
                 const inputs = document.querySelectorAll(`input.nota[data-grupo="${grupo}"][data-materia="${materia}"]`);
-
+        
                 let notasSeleccionadas = [];
                 let camposIncompletos = false;
-
+        
                 // Validar que todas las notas estén completas
                 inputs.forEach(input => {
                     const studentName = input.closest('tr').querySelector('td:nth-child(2)').textContent;
                     const dni = input.closest('tr').querySelector('td:nth-child(3)').textContent.replace(/\./g, ''); // Eliminar puntos del DNI
-                    const nota = input.value ? parseFloat(input.value) : null;
-
-                    if (nota === null || isNaN(nota) || nota > 10 || nota < 0) {
+                    const nota = input.value.trim(); // Eliminar espacios en blanco
+        
+                    // Si la nota es -1, excluir al alumno del arreglo
+                    if (nota === "-1") {
+                        return; // Continuar con el siguiente input sin agregar al alumno
+                    }
+        
+                    // Validar que la nota sea un número válido
+                    const notaNumerica = parseFloat(nota);
+                    if (isNaN(notaNumerica)) {
+                        camposIncompletos = true;
+                    } else if (notaNumerica > 10 || notaNumerica < 0) {
                         camposIncompletos = true;
                     }
-
+        
                     notasSeleccionadas.push({
                         name: studentName,
                         dni: dni,
@@ -159,18 +277,18 @@ document.addEventListener("DOMContentLoaded", async function () {
                         registro: {
                             actividad: actividad, // Incluir la actividad en el registro
                             fecha: fecha,
-                            valor: nota
+                            valor: notaNumerica // Usar el valor numérico
                         }
                     });
                 });
-
+        
                 if (camposIncompletos) {
                     mostrarAlerta("⚠️ Por favor, complete todas las notas antes de continuar.", "danger");
                     return;
                 }
-
+        
                 document.getElementById("spinnerFB").classList.remove("d-none"); // Mostrar spinner
-
+        
                 try {
                     const success = await guardarNotas(notasSeleccionadas);
                     if (success) {
@@ -192,7 +310,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
             });
         });
-
     }, 1000);
 
     function calcularTotalAlumnosPorMateria(materia) {
@@ -281,3 +398,21 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
 });
+
+function debeBloquearse(actividad, notas) {
+    if (actividad === "Recuperatorio del Primer Parcial" && notas.primerParcial >= 6) return true;
+    if (actividad === "Recuperatorio del Segundo Parcial" && notas.segundoParcial >= 6) return true;
+    if (actividad === "Parcial Extra") {
+        if ((notas.primerParcial >= 6 || notas.recPrimerParcial >= 6) &&
+            (notas.segundoParcial >= 6 || notas.recSegundoParcial >= 6)) {
+            return true;
+        }
+        if ((notas.primerParcial === null || notas.primerParcial < 6) &&
+            (notas.recPrimerParcial === null || notas.recPrimerParcial < 6) &&
+            (notas.segundoParcial === null || notas.segundoParcial < 6) &&
+            (notas.recSegundoParcial === null || notas.recSegundoParcial < 6)) {
+            return true;
+        }
+    }
+    return false;
+}
