@@ -143,6 +143,7 @@
   <script type="module" src="./scripts/firebase.js"></script>
   <script type="module">
     import { actualizarCondicion } from "./scripts/firebase.js";
+    document.getElementById("miBotoncalif").disabled = true;
     document.getElementById('miBotonCalif').addEventListener('click', actualizarCondicion);
   </script>
 </body>

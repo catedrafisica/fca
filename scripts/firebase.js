@@ -50,8 +50,7 @@ async function agregarDatosAFirebase(datos) {
 // agregarDatosAFirebase(tuObjetoJSON) Para agregar nuevo completar el array y colocar true en ejecutarCargaAlumnos;
 const ejecutarCargaAlumnos = false;
 const datos = [
-  ['Física A', 'Grupo 1', 'GOMEZ, RAMÓN ALBERTO', '41', null, 'ramoncito.rngm29@gmail.com', null, 'Pendiente'],
-  ['Física A', 'Grupo 1', 'GATTO, NILSON FABRICIO', '40', null, 'nilsonfab2015@gmail.com', null, 'Pendiente']
+  ['Física II', 'Grupo 4', 'OVIEDO, GABRIEL DAVID', '39363014', null, 'gabrieloviedo919@gmail.com', null, 'Pendiente'],
   //  ['Física II', 'Grupo 1', 'CORIA, FABIO LEONEL', '', null, 'coriafabioleonel@gmail.com', null, 'Pendiente']
 ];
 
@@ -377,7 +376,40 @@ async function resetAsistencia() {
 
 
 
-export async function actualizarCondicion() {
+export async function actualizarCondicionAsist() {
+  const maxInasist = 3;
+  try {
+    document.getElementById("miBotonAsist").disabled = true;
+    const estudiantesRef = collection(db, "estudiantes");
+    const querySnapshot = await getDocs(estudiantesRef);
+    for (const docSnapshot of querySnapshot.docs) {
+      const estudianteRef = doc(db, "estudiantes", docSnapshot.id);
+      const estudianteData = docSnapshot.data();
+      const notas = estudianteData.notas || [];
+      const asistencia = estudianteData.asistencia || []
+      // 📌 Contar inasistencias y evaluaciones desaprobadas
+      let inasistencias = asistencia.filter(a => a.valor === 'A').length;
+      let coloquiosDesaprobados = notas.filter(n => (n.actividad ?? "").includes("Coloquio Lab.") && n.valor < 6).length;
+      let informesDesaprobados = notas.filter(n => (n.actividad ?? "").includes("Informe de Lab.") && n.valor < 6).length;
+      let totalFaltas = inasistencias + coloquiosDesaprobados + informesDesaprobados;
+      // 📌 Si supera las faltas permitidas, es No Regular
+      if (totalFaltas > maxInasist) {
+        if (estudianteData.condicion === "Pendiente") {
+          await updateDoc(estudianteRef, { condicion: "No Regular-Pendiente" });
+        } else {
+          await updateDoc(estudianteRef, { condicion: "No Regular" });
+          console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "No Regular".`);
+          continue;
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error al actualizar la condición: ", error);
+  }
+}
+
+/*
+export async function actualizarCondicionCalif() {
   try {
     const estudiantesRef = collection(db, "estudiantes");
     const querySnapshot = await getDocs(estudiantesRef);
@@ -386,7 +418,7 @@ export async function actualizarCondicion() {
       const estudianteData = docSnapshot.data();
 
       // 📌 Si la condición ya es "Pendiente", no modificarla
-      if (estudianteData.condicion === "Pendiente") {
+       if (estudianteData.condicion === "Pendiente") {
         console.log(`Condición del estudiante con DNI ${docSnapshot.id} es "Pendiente", no se modifica.`);
         continue;
       }
@@ -480,6 +512,4 @@ export async function actualizarCondicion() {
     console.error("Error al actualizar la condición: ", error);
   }
 }
-
-//import { actualizarCondicion } from './firebase.js';
-//actualizarCondicion()
+ */

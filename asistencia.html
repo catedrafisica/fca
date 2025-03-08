@@ -83,7 +83,7 @@
     </div>
     <div class="container mt-5">
       <div class="text-center">
-        <button id="miBotonAsist" class="btn btn-secondary" disabled>Actualizar Condición</button>
+        <button id="miBotonAsist" class="btn btn-secondary" disabled>Actualizar Condición por Asistencias</button>
       </div>
     </div>
   </div>
@@ -134,8 +134,9 @@
   <script type="module" src="./scripts/baseDatos.js"></script>
   <script type="module" src="./scripts/firebase.js"></script>
   <script type="module">
-    import { actualizarCondicion } from "./scripts/firebase.js";
-    document.getElementById('miBotonAsist').addEventListener('click', actualizarCondicion);
+    import { actualizarCondicionAsist } from "./scripts/firebase.js";
+    document.getElementById("miBotonAsist").disabled = false;
+    document.getElementById('miBotonAsist').addEventListener('click', actualizarCondicionAsist);
   </script>
 
 </body>
