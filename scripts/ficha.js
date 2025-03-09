@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       <th class ="text-center">Asistencia</th>
       <td class ="text-center">${calcularPorcentajeAsistencia(alumno)}</td>
       <th class ="text-center">Condición</th>
-      <td class ="text-center">${alumno.condicion}</td>            
+      <td class ="text-center">${alumno.condicion ? (alumno.condicion === 'Activo' ? alumno.condicion : `<span style='color: red;'>${alumno.condicion}</span>`) : '---'}</td>            
     `;
                 tbodyDatos.appendChild(trDatos2);
                 tablaDatos.appendChild(tbodyDatos);
