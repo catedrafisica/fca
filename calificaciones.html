@@ -90,7 +90,7 @@
     </div>
     <div class="container mt-5">
       <div class="text-center">
-        <button id="miBotonCalif" class="btn btn-secondary" disabled>Actualizar Condición</button>
+        <button id="miBotonCalif" class="btn btn-secondary" disabled>Actualizar Condición por Parciales</button>
       </div>
     </div>
   </div>
@@ -142,8 +142,8 @@
   <script type="module" src="./scripts/baseDatos.js"></script>
   <script type="module" src="./scripts/firebase.js"></script>
   <script type="module">
-    import { actualizarCondicion } from "./scripts/firebase.js";
-    document.getElementById("miBotoncalif").disabled = true;
-    document.getElementById('miBotonCalif').addEventListener('click', actualizarCondicion);
+    import { actualizarCondicionCalif } from "./scripts/firebase.js";
+    document.getElementById("miBotonCalif").disabled = false;
+    document.getElementById('miBotonCalif').addEventListener('click', actualizarCondicionCalif);
   </script>
 </body>

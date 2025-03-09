@@ -408,9 +408,10 @@ export async function actualizarCondicionAsist() {
   }
 }
 
-/*
+
 export async function actualizarCondicionCalif() {
   try {
+    document.getElementById("miBotonCalif").disabled = true;
     const estudiantesRef = collection(db, "estudiantes");
     const querySnapshot = await getDocs(estudiantesRef);
     for (const docSnapshot of querySnapshot.docs) {
@@ -421,24 +422,11 @@ export async function actualizarCondicionCalif() {
        if (estudianteData.condicion === "Pendiente") {
         console.log(`Condición del estudiante con DNI ${docSnapshot.id} es "Pendiente", no se modifica.`);
         continue;
-      }
+      };
 
       const notas = estudianteData.notas || [];
-      const asistencia = estudianteData.asistencia || [];
       const materia = estudianteData.materia || ""; // Asumiendo que "materia" es una propiedad del estudiante
 
-      // 📌 Contar inasistencias y evaluaciones desaprobadas
-      let inasistencias = asistencia.filter(a => a.valor === 0).length;
-      let coloquiosDesaprobados = notas.filter(n => (n.actividad ?? "").includes("Coloquio Lab.") && n.valor < 6).length;
-      let informesDesaprobados = notas.filter(n => (n.actividad ?? "").includes("Informe de Lab.") && n.valor < 6).length;
-      let totalFaltas = inasistencias + coloquiosDesaprobados + informesDesaprobados;
-
-      // 📌 Si supera las faltas permitidas, es No Regular
-      if (totalFaltas > 3) {
-        await updateDoc(estudianteRef, { condicion: "No Regular" });
-        console.log(`Condición del estudiante con DNI ${docSnapshot.id} actualizada a "No Regular".`);
-        continue;
-      }
 
       // 📌 Obtener calificaciones de parciales y recuperatorios
       let primerParcial = notas.find(n => n.actividad === "Primer Parcial")?.valor ?? null;
@@ -512,4 +500,4 @@ export async function actualizarCondicionCalif() {
     console.error("Error al actualizar la condición: ", error);
   }
 }
- */
+ 
