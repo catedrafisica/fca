@@ -115,9 +115,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
 
       html += `</div></div></div></div></div></div></div></div>`;
-
     });
-
 
     asistenciaDiv.innerHTML = html;
 
@@ -150,7 +148,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     });
     
-
     document.querySelectorAll('.cargar-asistencia').forEach(button => {
       button.addEventListener('click', async function () {
         const grupo = this.getAttribute('data-grupo');
