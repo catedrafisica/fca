@@ -121,6 +121,22 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     asistenciaDiv.innerHTML = html;
 
+     // Agregar el evento change a los selects dinámicos
+     document.querySelectorAll('select.asistencia').forEach(select => {
+      select.addEventListener('change', function () {
+        if (this.value === 'A') {
+          this.style.color = 'red'; // Cambiar a rojo si es "Ausente"
+        } else {
+          this.style.color = ''; // Restablecer el color por defecto
+        }
+      });
+
+      // Aplicar el estilo inicial si el valor es "Ausente"
+      if (select.value === 'A') {
+        select.style.color = 'red';
+      }
+    });
+
     document.querySelectorAll('.colocar-todos-presentes').forEach(button => {
       button.addEventListener('click', function () {
         const grupo = this.getAttribute('data-grupo');
@@ -272,6 +288,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     return `${year}-${month}-${day}`;
   }
 });
+
 
 function generarOpcionesLabProblem(n) {
   let opciones = "<option value='' selected disabled>Seleccione una actividad...</option>";

@@ -166,15 +166,18 @@ setTimeout(function () {
         // 🔹 Destruir gráfico anterior antes de crear uno nuevo
         destruirGraficoAnterior();
 
+        let activo = false;
         const alumnosRegularesPorc = (100 * alumnosRegulares / matricula);
-        const alumnosNoRegPorc = 100 - alumnosRegularesPorc;
+        let alumnosNoRegPorc = 100 - alumnosRegularesPorc;
         const noRegInsitYColoqPorc = (100 * noRegInsitYColoq / matricula);
-
+        if (alumnosRegulares === 0){
+            activo = true;
+            alumnosNoRegPorc = 100 - noRegInsitYColoqPorc;
+        };
         const regularesPrimeraInstanciaPorc = (100 * regularesPrimeraInstancia / matricula);
         const regularesSegundaInstanciaPorc = (100 * regularesSegundaInstancia / matricula);
         const regularesTerceraInstanciaPorc = (100 * regularesTerceraInstancia / matricula);
-        let activo = false;
-        if (alumnosRegulares === 0) activo = true;
+    
         crearGrafico(materiaSeleccionada, matricula, activo, [alumnosRegularesPorc, alumnosNoRegPorc, noRegInsitYColoqPorc, regularesPrimeraInstanciaPorc, regularesSegundaInstanciaPorc, regularesTerceraInstanciaPorc]);
         // 📌 Gráfico N° 1
         let alumnosSinA2 = alumnosSinA;

@@ -176,22 +176,30 @@ function mostrarAlumnos(lista, contenedor, seleccionado) {
         </tr>
     </thead>
     <tbody>`;
-    lista.forEach((alumno, index) => {
+    let i = 1;
+    lista.forEach((alumno) => {
         const dni = parseInt(alumno.dni);
         const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
-        htmlAsistencia += `<tr>
-    <td>${index + 1}</td>
-    <td class="text-start">${alumno.name}</td>
-    <td>${formatDNI}</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
- </tr>`;
+        const condicionAlumno = alumno.condicion;
+        if (condicionAlumno === "Activo" || condicionAlumno === "Pendiente") {
+            let alumnoList = alumno.name;
+            if (condicionAlumno === "Pendiente"){
+                alumnoList = alumno.name + " (Pend.)";
+            }
+            htmlAsistencia += `<tr>
+        <td>${i++}</td>
+        <td class="text-start">${alumnoList}</td>
+        <td>${formatDNI}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>`;
+        }
     });
     htmlAsistencia += "</tbody></table></div>";
 
@@ -210,17 +218,15 @@ function mostrarAlumnos(lista, contenedor, seleccionado) {
     </tr>
 </thead>
 <tbody>`;
-    let i = 0;
+    let j = 1;
     lista.forEach((alumno) => {
         const dni = parseInt(alumno.dni);
         const formatDNI = dni.toLocaleString('es-AR').replace(/,/g, '.');
         let registros = calcularPorcentajeAsistencia(alumno);
         const condicionAlumno = alumno.condicion;
-        console.log(alumno.condicion)
         if (condicionAlumno === "Activo") {
-            i++;
             htmlResultados += `<tr>
-        <td>${i}</td>
+        <td>${j++}</td>
         <td class="text-start">${alumno.name}</td>
         <td>${formatDNI}</td>
         <td>${registros}</td>
@@ -234,8 +240,6 @@ function mostrarAlumnos(lista, contenedor, seleccionado) {
     });
     htmlResultados += "</tbody></table></div>";
 
-
-
     let html = "";
     switch (seleccionado) {
         case "informe":
@@ -248,7 +252,6 @@ function mostrarAlumnos(lista, contenedor, seleccionado) {
             html = htmlResultados;
             break;
     };
-
 
     contenedor.innerHTML = html;
 }
