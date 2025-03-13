@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
                          { title: 'FII - Práctico Serie 07:\nRadioactividad (Problemas)', start: '2025-04-25', className: 'event-practicoII' },
                         //Parciales, Consultas y Recuperatorios
                         { title: 'FII - Consultas del Primer Parcial', start: '2025-03-20', className: 'event-parciales' },
-                        { title: 'FII - Primer Parcial', start: '2025-03-21', className: 'event-parciales' },
+                        { title: 'FII - Primer Parcial\nCTIAA 14 h', start: '2025-03-21', className: 'event-parciales' },
                         { title: 'FII - Recuperatorio del Primer Parcial', start: '2025-03-27', className: 'event-parciales' },
                         { title: 'FII - Clases de Consulta', start: '2025-05-15', className: 'event-parciales' },
                         { title: 'FII - Segundo Parcial', start: '2025-05-09', className: 'event-parciales' },
