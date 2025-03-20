@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         { title: 'FI - Práctico Serie 08:\nTermodinámica', start: '2025-04-30', className: 'event-practicoI' },
                         { title: 'FI - Práctico Serie 09:\nCircuitos eléctricos', start: '2025-05-07', className: 'event-practicoI' },
 
-                        { title: 'FI - Primer Parcial', start: '2025-03-19', className: 'event-parciales' },
+                        { title: 'FI - Primer Parcial\n Lab. 08 h', start: '2025-03-19', className: 'event-parciales' },
                         { title: 'FI - Recuperatorio del Primer Parcial', start: '2025-03-26', className: 'event-parciales' },
                         { title: 'FI - Segundo Parcial', start: '2025-05-14', className: 'event-parciales' },
                         { title: 'FI - Recuperatorio del Segundo Parcial', start: '2025-05-16', className: 'event-parciales' },
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         { title: 'Cierre de Trimestre', start: '2025-05-17', className: 'event-primary' },
                         // Mesas Finales
                         { title: 'FI - 01° Mesa de Examen', start: '2025-02-10', className: 'event-finalI' },
-                        { title: 'FI - 02° Mesa de Examen', start: '2025-03-21', className: 'event-finalI' },
+                        { title: 'FI - 02° Mesa de Examen\nAula D1 08 h', start: '2025-03-21', className: 'event-finalI' },
                         { title: 'FI - 03° Mesa de Examen', start: '2025-04-21', className: 'event-finalI' },
                         { title: 'FI - 04° Mesa de Examen', start: '2025-05-26', className: 'event-finalI' },
                         { title: 'FI - 05° Mesa de Examen', start: '2025-06-30', className: 'event-finalI' },
