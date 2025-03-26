@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         //Parciales, Consultas y Recuperatorios
                         { title: 'FII - Consultas del Primer Parcial', start: '2025-03-20', className: 'event-parciales' },
                         { title: 'FII - Primer Parcial\nCTIAA 14 h', start: '2025-03-21', className: 'event-parciales' },
-                        { title: 'FII - Recuperatorio del Primer Parcial\n Aula 04 08 h', start: '2025-03-27', className: 'event-parciales' },
+                        { title: 'FII - Recuperatorio del Primer Parcial\nCTIAA 08 h', start: '2025-03-27', className: 'event-parciales' },
                         { title: 'FII - Clases de Consulta', start: '2025-05-15', className: 'event-parciales' },
                         { title: 'FII - Segundo Parcial', start: '2025-05-09', className: 'event-parciales' },
                         { title: 'FII - Recuperatorio del Segundo Parcial', start: '2025-05-16', className: 'event-parciales' },
