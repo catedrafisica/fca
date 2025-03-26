@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         //Parciales, Consultas y Recuperatorios
                         { title: 'FII - Consultas del Primer Parcial', start: '2025-03-20', className: 'event-parciales' },
                         { title: 'FII - Primer Parcial\nCTIAA 14 h', start: '2025-03-21', className: 'event-parciales' },
-                        { title: 'FII - Recuperatorio del Primer Parcial', start: '2025-03-27', className: 'event-parciales' },
+                        { title: 'FII - Recuperatorio del Primer Parcial\n Aula 04 08 h', start: '2025-03-27', className: 'event-parciales' },
                         { title: 'FII - Clases de Consulta', start: '2025-05-15', className: 'event-parciales' },
                         { title: 'FII - Segundo Parcial', start: '2025-05-09', className: 'event-parciales' },
                         { title: 'FII - Recuperatorio del Segundo Parcial', start: '2025-05-16', className: 'event-parciales' },
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         { title: 'FI - 10° Mesa de Examen', start: '2025-12-18', className: 'event-finalI' },
 
                         { title: 'FII - 01° Mesa de Examen', start: '2025-02-12', className: 'event-finalII' },
-                        { title: 'FII - 02° Mesa de Examen *', start: '2025-03-26', className: 'event-finalII' },
+                        { title: 'FII - 02° Mesa de Examen\nAula ? 08 h', start: '2025-03-28', className: 'event-finalII' },
                         { title: 'FII - 03° Mesa de Examen *', start: '2025-04-23', className: 'event-finalII' },
                         { title: 'FII - 04° Mesa de Examen *', start: '2025-05-28', className: 'event-finalII' },
                         { title: 'FII - 05° Mesa de Examen *', start: '2025-07-02', className: 'event-finalII' },
