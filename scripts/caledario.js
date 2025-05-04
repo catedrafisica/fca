@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         { title: 'FII - Primer Parcial\nCTIAA 14 h', start: '2025-03-21', className: 'event-parciales' },
                         { title: 'FII - Recuperatorio del Primer Parcial\nCTIAA 08 h', start: '2025-03-27', className: 'event-parciales' },
                         { title: 'FII - Clases de Consulta', start: '2025-05-15', className: 'event-parciales' },
-                        { title: 'FII - Segundo Parcial', start: '2025-05-09', className: 'event-parciales' },
+                        { title: 'FII - Segundo Parcial\nCTIAA 08 h', start: '2025-05-09', className: 'event-parciales' },
                         { title: 'FII - Recuperatorio del Segundo Parcial', start: '2025-05-16', className: 'event-parciales' },
                         { title: 'Cierre de Trimestre', start: '2025-05-17', className: 'event-primary' },
                         // Mesas Finales
