@@ -18,7 +18,7 @@ export async function getAlumnos() {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-    const fechaEspecifica = new Date("2025-02-27T00:00:00"); // Cambia esta fecha según lo necesites de la revisión SIU Guaraní
+    const fechaEspecifica = new Date("2025-05-04T00:00:00"); // Cambia esta fecha según lo necesites de la revisión SIU Guaraní
 
     const fechaFormateada = fechaEspecifica.toLocaleDateString("es-ES", {
         year: "numeric",
