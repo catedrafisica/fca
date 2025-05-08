@@ -111,9 +111,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         { title: 'FI - Práctico Serie 09:\nCircuitos eléctricos', start: '2025-05-07', className: 'event-practicoI' },
 
                         { title: 'FI - Primer Parcial\n Lab. 08 h', start: '2025-03-19', className: 'event-parciales' },
-                        { title: 'FI - Recuperatorio del Primer Parcial', start: '2025-03-26', className: 'event-parciales' },
+                        { title: 'FI - Recuperatorio del Primer\nParcial', start: '2025-03-26', className: 'event-parciales' },
                         { title: 'FI - Segundo Parcial', start: '2025-05-14', className: 'event-parciales' },
-                        { title: 'FI - Recuperatorio del Segundo Parcial', start: '2025-05-16', className: 'event-parciales' },
+                        { title: 'FI - Recuperatorio del\nSegundo Parcial', start: '2025-05-16', className: 'event-parciales' },
 
 
 
@@ -140,14 +140,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         { title: 'FII - Práctico Serie 01:\nHidrostática', start: '2025-02-22', className: 'event-practicoII' },
                         { title: 'FII - Práctico Serie 02:\nHidrodinámica', start: '2025-03-08', className: 'event-practicoII' },
                         { title: 'FII - Práctico Serie 03 y 04 :\nSoluciones no electrolíticas\nSoluciones diluidas', start: '2025-03-15', className: 'event-practicoII' },
-                         { title: 'FII - Práctico Serie 07:\nRadioactividad (Problemas)', start: '2025-04-25', className: 'event-practicoII' },
+                        { title: 'FII - Práctico Serie 07:\nRadioactividad (Problemas)', start: '2025-04-25', className: 'event-practicoII' },
                         //Parciales, Consultas y Recuperatorios
-                        { title: 'FII - Consultas del Primer Parcial', start: '2025-03-20', className: 'event-parciales' },
+                        { title: 'FII - Consultas del Primer\nParcial', start: '2025-03-20', className: 'event-parciales' },
                         { title: 'FII - Primer Parcial\nCTIAA 14 h', start: '2025-03-21', className: 'event-parciales' },
-                        { title: 'FII - Recuperatorio del Primer Parcial\nCTIAA 08 h', start: '2025-03-27', className: 'event-parciales' },
+                        { title: 'FII - Recuperatorio del\nPrimer Parcial\nCTIAA 08 h', start: '2025-03-27', className: 'event-parciales' },
                         { title: 'FII - Clases de Consulta', start: '2025-05-15', className: 'event-parciales' },
                         { title: 'FII - Segundo Parcial\nCTIAA 08 h', start: '2025-05-09', className: 'event-parciales' },
-                        { title: 'FII - Recuperatorio del Segundo Parcial\nAula Proyecciones 08 h', start: '2025-05-15', className: 'event-parciales' },
+                        { title: 'FII - Recuperatorio del\nSegundo Parcial\nAula Proyecciones 08 h', start: '2025-05-15', className: 'event-parciales' },
                         { title: 'Cierre de Trimestre', start: '2025-05-17', className: 'event-primary' },
                         // Mesas Finales
                         { title: 'FI - 01° Mesa de Examen', start: '2025-02-10', className: 'event-finalI' },
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         { title: 'FII - 08° Mesa de Examen', start: '2025-10-17', className: 'event-finalII' },
                         { title: 'FII - 09° Mesa de Examen', start: '2025-11-07', className: 'event-finalII' },
                         { title: 'FII - 10° Mesa de Examen', start: '2025-12-19', className: 'event-finalII' },
-                        
+
                         //Info
                         { title: 'Reunión Consejo Directivo de Facultad\n(Resuelven situación de Pendientes de Readmisión)', start: '2025-03-07', className: 'event-primary' },
 
